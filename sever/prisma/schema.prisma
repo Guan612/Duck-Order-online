@@ -12,3 +12,31 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  loginId   String   @unique
+  nickname  String?
+  phone     String?  @unique
+  email     String?  @unique
+  password  String
+  cost      Int      @default(0) //0,用户 1,员工 2,管理员
+  createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
+  updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
+  orders    Order[]
+}
+
+model Order {
+  id     Int    @id @default(autoincrement())
+  userId Int
+  items  Item[]
+  user   User?  @relation(fields: [userId], references: [id])
+}
+
+model Item {
+  id      Int    @id @default(autoincrement())
+  name    String
+  price   Int
+  orderId Int
+  order   Order  @relation(fields: [orderId], references: [id])
+}
