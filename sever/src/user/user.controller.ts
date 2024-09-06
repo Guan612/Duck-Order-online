@@ -17,10 +17,17 @@ import { User } from '@prisma/client';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
+  @Post('register')
   @ApiOperation({ summary: '创建用户' })
   create(@Body() createUserDto: User) {
     return this.userService.create(createUserDto);
+  }
+
+  @Post('login')
+  @ApiOperation({ summary: '用户登录' })
+  login(@Body() loginDto: User) {
+    return "登录成功"
+    //return this.userService.login(loginDto);
   }
 
   @Get()
