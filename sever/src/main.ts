@@ -4,7 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors(); // 允许跨域
   const config = new DocumentBuilder()
     .setTitle('鸭鸭点餐')
     .setDescription('鸭鸭点餐api')
