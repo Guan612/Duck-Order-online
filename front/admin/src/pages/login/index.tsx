@@ -1,5 +1,6 @@
 import { Button, Form, Input } from "antd";
 import useLogin from "../../hooks/login/uselogin";
+import { NavLink } from "react-router-dom";
 
 export default function Login() {
 	const { onFinish, onFinishFailed } = useLogin();
@@ -69,6 +70,12 @@ export default function Login() {
 						</Form.Item>
 					</Form>
 				</div>
+				<NavLink
+					to={"/auth/register"}
+					className={"text-sm text-blue-400"}
+				>
+					还没注册？
+				</NavLink>
 			</div>
 		</div>
 	);
