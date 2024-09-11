@@ -18,7 +18,7 @@ model User {
   loginId   String   @unique
   nickname  String?
   phone     String?  @unique
-  email     String?  @unique
+  email     String?
   password  String
   cost      Int      @default(0) //0,用户 1,员工 2,管理员
   createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
