@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { loginAPI } from "../../api/user";
 import userStore from "../../store/userstore";
+import userInfoDto from "../../dto/userInfo";
 
 const useLogin = () => {
 	const navigate = useNavigate(); //使用跳转函数
