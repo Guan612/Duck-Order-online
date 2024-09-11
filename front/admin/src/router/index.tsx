@@ -4,6 +4,7 @@ import Layout from "../layout/index";
 import UserAdmin from "../pages/useradmin";
 import Welcome from "../pages/welcome";
 import Login from "../pages/login";
+import Register from "../pages/register";
 
 const routes = [
 	{
@@ -21,8 +22,17 @@ const routes = [
 		],
 	},
 	{
-		path: "/login",
-		element: <Login />,
+		path: "/auth",
+		children: [
+			{
+				path: "/auth",
+				element: <Login />,
+			},
+			{
+				path: "/auth/register",
+				element: <Register />,
+			},
+		],
 	},
 ];
 
