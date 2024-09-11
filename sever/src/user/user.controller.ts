@@ -13,11 +13,15 @@ import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { User } from '@prisma/client';
 import { CheckUserExistsPipe } from './pipe/check-user-exists.pipe';
 import { HashPasswordPipe } from './pipe/hash-password.pipe';
+import { AuthService } from './service/auth.service';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post('register')
   @ApiOperation({ summary: '创建用户' })
@@ -30,9 +34,14 @@ export class UserController {
 
   @Post('login')
   @ApiOperation({ summary: '用户登录' })
-  login(@Body() loginDto: User) {
-    return '登录成功';
-    //return this.userService.login(loginDto);
+  async login(@Body() body, loginDto: User) {
+    const { loginId, password } = body;
+    const res = await this.authService.validateUser(loginId, password);
+    if (res) {
+      return this.authService.login(loginId);
+    }else {
+      return { message: '用户名或密码错误' };
+    }
   }
 
   @Get()
