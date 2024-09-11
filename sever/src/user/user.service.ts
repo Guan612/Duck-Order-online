@@ -18,6 +18,16 @@ export class UserService {
     return res;
   }
 
+  async findByLogin(loginId: string) {
+    const res = await this.prisma.user.findUnique({
+      where: {
+        loginId: loginId,
+      },
+    });
+
+    return res;
+  }
+
   async findOne(id: number) {
     const res = await this.prisma.user.findUnique({
       where: {
@@ -40,8 +50,8 @@ export class UserService {
 
   remove(id: number) {
     const res = this.prisma.user.delete({
-      where:{id: id},
-    })
+      where: { id: id },
+    });
     return res;
   }
 }
