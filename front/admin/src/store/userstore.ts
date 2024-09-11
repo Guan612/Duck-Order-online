@@ -1,11 +1,12 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import userInfoDto from "../dto/userInfo";
 
 const userStore = create(
 	persist(
 		(set, get) => ({
 			userInfo: {},
-			setUserInfo: (userInfo: any) => {
+			setUserInfo: (userInfo: userInfoDto) => {
 				set({ userInfo });
 			},
 			clearUserInfo: () => {
