@@ -8,25 +8,30 @@ import {
   Delete,
   Put,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UserService } from './service/user.service';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { User } from '@prisma/client';
+import { CheckUserExistsPipe } from './pipe/check-user-exists.pipe';
+import { HashPasswordPipe } from './pipe/hash-password.pipe';
 
-@ApiTags('users')
+@ApiTags('user')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('register')
   @ApiOperation({ summary: '创建用户' })
-  create(@Body() createUserDto: User) {
-    return this.userService.create(createUserDto);
+  async create(
+    @Body(CheckUserExistsPipe, HashPasswordPipe) createUserDto: User,
+  ) {
+    const { loginId } = await this.userService.create(createUserDto);
+    return { loginId };
   }
 
   @Post('login')
   @ApiOperation({ summary: '用户登录' })
   login(@Body() loginDto: User) {
-    return "登录成功"
+    return '登录成功';
     //return this.userService.login(loginDto);
   }
 
