@@ -10,6 +10,10 @@ export const loginAPI = (userInfo: userInfoDto) => {
 	return http.post("/user/login", userInfo);
 };
 
+export const adminLoginAPI = (userInfo: userInfoDto) => {
+	return http.post("/user/adminLogin", userInfo);
+};
+
 export const changePasswordAPI = (userInfo: any) => {
 	return http.post("/user/changepwd", userInfo);
 };
