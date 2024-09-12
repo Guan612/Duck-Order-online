@@ -8,8 +8,8 @@ const useLogin = () => {
 	const { setUserInfo } = userStore();
 	const onFinish = async (values) => {
 		try {
-			const { result } = await loginAPI(values);
-			setUserInfo(result);
+			const { access_token } = await loginAPI(values);
+			setUserInfo(access_token);
 			navigate("/");
 		} catch (error) {
 			console.error("Login failed:", error);
