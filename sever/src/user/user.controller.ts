@@ -8,6 +8,7 @@ import {
   Delete,
   Put,
   HttpException,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './service/user.service';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
@@ -15,6 +16,10 @@ import { User } from '@prisma/client';
 import { CheckUserExistsPipe } from './pipe/check-user-exists.pipe';
 import { HashPasswordPipe } from './pipe/hash-password.pipe';
 import { AuthService } from './service/auth.service';
+import { JwtAuthGuard } from './guards/jwt-user.guard';
+import { RolesGuard } from './guards/roles.guard';
+import { Roles } from './decorator/roles.decorator';
+import { Role } from './dto/role';
 
 @ApiTags('user')
 @Controller('user')
@@ -47,6 +52,8 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin)
   @ApiOperation({ summary: '查找所有用户' })
   findAll() {
     return this.userService.findAll();
