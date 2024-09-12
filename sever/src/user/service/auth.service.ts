@@ -15,7 +15,7 @@ export class AuthService {
     // 验证用户身份，例如检查密码
     const user = await this.userService.findByLoginId(loginId);
     if (user && (await bcrypt.compare(pass, user.password))) {
-      const { password, ...result } = user;
+      const { password, createdAt, updatedAt, ...result } = user;
       return result; // 返回不包含密码的用户信息
     }
     return null;
@@ -25,9 +25,8 @@ export class AuthService {
     // 颁发 JWT
     const payload = { loginId: res.loginId, sub: res.userId, cos: res.cos };
     return {
-      userInfo: res,
       message: '登录成功',
-      access_token: this.jwtService.sign(payload), // 生成并返回 JWT
+      userInfo: { ...res, access_token: this.jwtService.sign(payload) }, // 生成并返回 JWT
     };
   }
 }
