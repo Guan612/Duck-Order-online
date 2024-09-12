@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Put,
+  HttpException,
 } from '@nestjs/common';
 import { UserService } from './service/user.service';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
@@ -38,9 +39,10 @@ export class UserController {
     const { loginId, password } = body;
     const res = await this.authService.validateUser(loginId, password);
     if (res) {
-      return this.authService.login(loginId);
-    }else {
-      return { message: '用户名或密码错误' };
+      //return res.loginId+'登录成功';
+      return this.authService.login(res);
+    } else {
+      throw new HttpException('用户名或密码错误', 401);
     }
   }
 

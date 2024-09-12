@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from './user.service';
 import * as bcrypt from 'bcrypt';
+import { userInfo } from 'os';
 
 @Injectable()
 export class AuthService {
@@ -20,10 +21,12 @@ export class AuthService {
     return null;
   }
 
-  async login(loginId) {
+  async login(res) {
     // 颁发 JWT
-    const payload = { username: loginId };
+    const payload = { loginId: res.loginId, sub: res.userId, cos: res.cos };
     return {
+      userInfo: res,
+      message: '登录成功',
       access_token: this.jwtService.sign(payload), // 生成并返回 JWT
     };
   }
