@@ -41,11 +41,22 @@ export class UserController {
 
   @Post('login')
   @ApiOperation({ summary: '用户登录' })
-  async login(@Body(CheckUserLoginRolePipe) body, loginDto: User) {
+  async login(@Body() body, loginDto: User) {
     const { loginId, password } = body;
     const res = await this.authService.validateUser(loginId, password);
     if (res) {
-      //return res.loginId+'登录成功';
+      return this.authService.login(res);
+    } else {
+      throw new HttpException('用户名或密码错误', 401);
+    }
+  }
+
+  @Post('adminLogin')
+  @ApiOperation({ summary: '管理员登录' })
+  async adminLogin(@Body(CheckUserLoginRolePipe) body, loginDto: User) {
+    const { loginId, password } = body;
+    const res = await this.authService.validateUser(loginId, password);
+    if (res) {
       return this.authService.login(res);
     } else {
       throw new HttpException('用户名或密码错误', 401);
