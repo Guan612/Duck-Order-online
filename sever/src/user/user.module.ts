@@ -8,8 +8,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
-  controllers: [UserController],
-  providers: [UserService, PrismaService,AuthService, JwtStrategy], //注意需要把prismaService也注入进来
   imports: [
     ConfigModule,
     JwtModule.register({
@@ -17,5 +15,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       signOptions: { expiresIn: process.env.JWT_EXPIRES_IN }, // 替换为合适的过期时间
     }),
   ],
+  controllers: [UserController],
+  providers: [UserService, PrismaService,AuthService, JwtStrategy], //注意需要把prismaService也注入进来
 })
 export class UserModule {}
