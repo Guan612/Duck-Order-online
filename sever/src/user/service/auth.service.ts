@@ -23,7 +23,7 @@ export class AuthService {
 
   async login(res) {
     // 颁发 JWT
-    const payload = { loginId: res.loginId, sub: res.userId, cos: res.cos };
+    const payload = { loginId: res.loginId, userId: res.id, cost: res.cost };
     return {
       message: '登录成功',
       userInfo: { ...res, token: this.jwtService.sign(payload) }, // 生成并返回 JWT
