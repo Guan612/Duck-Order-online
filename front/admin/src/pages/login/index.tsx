@@ -34,7 +34,7 @@ export default function Login() {
 					>
 						<Form.Item
 							label="用户id"
-							name="loginid"
+							name="loginId"
 							rules={[
 								{
 									required: true,
