@@ -20,6 +20,7 @@ import { JwtAuthGuard } from './guards/jwt-user.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorator/roles.decorator';
 import { Role } from './dto/role';
+import { CheckUserLoginRolePipe } from './pipe/check-user-login-role.pipe';
 
 @ApiTags('user')
 @Controller('user')
@@ -40,7 +41,7 @@ export class UserController {
 
   @Post('login')
   @ApiOperation({ summary: '用户登录' })
-  async login(@Body() body, loginDto: User) {
+  async login(@Body(CheckUserLoginRolePipe) body, loginDto: User) {
     const { loginId, password } = body;
     const res = await this.authService.validateUser(loginId, password);
     if (res) {
