@@ -26,7 +26,7 @@ export class AuthService {
     const payload = { loginId: res.loginId, sub: res.userId, cos: res.cos };
     return {
       message: '登录成功',
-      userInfo: { ...res, access_token: this.jwtService.sign(payload) }, // 生成并返回 JWT
+      userInfo: { ...res, token: this.jwtService.sign(payload) }, // 生成并返回 JWT
     };
   }
 }
