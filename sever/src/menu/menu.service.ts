@@ -20,15 +20,26 @@ export class MenuService {
     return res;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} menu`;
+  async findOne(id: number) {
+    const res = this.prisma.menu.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return res;
   }
 
   update(id: number, updateMenuDto: UpdateMenuDto) {
     return `This action updates a #${id} menu`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} menu`;
+  async remove(id: number) {
+    await this.prisma.menu.delete({
+      where: {
+        id: id,
+      },
+    });
+    return 'delete success';
   }
 }
