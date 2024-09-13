@@ -21,3 +21,7 @@ export const changePasswordAPI = (userInfo: any) => {
 export const getUserHanderImgAPI = () => {
 	return http.get("/user/gethaderimg");
 };
+
+export const getAllUserAPI = () => {
+	return http.get("/user/");
+}
