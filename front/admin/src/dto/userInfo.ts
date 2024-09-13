@@ -1,4 +1,5 @@
 interface userInfoDto {
+	id?: number;
 	loginId: string;
 	nikcname?: string;
 	email?: string;
