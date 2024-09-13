@@ -1,6 +1,8 @@
 import axios from "axios";
 import userStore from "../store/userstore";
-//import { Notification } from "antd";
+import useMessageHandler from "../hooks/messageHandler/useMessageHandler";
+
+// const { errorMsg, successMsg } = useMessageHandler();
 
 const http = axios.create({
 	baseURL: "http://127.0.0.1:3000",
@@ -30,7 +32,7 @@ http.interceptors.response.use(
 	},
 	(error) => {
 		console.log(error);
-		//ElMessage.error(error.response.data.message);
+		//errorMsg(error.response?.data?.message || "未知错误");
 		return Promise.reject(error);
 	}
 );
