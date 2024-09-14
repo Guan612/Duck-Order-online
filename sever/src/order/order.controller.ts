@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -25,7 +26,8 @@ export class OrderController {
   @Post()
   @ApiOperation({ summary: '创建订单' })
   @UseGuards(JwtAuthGuard)
-  create(@Body() createOrderDto: CreateOrderDto) {
+  create(@Body() createOrderDto: CreateOrderDto, @Request() req) {
+    createOrderDto.userId = req.user.userId;
     return this.orderService.create(createOrderDto);
   }
 
@@ -43,10 +45,16 @@ export class OrderController {
     return this.orderService.findOne(+id);
   }
 
+  @Get("total/:id")
+  @ApiOperation({ summary: '获取订单总价' })
+  getTotalPrice(@Param('id') id: string) {
+    return this.orderService.totalPrice(+id);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: '更新订单' })
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
+    return this.orderService.update(+id);
   }
 
   @Delete(':id')
