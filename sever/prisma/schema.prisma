@@ -27,26 +27,27 @@ model User {
 }
 
 model Order {
-  id          Int         @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   userId      Int
-  orderStatus Int         @default(0) //0,加入购物车 1,已下单 2,已取消 3,已完成
-  orderType   Int         @default(0) //0,堂食 1,外卖
-  orderTime   DateTime    @default(dbgenerated("now()")) @db.DateTime
-  totalPrice  Int         @default(0)
-  orderItems  OrderItem[]
-  user        User?       @relation(fields: [userId], references: [id])
+  orderStatus Int      @default(0) //0,加入购物车 1,已下单 2,已取消 3,已完成
+  orderType   Int      @default(0) //0,堂食 1,外卖
+  orderTime   DateTime @default(dbgenerated("now()")) @db.DateTime
+  totalPrice  Int      @default(0)
+  Cart        Cart[]
+  user        User?    @relation(fields: [userId], references: [id])
 }
 
 model Menu {
-  id         Int         @id @default(autoincrement())
-  name       String
-  price      Int
-  pictureUrl String?
-  isSell     Int         @default(1) //0,下架 1,上架
-  orderItem  OrderItem[]
+  id          Int     @id @default(autoincrement())
+  name        String
+  price       Int
+  pictureUrl  String?
+  discription String?
+  isSell      Int     @default(1) //0,下架 1,上架
+  Cart        Cart[]
 }
 
-model OrderItem {
+model Cart {
   id       Int   @id @default(autoincrement())
   orderId  Int
   menuId   Int
