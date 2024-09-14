@@ -20,6 +20,18 @@ export class MenuService {
     return res;
   }
 
+  async search(menuName: string) {
+    const res = await this.prisma.menu.findMany({
+      where: {
+        name: {
+          contains: menuName,
+        },
+      },
+    });
+
+    return res;
+  }
+
   async findOne(id: number) {
     const res = this.prisma.menu.findUnique({
       where: {

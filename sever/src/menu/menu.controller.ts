@@ -11,7 +11,7 @@ import {
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/user/decorator/roles.decorator';
 import { Role } from 'src/user/dto/role';
 import { RolesGuard } from 'src/user/guards/roles.guard';
@@ -38,6 +38,13 @@ export class MenuController {
   @ApiOperation({ summary: '获取所有菜品' })
   findAll() {
     return this.menuService.findAll();
+  }
+
+  @Get('/search')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '通过名称搜索菜品' })
+  search(@Body() body: { menuName: string }) {
+    return this.menuService.search(body.menuName);
   }
 
   @Get(':id')
