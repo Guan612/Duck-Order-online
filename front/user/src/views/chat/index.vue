@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { io } from "socket.io-client";
 
@@ -27,7 +27,7 @@ const sendMessage = () => {
 <template>
     <input type="text" v-model="msg" />
     <button @click="sendMessage">Send</button>
-    <div class="" v-for="message in messages" :key="message.id">
+    <div class="" v-for="message in messages">
         {{ message }}
     </div>
 </template>
