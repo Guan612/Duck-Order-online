@@ -10,6 +10,6 @@ export default {
 	},
 	plugins: [],
 	corePlugins: {
-		preflight: false, // 关闭默认样式
+		preflight: true, // 关闭默认样式
 	},
 };
