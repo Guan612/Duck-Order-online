@@ -9,8 +9,8 @@ const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 const userStore = useUserStore()
 
 const loginInfo = ref<LoginInfo>({
-    loginId: '',
-    password: ''
+    loginId: null,
+    password: null
 })
 
 const login = (loginInfo: LoginInfo) => {
