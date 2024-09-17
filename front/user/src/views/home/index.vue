@@ -36,7 +36,7 @@ bannerItems.value = [
             <el-carousel :interval="4000" type="card" height="500px">
                 <el-carousel-item v-for="item in bannerItems" :key="item.id" class="flex flex-col text-center">
                     <el-image :src=item.imgUrl lazy />
-                    <h3 text="2xl" justify="center">{{ item.title }}</h3>
+                    <h3 justify="center" class="text-xl font-bold" >{{ item.title }}</h3>
                 </el-carousel-item>
             </el-carousel>
         </div>
