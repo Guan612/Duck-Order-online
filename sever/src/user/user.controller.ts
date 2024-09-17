@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './service/user.service';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { User } from '@prisma/client';
+import { CreateUserDto,LoginUserDto } from './dto/userDto';
 import { CheckUserExistsPipe } from './pipe/check-user-exists.pipe';
 import { HashPasswordPipe } from './pipe/hash-password.pipe';
 import { AuthService } from './service/auth.service';
@@ -33,7 +33,7 @@ export class UserController {
   @Post('register')
   @ApiOperation({ summary: '创建用户' })
   async create(
-    @Body(CheckUserExistsPipe, HashPasswordPipe) createUserDto: User,
+    @Body(CheckUserExistsPipe, HashPasswordPipe) createUserDto: CreateUserDto,
   ) {
     const { loginId } = await this.userService.create(createUserDto);
     return { loginId };
@@ -41,7 +41,7 @@ export class UserController {
 
   @Post('login')
   @ApiOperation({ summary: '用户登录' })
-  async login(@Body() body, loginDto: User) {
+  async login(@Body() body, loginDto: LoginUserDto) {
     const { loginId, password } = body;
     const res = await this.authService.validateUser(loginId, password);
     if (res) {
@@ -53,7 +53,7 @@ export class UserController {
 
   @Post('adminLogin')
   @ApiOperation({ summary: '管理员登录' })
-  async adminLogin(@Body(CheckUserLoginRolePipe) body, loginDto: User) {
+  async adminLogin(@Body(CheckUserLoginRolePipe) body, loginDto: LoginUserDto) {
     const { loginId, password } = body;
     const res = await this.authService.validateUser(loginId, password);
     if (res) {
