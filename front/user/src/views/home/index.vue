@@ -1,44 +1,53 @@
-<script setup>
-import { id } from 'element-plus/es/locales.mjs';
-import { ref } from 'vue';
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
 
-const bannerItems = ref([{
-    id: '',
-    imgUrl: "",
-    title: ''
-}]);
-bannerItems.value = [
+const bannerItems = ref([
     {
         id: 1,
-        imgUrl: "https://p2.bahamut.com.tw/B/2KU/42/3b771ae5a9d98c04a1923ae0101l37a5.JPG",
-        title: '异世相遇，尽享美味'
+        imgUrl: "https://image.tmdb.org/t/p/original/nb3xI8XI3w4pMVZ38VijbsyBqP4.jpg",
+        title: '世界永不复返'
     },
     {
         id: 2,
-        imgurl: "../assets/img/bentiebishenke.jpg",
-        title: '願此行，終抵群星'
+        imgUrl: "https://image.tmdb.org/t/p/original/AujAUbaU1pawmo4oCTRgUoLU6s0.jpg",
+        title: '给新的情感留出空间'
     },
     {
         id: 3,
-        imgUrl: "https://p2.bahamut.com.tw/B/2KU/42/3b771ae5a9d98c04a1923ae0101l37a5.JPG",
-        title: '异世相遇，尽享美味'
+        imgUrl: "https://image.tmdb.org/t/p/original/75nSb1fbWooipwcSU5bUttiOriI.jpg",
+        title: '于死亡之所终、生命方启新程'
     },
     {
         id: 4,
-        imgurl: "https://hngameguide.com/wp-content/uploads/2024/06/%E6%98%9F%E7%A9%B9%E9%90%B5%E9%81%93-%E9%9B%B2%E7%92%83-%E8%A7%92%E8%89%B2%E7%AB%8B%E7%B9%AA.jpg",
-        title: '願此行，終抵群星'
+        imgUrl: "https://image.tmdb.org/t/p/original/jtSCugyOC4gtKqVXK3WaaxRNzqZ.jpg",
+        title: '永远不要低估祖母对家人的爱'
+    },
+    {
+        id: 5,
+        imgUrl: "https://image.tmdb.org/t/p/original/kVd3a9YeLGkoeR50jGEXM6EqseS.jpg",
+        title: '每个人都说这是蜘蛛侠注定的命运,但我要找到属于自己的路'
     }
-]
+]);
 </script>
+
 <template>
     <div class="flex flex-col">
-        <div>
-            <el-carousel :interval="4000" type="card" height="500px">
-                <el-carousel-item v-for="item in bannerItems" :key="item.id" class="flex flex-col text-center">
-                    <el-image :src=item.imgUrl lazy />
-                    <h3 justify="center" class="text-xl font-bold" >{{ item.title }}</h3>
+        <div class="flex-grow">
+            <div class="flex flex-col items-center justify-center p-4">
+                <h1 class="text-4xl font-bold text-center">欢迎来到Duck Order</h1>
+                <p class="text-lg text-center">在这里，您可以轻松地订购您喜欢的美食。</p>
+            </div>
+        </div>
+        <div class="flex-grow">
+            <el-carousel :interval="4000" type="card" class="">
+                <el-carousel-item v-for="item in bannerItems" :key="item.id" class="flex flex-col text-center item-center">
+                    <el-image :src="item.imgUrl" fit="cover" class="rounded-lg shadow-2xl"/>
+                    <h3 justify="center" class="text-xl font-bold">{{ item.title }}</h3>
                 </el-carousel-item>
             </el-carousel>
+        </div>
+        <div class="flex-grow flex-col items-center justify-center p-4">
+            <el-icon><Ticket /></el-icon>
         </div>
     </div>
 </template>
