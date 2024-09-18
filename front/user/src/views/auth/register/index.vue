@@ -31,7 +31,7 @@ const register = async (registerInfo: RegisterInfo) => {
     const res = await registerAPI(cleanedInfo)
     if (res){
         ElMessage.success('注册成功')
-        router.push('/aurh/login')
+        router.push('/auth/login')
     }
 }
 
