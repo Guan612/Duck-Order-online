@@ -3,6 +3,13 @@ import { ref } from 'vue';
 
 const cardUrl = ref('')
 cardUrl.value = 'https://image.tmdb.org/t/p/original/h446dxc86JRkhJYM8n13eqBjbGo.jpg'
+
+const props = defineProps({
+    foodName: String,
+    cardUrl: String,
+    foodPrice: Number,
+    foodQuantity: Number
+})
 </script>
 
 <template>
