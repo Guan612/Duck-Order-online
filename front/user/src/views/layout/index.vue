@@ -1,6 +1,7 @@
 <script setup>
 import headerBar from './component/headerBar.vue';
 import sideBar from './component/sideBar.vue';
+import bottomBar from './component/bottomBar.vue';
 </script>
 <template>
     <div class="flex flex-col h-screen">
@@ -13,4 +14,5 @@ import sideBar from './component/sideBar.vue';
             </div>
         </div>
     </div>
+    <bottomBar class="sm:block md:hidden"></bottomBar>
 </template>
