@@ -11,34 +11,45 @@ const updateActiveRoute = (route) => {
 </script>
 <template>
 	<div class="flex flex-col bg-transblue h-screen">
-		<el-menu default-active="1">
-			<el-menu-item index="1" >
-				<template #title>
-					<el-icon>
-						<HomeFilled />
-					</el-icon>
-					<span class="font-blod" @click="updateActiveRoute('/home')">首页</span>
-				</template>
-			</el-menu-item>
-			<el-menu-item index="2">
-				<el-icon>
+		<div class="flex-grow">
+			<div class="sidebar-section">
+				<el-icon class="m-1">
+					<House />
+				</el-icon>
+				<span>首页</span>
+			</div>
+			<div class="sidebar-section">
+				<el-icon class="m-1">
+					<ChatDotRound />
+				</el-icon>
+				<span>消息</span>
+			</div>
+			<div class="sidebar-section">
+				<el-icon class="m-1">
 					<ShoppingCart />
 				</el-icon>
-				<template #title>购物车</template>
-			</el-menu-item>
-			<el-menu-item index="3">
-				<el-icon>
-					<ChatDotSquare />
-				</el-icon>
-				<template #title>消息</template>
-			</el-menu-item>
-			<el-menu-item index="4">
-				<el-icon>
+				<span>购物车</span>
+			</div>
+			<div class="sidebar-section">
+				<el-icon class="m-1">
 					<User />
 				</el-icon>
-				<template #title>我的</template>
-			</el-menu-item>
-		</el-menu>
+				<span>我的</span>
+			</div>
+		</div>
+
+		<div class="">
+			<div class="sidebar-section">
+				<el-icon class="m-1">
+					<More />
+				</el-icon>
+				<span>关于</span>
+			</div>
+		</div>
 	</div>
 </template>
-<style></style>
+<style scoped>
+.sidebar-section {
+	@apply flex bg-transpink rounded-2xl p-2 m-2 items-center justify-center font-bold hover:scale-110 transition-transform duration-300
+}
+</style>
