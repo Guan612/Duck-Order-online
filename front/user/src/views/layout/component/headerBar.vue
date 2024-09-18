@@ -1,5 +1,7 @@
 <script setup>
 </script>
 <template>
-	<div class="bg-gradient-to-r from-transblue to-transpink">123</div>
+	<div class="bg-gradient-to-r from-transblue to-transpink h-16 flex">
+
+	</div>
 </template>
