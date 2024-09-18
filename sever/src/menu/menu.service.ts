@@ -32,6 +32,17 @@ export class MenuService {
     return res;
   }
 
+  async searchByType(menuType: number) {
+    const res = await this.prisma.menu.findMany({
+      where: {
+        type: menuType,
+        isSell: 1,
+      },
+    });
+
+    return res;
+  }
+
   async findOne(id: number) {
     const res = this.prisma.menu.findUnique({
       where: {

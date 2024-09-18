@@ -47,6 +47,13 @@ export class MenuController {
     return this.menuService.search(body.menuName);
   }
 
+  @Get('/searchType')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: '通过类型搜索菜品' })
+  searchType(@Body() body: { menuType: number }) {
+    return this.menuService.searchByType(body.menuType);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: '通过id获取单个菜品' })
   findOne(@Param('id') id: string) {
