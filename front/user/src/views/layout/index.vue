@@ -6,8 +6,8 @@ import sideBar from './component/sideBar.vue';
     <div class="flex flex-col h-screen">
         <headerBar></headerBar>
         <div class="flex flex-row overflow-hidden">
-            <sideBar class="hidden md:block"></sideBar>
-            <div class=" overflow-y-auto w-screen">
+            <sideBar class="basis-1/6 hidden md:block"></sideBar>
+            <div class="md:w-5/6 overflow-y-auto w-screen">
                 <!-- 使用 overflow-y-auto 允许垂直滚动 -->
                 <router-view></router-view>
             </div>
