@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import foodcard from './component/foodcard.vue';
 
 const bannerItems = ref([
     {
@@ -38,16 +39,51 @@ const bannerItems = ref([
                 <p class="text-lg text-center">在这里，您可以轻松地订购您喜欢的美食。</p>
             </div>
         </div>
-        <div class="flex-grow">
-            <el-carousel :interval="4000" type="card" class="">
-                <el-carousel-item v-for="item in bannerItems" :key="item.id" class="flex flex-col text-center item-center">
-                    <el-image :src="item.imgUrl" fit="cover" class="rounded-lg shadow-2xl"/>
+        <div class="flex-grow w-full max-w-4xl mx-auto">
+            <el-carousel :interval="4000" type="card" class="w-full">
+                <el-carousel-item v-for="item in bannerItems" :key="item.id"
+                    class="flex flex-col text-center item-center">
+                    <el-image :src="item.imgUrl" fit="cover" class="rounded-lg shadow-2xl" />
                     <h3 justify="center" class="text-xl font-bold">{{ item.title }}</h3>
                 </el-carousel-item>
             </el-carousel>
         </div>
-        <div class="flex-grow flex-col items-center justify-center p-4">
-            <el-icon><Ticket /></el-icon>
+        <div
+            class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-5">
+            <div class="gongnen-item">
+                <Film />
+                <span>电影</span>
+            </div>
+            <div class="gongnen-item">
+                <Ticket />
+                <span>票务</span>
+            </div>
+            <div class="gongnen-item">
+                <Promotion />
+                <span>出行</span>
+            </div>
+            <div class="gongnen-item">
+                <Guide />
+                <span>景点</span>
+            </div>
+            <div class="gongnen-item">
+                <Coffee />
+                <span>咖啡</span>
+            </div>
+            <div class="gongnen-item">
+                <ForkSpoon />
+                <span>餐饮</span>
+            </div>
+        </div>
+        <div
+            
+            class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2">
+            <foodcard v-for="card in 10" />
         </div>
     </div>
 </template>
+<style scoped>
+.gongnen-item {
+    @apply flex flex-col items-center justify-center p-4 hover:scale-110 transition-transform duration-300;
+}
+</style>
