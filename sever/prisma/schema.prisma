@@ -41,6 +41,7 @@ model Menu {
   id          Int     @id @default(autoincrement())
   name        String
   price       Int
+  type        Int     @default(0) //0,热菜 1,凉菜 2,主食 3,汤 4,饮品
   pictureUrl  String?
   discription String?
   isSell      Int     @default(1) //0,下架 1,上架
