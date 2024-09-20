@@ -24,4 +24,8 @@ export const getUserHanderImgAPI = () => {
 
 export const getAllUserAPI = () => {
 	return http.get("/user/");
+};
+
+export const updateUserAPI = (userId:string, userInfo: any) => {
+    return http.patch(`/user/${userId}`, userInfo);
 }
