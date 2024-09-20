@@ -6,13 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  Put,
   HttpException,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './service/user.service';
 import { ApiTags, ApiOperation, ApiParam } from '@nestjs/swagger';
-import { CreateUserDto,LoginUserDto } from './dto/userDto';
+import { CreateUserDto, LoginUserDto, UpdateUserDto } from './dto/userDto';
 import { CheckUserExistsPipe } from './pipe/check-user-exists.pipe';
 import { HashPasswordPipe } from './pipe/hash-password.pipe';
 import { AuthService } from './service/auth.service';
@@ -81,8 +80,8 @@ export class UserController {
   @Patch(':id')
   @ApiOperation({ summary: '更新用户信息' })
   @ApiParam({ name: 'id', type: 'number' })
-  update(@Param('id') id: string, @Body() updateUserData) {
-    //console.log(updateUserData);
+  update(@Param('id') id: string, @Body() updateUserData: UpdateUserDto) {
+    //console.log(body);
     return this.userService.update(+id, updateUserData);
   }
 
