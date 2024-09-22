@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMenuDto } from './dto/menuDto';
-import { UpdateMenuDto } from './dto/update-menu.dto';
 import { PrismaService } from '../prisma/prisma.service';
 import { Menu } from '@prisma/client';
 
@@ -53,7 +52,7 @@ export class MenuService {
     return res;
   }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
+  update(id: number, updateMenuDto: any) {
     return `This action updates a #${id} menu`;
   }
 

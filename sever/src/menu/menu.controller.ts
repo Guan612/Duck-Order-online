@@ -10,7 +10,6 @@ import {
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto } from './dto/menuDto';
-import { UpdateMenuDto } from './dto/update-menu.dto';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/user/decorator/roles.decorator';
 import { Role } from 'src/user/dto/role';
@@ -64,7 +63,7 @@ export class MenuController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.admin, Role.waiter)
   @ApiOperation({ summary: '更新菜品' })
-  update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
+  update(@Param('id') id: string, @Body() updateMenuDto: any) {
     return this.menuService.update(+id, updateMenuDto);
   }
 
