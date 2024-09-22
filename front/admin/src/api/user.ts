@@ -29,3 +29,7 @@ export const getAllUserAPI = () => {
 export const updateUserAPI = (userId:string, userInfo: any) => {
     return http.patch(`/user/${userId}`, userInfo);
 }
+
+export const deleteUserAPI = (userId: string) => {
+	return http.delete(`/user/${userId}`);
+}
