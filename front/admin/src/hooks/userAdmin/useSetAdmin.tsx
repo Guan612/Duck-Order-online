@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { updateUserAPI } from "../../api/user"
+import { updateUserAPI, deleteUserAPI} from "../../api/user"
 import { cost } from "../../dto/cost"
 
 const userSetAdmin =  () => {
@@ -7,11 +7,19 @@ const userSetAdmin =  () => {
 
     const setAdmin = async (id:string) => {
         const res = await updateUserAPI(id,{cost:2})
-        console.log(res)
         setUser(res)
     }
 
-    return {setAdmin}
+    const setWaiter = async (id:string) => {
+        const res = await updateUserAPI(id,{cost:1})
+        setUser(res)
+    }
+
+    const deleteUser = async (id:string) => {
+        const res = await deleteUserAPI(id)
+        return res
+    }
+    return {setAdmin,setWaiter,deleteUser,user}
     
 }
 
