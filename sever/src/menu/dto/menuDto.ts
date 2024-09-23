@@ -21,3 +21,25 @@ export class CreateMenuDto {
   @IsString()
   description?: string;
 }
+
+export class UpdateMenuDto {
+  @IsOptional()
+  @IsString()
+  name?: string;
+
+  @IsOptional()
+  @IsNumber()
+  price?: number;
+
+  @IsOptional()
+  @IsString()
+  pictureUrl?: string;
+
+  @IsOptional()
+  @IsNumber()
+  isSell?: number;
+
+  @IsOptional()
+  @IsString()
+  description?: string;
+}
