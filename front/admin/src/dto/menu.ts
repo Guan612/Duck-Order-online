@@ -6,4 +6,15 @@ enum menuType {
 	"饮品" = 4,
 }
 
+interface menu {
+	id: number;
+	name: string;
+	type: menuType;
+	price: number;
+	isSell:number;
+	discription?: string;
+	pictureUrl?: string;
+}
+
 export { menuType };
+export type { menu };
