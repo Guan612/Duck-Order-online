@@ -9,7 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
-import { CreateMenuDto, UpdateMenuDto} from './dto/menuDto';
+import { CreateMenuDto, UpdateMenuDto } from './dto/menuDto';
 import { ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/user/decorator/roles.decorator';
 import { Role } from 'src/user/dto/role';
@@ -39,18 +39,18 @@ export class MenuController {
     return this.menuService.findAll();
   }
 
-  @Get('/search')
+  @Get('/search/:menuName')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '通过名称搜索菜品' })
-  search(@Body() body: { menuName: string }) {
-    return this.menuService.search(body.menuName);
+  search(@Param('menuName') menuName: string) {
+    return this.menuService.search(menuName);
   }
 
-  @Get('/searchType')
+  @Get('/searchType/:type')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '通过类型搜索菜品' })
-  searchType(@Body() body: { menuType: number }) {
-    return this.menuService.searchByType(body.menuType);
+  searchType(@Param('type') menuType: number) {
+    return this.menuService.searchByType(+menuType);
   }
 
   @Get(':id')
