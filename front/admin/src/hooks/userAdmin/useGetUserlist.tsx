@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllUserAPI } from "../../api/user";
-import { cost } from "../../dto/cost";
+import { cost } from "../../dto/user";
 
 const useGetUserlist = () => {
 	const [users, setUsers] = useState([]);
