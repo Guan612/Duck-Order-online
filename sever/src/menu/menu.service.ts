@@ -31,11 +31,13 @@ export class MenuService {
     return res;
   }
 
-  async searchByType(menuType: number) {
+  async searchByType(menuType: number[]) {
     const res = await this.prisma.menu.findMany({
       where: {
-        type: menuType,
-        isSell: 1,
+        type: {
+          in: menuType, // 直接传递 menuType 数组
+        },
+        isSell: 1, // 查找 isSell 为 1 的菜单项
       },
     });
 
@@ -54,9 +56,9 @@ export class MenuService {
 
   update(id: number, updateMenu: UpdateMenuDto) {
     const res = this.prisma.menu.update({
-      where:{id: id},
-      data:updateMenu
-    })
+      where: { id: id },
+      data: updateMenu,
+    });
 
     return res;
   }
