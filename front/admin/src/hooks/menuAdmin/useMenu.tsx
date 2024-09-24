@@ -9,11 +9,12 @@ import {
 } from "../../api/menu";
 import { menuType, menu } from "../../dto/menu";
 export default function useGetMenu() {
-	const [form] = Form.useForm();
+	const [updateform] = Form.useForm();
 	const [menuList, setMenuList] = useState<menu[]>([]);
 	const [menu, setMenu] = useState({});
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState<menu | null>(null);
+	const [isaddMenuModalOpen, setIsaddMenuModalOpen] = useState(false);
 
 	const getMenuList = async () => {
 		const res = await getMenuListAPI();
@@ -67,7 +68,7 @@ export default function useGetMenu() {
 	};
 
 	const okMenuModal = () => {
-		form.submit();
+		updateform.submit();
 	};
 
 	const cancelMenuModal = () => {
@@ -90,6 +91,10 @@ export default function useGetMenu() {
 	const onFinishFailedMenuModal = (errorInfo: any) => {
 		console.log("Failed:", errorInfo);
 	};
+
+	const openAddMenuModal = () => {
+		setIsaddMenuModalOpen(true);
+	}
 
 	const colums = [
 		{
@@ -158,12 +163,14 @@ export default function useGetMenu() {
 		cancelMenuModal,
 		onFinishMenuModal,
 		onFinishFailedMenuModal,
+		openAddMenuModal,
 		currentMenu,
 		isModalOpen,
 		menuOptions,
 		colums,
 		menuList,
 		menu,
-		form,
+		updateform,
+		isaddMenuModalOpen,
 	};
 }
