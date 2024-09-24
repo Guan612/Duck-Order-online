@@ -13,11 +13,15 @@ export default function MenuAdmin() {
 		menuSelectChange,
 		openMenuModal,
 		cancelMenuModal,
+		onFinishMenuModal,
+		onFinishFailedMenuModal,
+		okMenuModal,
 		menuList,
 		menuOptions,
 		colums,
 		isModalOpen,
 		currentMenu,
+		form,
 	} = useGetMenu();
 	return (
 		<div className="flex flex-col h-full">
@@ -92,13 +96,28 @@ export default function MenuAdmin() {
 			<Modal
 				title="修改菜品"
 				open={isModalOpen}
+				onOk={okMenuModal}
 				onCancel={cancelMenuModal}
 			>
 				{currentMenu && ( // 检查 currentMenu 是否存在
-					<Form layout="horizontal">
-						<Form.Item label="修改菜名" name="name"></Form.Item>
-						<Form.Item label="价格" name="price"></Form.Item>
-						<Form.Item label="类型" name="type"></Form.Item>
+					<Form
+						form={form}
+						layout="horizontal"
+						onFinish={onFinishMenuModal}
+						onFinishFailed={onFinishFailedMenuModal}
+					>
+						<Form.Item label="修改菜名" name="name">
+							<Input placeholder={currentMenu.name} />
+						</Form.Item>
+						<Form.Item label="价格" name="price">
+							<Input placeholder={currentMenu.price} />
+						</Form.Item>
+						<Form.Item label="类型" name="type">
+							<Select options={menuOptions}></Select>
+						</Form.Item>
+						<Form.Item label="菜品描述" name="discription">
+							<Input placeholder={currentMenu.discription} />
+						</Form.Item>
 						<Form.Item
 							label="菜品图片"
 							name="pictureUrl"

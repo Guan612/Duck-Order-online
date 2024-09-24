@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { message } from "antd";
+import { Form, message } from "antd";
 import {
 	getMenuListAPI,
 	searchMenuAPI,
 	searchMenuByTypeAPI,
 	ChangeIsShellAPI,
+	updateMenuAPI,
 } from "../../api/menu";
 import { menuType, menu } from "../../dto/menu";
 export default function useGetMenu() {
+	const [form] = Form.useForm();
 	const [menuList, setMenuList] = useState<menu[]>([]);
 	const [menu, setMenu] = useState({});
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -64,8 +66,29 @@ export default function useGetMenu() {
 		setIsModalOpen(true);
 	};
 
+	const okMenuModal = () => {
+		form.submit();
+	};
+
 	const cancelMenuModal = () => {
 		setIsModalOpen(false);
+	};
+
+	const onFinishMenuModal = async (values: any) => {
+		if (currentMenu) {
+			const changeid = currentMenu.id;
+			values.price = +values.price;
+			const res = await updateMenuAPI(changeid, values);
+			if (res) {
+				message.success("修改成功");
+				getMenuList();
+				setIsModalOpen(false);
+			}
+		}
+	};
+
+	const onFinishFailedMenuModal = (errorInfo: any) => {
+		console.log("Failed:", errorInfo);
 	};
 
 	const colums = [
@@ -131,12 +154,16 @@ export default function useGetMenu() {
 		changeSell,
 		menuSelectChange,
 		openMenuModal,
+		okMenuModal,
 		cancelMenuModal,
+		onFinishMenuModal,
+		onFinishFailedMenuModal,
 		currentMenu,
 		isModalOpen,
 		menuOptions,
 		colums,
 		menuList,
 		menu,
+		form,
 	};
 }
