@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { MenuService } from './menu.service';
 import { CreateMenuDto, UpdateMenuDto } from './dto/menuDto';
@@ -46,11 +47,11 @@ export class MenuController {
     return this.menuService.search(menuName);
   }
 
-  @Get('/searchType/:type')
+  @Get('/searchType')
   @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '通过类型搜索菜品' })
-  searchType(@Param('type') menuType: number) {
-    return this.menuService.searchByType(+menuType);
+  searchType(@Query('menuType') menuType: number[]) {
+    return this.menuService.searchByType(menuType.map(Number)); //将传入参数转为字符串
   }
 
   @Get(':id')
