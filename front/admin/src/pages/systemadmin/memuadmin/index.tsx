@@ -16,12 +16,14 @@ export default function MenuAdmin() {
 		onFinishMenuModal,
 		onFinishFailedMenuModal,
 		okMenuModal,
+		openAddMenuModal,
 		menuList,
 		menuOptions,
 		colums,
 		isModalOpen,
 		currentMenu,
-		form,
+		updateform,
+		isaddMenuModalOpen,
 	} = useGetMenu();
 	return (
 		<div className="flex flex-col h-full">
@@ -30,7 +32,11 @@ export default function MenuAdmin() {
 					菜品管理
 				</h1>
 				<div className="flex justify-between items-center mx-2">
-					<Button type="primary" className="h-8">
+					<Button
+						type="primary"
+						className="h-8"
+						onClick={openAddMenuModal}
+					>
 						新增菜品
 					</Button>
 					<Select
@@ -56,6 +62,16 @@ export default function MenuAdmin() {
 					<div className="hidden md:block">类型</div>
 					<div className="hidden md:block">菜品图片</div>
 				</div>
+				<Modal title="创建菜品" open={isaddMenuModalOpen}>
+					<Form>
+						<Form.Item label="菜品名字">
+							<Input />
+						</Form.Item>
+						<Form.Item label="菜品价格">
+							<Input />
+						</Form.Item>
+					</Form>
+				</Modal>
 			</div>
 
 			<div className="overflow-y-auto h-3/4">
@@ -101,7 +117,7 @@ export default function MenuAdmin() {
 			>
 				{currentMenu && ( // 检查 currentMenu 是否存在
 					<Form
-						form={form}
+						form={updateform}
 						layout="horizontal"
 						onFinish={onFinishMenuModal}
 						onFinishFailed={onFinishFailedMenuModal}
@@ -113,7 +129,10 @@ export default function MenuAdmin() {
 							<Input placeholder={currentMenu.price} />
 						</Form.Item>
 						<Form.Item label="类型" name="type">
-							<Select options={menuOptions}></Select>
+							<Select
+								options={menuOptions}
+								// defaultValue={getNemuTypeName(currentMenu.type)}
+							></Select>
 						</Form.Item>
 						<Form.Item label="菜品描述" name="discription">
 							<Input placeholder={currentMenu.discription} />
