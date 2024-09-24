@@ -1,12 +1,24 @@
-import { Button, Input, Select } from "antd";
+import { Button, Form, Input, Modal, Select, Table } from "antd";
 const { Search } = Input;
 
 import useGetMenu from "../../../hooks/menuAdmin/useMenu";
 import { menu } from "../../../dto/menu";
 
 export default function MenuAdmin() {
-	const { changeSell, getMenuList, searchMenu, getNemuTypeName, menuList } =
-		useGetMenu();
+	const {
+		changeSell,
+		getMenuList,
+		searchMenu,
+		getNemuTypeName,
+		menuSelectChange,
+		openMenuModal,
+		cancelMenuModal,
+		menuList,
+		menuOptions,
+		colums,
+		isModalOpen,
+		currentMenu,
+	} = useGetMenu();
 	return (
 		<div className="flex flex-col h-full">
 			<div className="h-1/4 flex flex-col">
@@ -23,8 +35,8 @@ export default function MenuAdmin() {
 						allowClear
 						placeholder="选择菜品类型"
 						defaultValue={[]}
-						// onChange={handleChange}
-						// options={options}
+						onChange={menuSelectChange}
+						options={menuOptions}
 					/>
 					<Search
 						placeholder="输入菜品名字以搜索"
@@ -67,10 +79,33 @@ export default function MenuAdmin() {
 						>
 							{menu.isSell ? "下架" : "上架"}
 						</Button>
-						<Button type="primary">编辑菜品</Button>
+						<Button
+							type="primary"
+							onClick={() => openMenuModal(menu)}
+						>
+							编辑菜品
+						</Button>
 					</div>
 				))}
+				{/* <Table dataSource={menuList} columns={colums} className="flex w-full"/> */}
 			</div>
+			<Modal
+				title="修改菜品"
+				open={isModalOpen}
+				onCancel={cancelMenuModal}
+			>
+				{currentMenu && ( // 检查 currentMenu 是否存在
+					<Form layout="horizontal">
+						<Form.Item label="修改菜名" name="name"></Form.Item>
+						<Form.Item label="价格" name="price"></Form.Item>
+						<Form.Item label="类型" name="type"></Form.Item>
+						<Form.Item
+							label="菜品图片"
+							name="pictureUrl"
+						></Form.Item>
+					</Form>
+				)}
+			</Modal>
 		</div>
 	);
 }
