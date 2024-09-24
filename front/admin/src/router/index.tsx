@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { useRoutes, Navigate } from "react-router-dom";
 
 import Layout from "../layout/index";
@@ -10,7 +11,14 @@ import MenuAdmin from "../pages/systemadmin/memuadmin";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
-    return auth ? element : <Navigate to="/auth" />;
+    if (!auth) {
+        message.error("请先登录后使用");
+        return <Navigate to="/auth" />;
+    } else {
+        return element;
+    }
+    //return auth ? element : <Navigate to="/auth" />;
+    
 };
 
 const routes = [

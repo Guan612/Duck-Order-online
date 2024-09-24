@@ -1,7 +1,6 @@
 import axios from "axios";
 import userStore from "../store/userstore";
-import useMessageHandler from "../hooks/messageHandler/useMessageHandler";
-
+import { message } from "antd"
 // const { errorMsg, successMsg } = useMessageHandler();
 
 const http = axios.create({
@@ -33,7 +32,7 @@ http.interceptors.response.use(
 	},
 	(error) => {
 		console.log(error);
-		//errorMsg(error.response?.data?.message || "未知错误");
+		message.error(error.response?.data?.message || "未知错误");
 		return Promise.reject(error);
 	}
 );
