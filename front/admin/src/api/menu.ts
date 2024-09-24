@@ -5,9 +5,13 @@ export const getMenuListAPI = () => {
 };
 
 export const ChangeIsShellAPI = (id: number, isSell: number) => {
-	return http.patch(`/menu/${id}`, {isSell: isSell});
+	return http.patch(`/menu/${id}`, { isSell: isSell });
 };
 
 export const searchMenuAPI = (menuName: string) => {
 	return http.get(`/menu/search/${menuName}`);
-}
+};
+
+export const searchMenuByTypeAPI = (type: number[]) => {
+	return http.get("/menu/searchType/", { params: { menuType: type } });
+};
