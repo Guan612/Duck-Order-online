@@ -23,8 +23,8 @@ model User {
   cost      Int      @default(0) //0,用户 1,员工 2,管理员
   createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
-  order    Order[]
-  Cart     Cart[]
+  order     Order[]
+  Cart      Cart[]
 }
 
 model Order {
@@ -60,11 +60,20 @@ model OderList {
 }
 
 model Cart {
-  id       Int   @id @default(autoincrement())
+  id       Int        @id @default(autoincrement())
   userId   Int
+  isDelete Int        @default(0) //0,未删除 1,已删除
+  user     User       @relation(fields: [userId], references: [id])
+  CartList CartList[]
+  Menu     Menu?      @relation(fields: [menuId], references: [id])
+  menuId   Int?
+}
+
+model CartList {
+  id       Int  @id @default(autoincrement())
+  cartId   Int
   menuId   Int
-  quantity Int //购物车份数
-  isDelete Int @default(0) //0,未删除 1,已删除
-  user     User @relation(fields: [userId], references: [id])
-  menu     Menu @relation(fields: [menuId], references: [id])
+  quantity Int  @default(0) //购物车份数
+  isDelete Int  @default(0) //0,未删除 1,已删除
+  cart     Cart @relation(fields: [cartId], references: [id])
 }
