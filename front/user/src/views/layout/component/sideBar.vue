@@ -12,11 +12,17 @@ const updateActiveRoute = (route) => {
 <template>
 	<div class="flex flex-col bg-transblue h-screen">
 		<div class="flex-grow">
-			<div class="sidebar-section">
+			<div class="sidebar-section" @click="$router.push(`/`)">
 				<el-icon class="m-1">
 					<House />
 				</el-icon>
 				<span>首页</span>
+			</div>
+			<div class="sidebar-section" @click="$router.push(`/menu/`)">
+				<el-icon class="m-1">
+					<ForkSpoon />
+				</el-icon>
+				<span>点餐</span>
 			</div>
 			<div class="sidebar-section">
 				<el-icon class="m-1">
