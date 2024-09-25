@@ -5,7 +5,7 @@ import Layout from "@/views/layout/index.vue";
 import Chat from "@/views/chat/index.vue";
 import Delivery from "@/views/delivery/index.vue";
 import Home from "@/views/home/index.vue";
-import Chart from "@/views/chart/index.vue";
+import Cart from "@/views/cart/index.vue";
 import Me from "@/views/me/index.vue";
 import Auth from "@/views/auth/index.vue";
 import Login from "@/views/auth/login/index.vue";
@@ -40,9 +40,9 @@ const router = createRouter({
                     component:MenuDetailed,
                 },
                 {
-                    path: "/chart",
-                    name: "chart",
-                    component: Chart,
+                    path: "/cart",
+                    name: "cart",
+                    component: Cart,
                     meta: { title: "购物车", requiresAuth: true },
                 },
                 {
