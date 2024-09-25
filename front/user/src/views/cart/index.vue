@@ -3,5 +3,5 @@
 </script>
 
 <template>
-    <div>chart</div>
+    <div>cart</div>
 </template>
