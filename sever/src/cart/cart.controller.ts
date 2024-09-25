@@ -9,8 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
-import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { CreateCartDto } from './dto/cartDto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/user/guards/jwt-user.guard';
 
@@ -20,6 +19,7 @@ export class CartController {
   constructor(private readonly cartService: CartService) {}
 
   @Post()
+  @ApiOperation({ summary: '创建购物车' })
   create(@Body() createCartDto: CreateCartDto) {
     return this.cartService.create(createCartDto);
   }
@@ -33,11 +33,11 @@ export class CartController {
   @ApiOperation({ summary: '根据订单id查询购物车' })
   @UseGuards(JwtAuthGuard)
   findOneByOrderId(@Param('orderId') orderId: string) {
-    return this.cartService.findByOrderId(+orderId);
+    //return this.cartService.findByOrderId(+orderId);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
+  update(@Param('id') id: string, @Body() updateCartDto) {
     return this.cartService.update(+id, updateCartDto);
   }
 
