@@ -1,13 +1,13 @@
 <template>
     <div
         class="bg-gradient-to-r from-transblue to-transpink rounded-lg fixed bottom-0 w-full shadow-md p-4 flex justify-around items-center md:hidden h-16">
-        <div class="button-bar">
+        <div class="button-bar" @click="$router.push(`/`)">
             <House />
             <span>首页</span>
         </div>
-        <div class="button-bar">
-            <ChatDotRound />
-            <span>消息</span>
+        <div class="button-bar" @click="$router.push(`/menu/`)">
+            <ForkSpoon />
+            <span>点餐</span>
         </div>
         <div class="button-bar">
             <ShoppingCart />
