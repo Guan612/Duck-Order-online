@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CartService } from 'src/cart/cart.service';
+import { OderlistService } from 'src/oderlist/oderlist.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     private prisma: PrismaService,
-    private cartService: CartService,
+    private OderlistService: OderlistService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     const res = await this.prisma.order.create({
@@ -26,7 +26,7 @@ export class OrderService {
   }
 
   async totalPrice(id: number) {
-    const catResult = await this.cartService.findByOrderId(id);
+    const catResult = await this.OderlistService.findByOrderId(id);
     const totalPrice = catResult.reduce((acc: number, cur) => {
       return acc + cur.menu.price * cur.quantity;
     }, 0);
