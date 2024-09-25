@@ -11,6 +11,7 @@ import Auth from "@/views/auth/index.vue";
 import Login from "@/views/auth/login/index.vue";
 import Register from "@/views/auth/register/index.vue";
 import Menu from "@/views/menu/index.vue"
+import MenuDetailed from "@/views/menu/nemuDetailed.vue"
 import { ElMessage } from "element-plus";
 
 const router = createRouter({
@@ -32,6 +33,11 @@ const router = createRouter({
                     name: "menu",
                     component: Menu,
                     meta: { title: "菜单", requiresAuth: true },
+                },
+                {
+                    path:'/menu/:id',
+                    name:'menuDetail',
+                    component:MenuDetailed,
                 },
                 {
                     path: "/chart",
