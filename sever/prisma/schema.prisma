@@ -23,36 +23,48 @@ model User {
   cost      Int      @default(0) //0,用户 1,员工 2,管理员
   createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
-  orders    Order[]
+  order    Order[]
+  Cart     Cart[]
 }
 
 model Order {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   userId      Int
-  orderStatus Int      @default(0) //0,加入购物车 1,已下单 2,已取消 3,已完成
-  orderType   Int      @default(0) //0,堂食 1,外卖
-  orderTime   DateTime @default(dbgenerated("now()")) @db.DateTime
-  totalPrice  Int      @default(0)
-  Cart        Cart[]
-  user        User?    @relation(fields: [userId], references: [id])
+  orderStatus Int        @default(0) //0,加入购物车 1,已下单 2,已取消 3,已完成
+  orderType   Int        @default(0) //0,堂食 1,外卖
+  orderTime   DateTime   @default(dbgenerated("now()")) @db.DateTime
+  totalPrice  Int        @default(0)
+  OderList    OderList[]
+  user        User?      @relation(fields: [userId], references: [id])
 }
 
 model Menu {
-  id          Int     @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   name        String
   price       Int
-  type        Int     @default(0) //0,热菜 1,凉菜 2,主食 3,汤 4,饮品
+  type        Int        @default(0) //0,热菜 1,凉菜 2,主食 3,汤 4,饮品
   pictureUrl  String?
   discription String?
-  isSell      Int     @default(1) //0,下架 1,上架
+  isSell      Int        @default(1) //0,下架 1,上架
   Cart        Cart[]
+  OderList    OderList[]
 }
 
-model Cart {
+model OderList {
   id       Int   @id @default(autoincrement())
   orderId  Int
   menuId   Int
   quantity Int //订单份数
   order    Order @relation(fields: [orderId], references: [id])
   menu     Menu  @relation(fields: [menuId], references: [id])
+}
+
+model Cart {
+  id       Int   @id @default(autoincrement())
+  userId   Int
+  menuId   Int
+  quantity Int //购物车份数
+  isDelete Int @default(0) //0,未删除 1,已删除
+  user     User @relation(fields: [userId], references: [id])
+  menu     Menu @relation(fields: [menuId], references: [id])
 }
