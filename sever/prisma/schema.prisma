@@ -46,8 +46,8 @@ model Menu {
   pictureUrl  String?
   discription String?
   isSell      Int        @default(1) //0,下架 1,上架
-  Cart        Cart[]
   OderList    OderList[]
+  CartList    CartList[]
 }
 
 model OderList {
@@ -65,8 +65,6 @@ model Cart {
   isDelete Int        @default(0) //0,未删除 1,已删除
   user     User       @relation(fields: [userId], references: [id])
   CartList CartList[]
-  Menu     Menu?      @relation(fields: [menuId], references: [id])
-  menuId   Int?
 }
 
 model CartList {
@@ -76,4 +74,5 @@ model CartList {
   quantity Int  @default(0) //购物车份数
   isDelete Int  @default(0) //0,未删除 1,已删除
   cart     Cart @relation(fields: [cartId], references: [id])
+  menu     Menu @relation(fields: [menuId], references: [id])
 }
