@@ -30,7 +30,7 @@ const updateActiveRoute = (route) => {
 				</el-icon>
 				<span>消息</span>
 			</div>
-			<div class="sidebar-section">
+			<div class="sidebar-section" @click="$router.push(`/cart`)">
 				<el-icon class="m-1">
 					<ShoppingCart />
 				</el-icon>
