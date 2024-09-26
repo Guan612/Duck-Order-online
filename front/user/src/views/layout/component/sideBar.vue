@@ -24,7 +24,7 @@ const updateActiveRoute = (route) => {
 				</el-icon>
 				<span>点餐</span>
 			</div>
-			<div class="sidebar-section">
+			<div class="sidebar-section" @click="$router.push(`/chat`)">
 				<el-icon class="m-1">
 					<ChatDotRound />
 				</el-icon>
