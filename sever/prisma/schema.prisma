@@ -24,7 +24,8 @@ model User {
   createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
   order     Order[]
-  Cart      Cart[]
+  cart      Cart[]
+  message    Message[]
 }
 
 model Order {
@@ -46,8 +47,8 @@ model Menu {
   pictureUrl  String?
   discription String?
   isSell      Int        @default(1) //0,下架 1,上架
-  OderList    OderList[]
-  CartList    CartList[]
+  oderList    OderList[]
+  cartList    CartList[]
 }
 
 model OderList {
@@ -64,7 +65,7 @@ model Cart {
   userId   Int
   isDelete Int        @default(0) //0,未删除 1,已删除
   user     User       @relation(fields: [userId], references: [id])
-  CartList CartList[]
+  cartList CartList[]
 }
 
 model CartList {
@@ -75,4 +76,12 @@ model CartList {
   isDelete Int  @default(0) //0,未删除 1,已删除
   cart     Cart @relation(fields: [cartId], references: [id])
   menu     Menu @relation(fields: [menuId], references: [id])
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  content   String
+  time      DateTime @default(dbgenerated("now()")) @db.DateTime
+  user      User     @relation(fields: [userId], references: [id])
 }
