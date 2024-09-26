@@ -18,6 +18,6 @@ export class ChatGateway {
   @SubscribeMessage('chat')
   //@UseGuards(JwtAuthGuard)
   handleEvent(@MessageBody() payload: string, client: Socket) {
-    this.server.emit('chat', { message: payload,  }); // 只回复发送消息的客户端
+    this.server.emit('chat', { message: payload }); // 只回复发送消息的客户端
   }
 }
