@@ -23,7 +23,7 @@ export class CartService {
       select: {
         id: true,
         userId: true,
-        CartList: {
+        cartList: {
           select: {
             quantity: true,
             menu: {
