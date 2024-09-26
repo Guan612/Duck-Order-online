@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/userStore";
 
 import Layout from "@/views/layout/index.vue";
 import Chat from "@/views/chat/index.vue";
+import ChatDetailed from "@/views/chat/chatDetailed.vue";
 import Delivery from "@/views/delivery/index.vue";
 import Home from "@/views/home/index.vue";
 import Cart from "@/views/cart/index.vue";
@@ -55,6 +56,11 @@ const router = createRouter({
                     path: "/chat",
                     name: "chat",
                     component: Chat,
+                },
+                {
+                    path:"/chat/:id",
+                    name:"chatDetailed",
+                    component:ChatDetailed,
                 },
                 {
                     path: "/delivery",
