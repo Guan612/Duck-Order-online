@@ -32,7 +32,7 @@ const bannerItems = ref([
 </script>
 
 <template>
-    <div class="flex flex-col">
+    <div class="flex flex-col overflow-y-auto h-screen">
         <div class="flex-grow">
             <div class="flex flex-col items-center justify-center p-4">
                 <h1 class="text-4xl font-bold text-center">欢迎来到Duck Order</h1>

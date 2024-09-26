@@ -8,11 +8,11 @@ import bottomBar from './component/bottomBar.vue';
         <headerBar></headerBar>
         <div class="flex flex-row overflow-hidden">
             <sideBar class="basis-1/6 hidden md:block"></sideBar>
-            <div class="md:w-5/6 overflow-y-auto w-screen">
+            <div class="md:w-5/6  w-screen">
                 <!-- 使用 overflow-y-auto 允许垂直滚动 -->
                 <router-view></router-view>
             </div>
         </div>
+        <bottomBar class="sm:block md:hidden"></bottomBar>
     </div>
-    <bottomBar class="sm:block md:hidden"></bottomBar>
 </template>

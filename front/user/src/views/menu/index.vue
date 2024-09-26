@@ -74,8 +74,8 @@ const options = [
 </script>
 
 <template>
-    <div class="flex flex-col m-2 ">
-        <div class="flex flex-row items-center justify-between mb-2">
+    <div class="flex flex-col m-2  h-screen">
+        <div class="flex flex-row items-center justify-between mb-2 h-1/8">
             <div class="flex w-1/3 mx-3">
                 <el-select v-model="selectMenuType" @change="searchMenuType(selectMenuType)" placeholder="选择菜品类型"
                     size="large" multiple>
@@ -95,7 +95,8 @@ const options = [
                 </el-button>
             </div>
         </div>
-        <div class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2">
+        <div
+            class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2 overflow-y-auto h-5/6 hide-scrollbar">
             <MenuCard v-for="item in menuList" key="item.id" :foodName="item.name" :cardUrl="item.pictureUrl"
                 :foodPrice="item.price" :foodType="item.type" :foodId="item.id" />
         </div>
@@ -106,3 +107,8 @@ const options = [
         </div>
     </div>
 </template>
+<style scoped>
+.hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Safari 和 Chrome */
+}
+</style>
