@@ -1,4 +1,4 @@
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore } from "@/stores/userstore";
 import axios from "axios";
 import { ElMessage } from "element-plus";
 

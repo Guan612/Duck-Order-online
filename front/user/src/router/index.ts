@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useUserStore } from "@/stores/userStore";
+import { useUserStore } from "@/stores/userstore";
 
 import Layout from "@/views/layout/index.vue";
 import Chat from "@/views/chat/index.vue";
