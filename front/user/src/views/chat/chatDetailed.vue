@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { io } from "socket.io-client";
+import { ElButton, ElMessage } from 'element-plus';
 
 const socket = io('http://localhost:3001/chat');
 const msg = ref({
@@ -19,6 +20,10 @@ socket.on('chat', (msg) => {
     messages.value.push(msg);  // 存储接收到的消息
 });
 
+socket.on('chatTest', (msg) => {
+    console.log(msg)  // 存储接收到的消息
+})
+
 const sendMessage = () => {
     if (msg.value.message.trim() !== '') {
         socket.emit('chat', {
@@ -29,11 +34,27 @@ const sendMessage = () => {
         msg.value.message = '';  // 清空输入框
     }
 };
+
+const chatTest = (userId) => {
+    socket.emit('chatTest', {
+        userId: userId, message: 'hello'
+    });
+    console.log('Message sent:', clientId);
+}
+
+onMounted(() => {
+    socket.on('connectChat', (msg) => {
+        ElMessage.success('连接成功')
+        console.log('Connected to WebSocket server', msg)
+    })
+    socket.emit('connectChat', 1)
+})
 </script>
 <template>
     <div class="flex flex-col h-screen">
-        <div class="h-1/8 p-4 bg-slate-400">
+        <div class="flex flex-row justify-between h-1/8 p-4 bg-slate-400">
             <div>小明</div>
+            <ElButton type="danger" @click="chatTest(2)">测试</ElButton>
         </div>
         <div class="flex-1 overflow-y-auto p-4">
             <div v-for="message in messages" :key="message" class="flex m-2 flex-row items-start">
@@ -43,7 +64,7 @@ const sendMessage = () => {
         </div>
         <div class="flex flex-col bg-slate-400 h-1/6">
             <div class="">
-                
+
             </div>
             <div class="flex flex-row items-center justify-center">
                 <el-input v-model="msg.message" placeholder="请输入内容"></el-input>
