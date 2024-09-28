@@ -2,10 +2,11 @@
 import { onMounted, ref } from 'vue';
 import { io } from "socket.io-client";
 import { ElButton, ElMessage } from 'element-plus';
-import {useUserStore} from '@/stores/userstore'
+import { useRoute } from 'vue-router';
+import { getRoomByIdAPI } from '@/api/chat';
+import router from '@/router';
 
-const userStore = useUserStore()
-
+const route = useRoute();
 const socket = io('http://localhost:3001/chat');
 const msg = ref({
     //clientId: '',
@@ -14,14 +15,29 @@ const msg = ref({
 const messages = ref([]);  // 存储所有消息
 const clientId = ref('')  // 当前客户端 ID
 
+const roomName = ref('')
+
 socket.on('connectChat', () => {
     console.log('Connected to WebSocket server   '+clientId);
     msg.value.clientId = clientId;  // 获取客户端 ID
 });
 
-socket.on('chat', (msg) => {
+socket.on('onChat', (msg) => {
     messages.value.push(msg);  // 存储接收到的消息
 });
+
+socket.on('disconnectChat', (msg) => {
+    console.log
+})
+
+const disconnect = () =>{
+    const res =  socket.emit('disconnectChat', {
+        
+    })
+    console.log(res)
+    ElMessage.success('断开连接')
+    //router.push('/chat')
+}
 
 socket.on('chatTest', (msg) => {
     console.log(msg)  // 存储接收到的消息
@@ -29,14 +45,17 @@ socket.on('chatTest', (msg) => {
 
 const sendMessage = () => {
     if (msg.value.message.trim() !== '') {
-        socket.emit('chat', {
-            //clientId: clientId.value,  // 发送当前客户端 ID
-            message: msg.value // 发送消息
+        socket.emit('onChat', {
+            //这里的逻辑重写
         });
-        console.log('Message sent:', clientId);
         msg.value.message = '';  // 清空输入框
     }
 };
+
+const getRoomById = async (id) => {
+    const res = await getRoomByIdAPI(id);
+    roomName.value = res.name
+}
 
 const chatTest = (userId) => {
     socket.emit('chatTest', {
@@ -46,18 +65,20 @@ const chatTest = (userId) => {
 }
 
 onMounted(() => {
+    getRoomById(route.params.id)
+
     socket.on('connectChat', (msg) => {
         ElMessage.success('连接成功')
         console.log('Connected to WebSocket server', msg)
     })
-    socket.emit('connectChat', 1)
+    socket.emit('connectChat')
 })
 </script>
 <template>
     <div class="flex flex-col h-screen">
-        <div class="flex flex-row justify-between h-1/8 p-4 bg-slate-400">
-            <div>小明</div>
-            <ElButton type="danger" @click="chatTest(2)">测试</ElButton>
+        <div class="flex flex-row justify-between h-1/8 p-4 bg-blue-300">
+            <div class="font-bold">{{roomName}}</div>
+            <ElButton type="danger" @click="disconnect">断开连接</ElButton>
         </div>
         <div class="flex-1 overflow-y-auto p-4">
             <div v-for="item in messages" :key="1" class="flex m-2 flex-row items-start">
@@ -65,7 +86,7 @@ onMounted(() => {
                 <div class="m-2 p-2 bg-transblue rounded-lg max-w-80">{{ item.message }}</div>
             </div>
         </div>
-        <div class="flex flex-col bg-slate-400 h-1/6">
+        <div class="flex flex-col bg-blue-300 h-1/6">
             <div class="">
 
             </div>
