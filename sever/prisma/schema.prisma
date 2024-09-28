@@ -25,7 +25,9 @@ model User {
   updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
   order     Order[]
   cart      Cart[]
-  message    Message[]
+  messages    Message[] @relation("Sender")
+  receivedMessages Message[] @relation("Receiver")
+  chatRooms ChatRoom[] @relation("ChatParticipants")
 }
 
 model Order {
@@ -80,8 +82,16 @@ model CartList {
 
 model Message {
   id        Int      @id @default(autoincrement())
-  userId    Int
   content   String
   time      DateTime @default(dbgenerated("now()")) @db.DateTime
-  user      User     @relation(fields: [userId], references: [id])
+  receiverId  Int
+  senderId    Int
+  sender      User     @relation("Sender", fields: [senderId], references: [id])
+  receiver    User     @relation("Receiver", fields: [receiverId], references: [id])
+}
+
+model ChatRoom {
+  id          Int      @id @default(autoincrement())
+  name        String
+  participants User[]  @relation("ChatParticipants")
 }
