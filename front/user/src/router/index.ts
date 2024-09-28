@@ -56,11 +56,13 @@ const router = createRouter({
                     path: "/chat",
                     name: "chat",
                     component: Chat,
+                    meta: { title: "聊天", requiresAuth: true },
                 },
                 {
                     path:"/chat/:id",
                     name:"chatDetailed",
                     component:ChatDetailed,
+                    meta: { title: "聊天", requiresAuth: true },
                 },
                 {
                     path: "/delivery",
