@@ -20,7 +20,7 @@ export class ChatGateway {
 
   @SubscribeMessage('connectChat')
   handleConnect(client: Socket) {
-    console.log('connect', client.id);
+    //console.log('connect', client.id);
     this.server.emit('connectChat', {
       connectMeg: '连接成功',
       clientId: client.id,
@@ -30,14 +30,15 @@ export class ChatGateway {
   //测试代码
   @SubscribeMessage('chatTest')
   async test(@MessageBody() Select, client: Socket) {
-    console.log('chatTest', Select.userId);
+    //console.log('chatTest', Select.userId);
     const res = await this.chatService.chatTest(Select.userId);
     this.server.emit('chatTest', { res }); // 只回复发送消息的客户端
   }
 
   @SubscribeMessage('chat')
   //@UseGuards(JwtAuthGuard)
-  handleEvent(@MessageBody() payload: string, client: Socket) {
-    this.server.emit('chat', { message: payload, clientId: client.id }); // 只回复发送消息的客户端
+  handleEvent(@MessageBody() payload, client: Socket) {
+    //console.log('chat', payload.message.message);
+    this.server.emit('chat', { message: payload.message.message }); // 只回复发送消息的客户端
   }
 }
