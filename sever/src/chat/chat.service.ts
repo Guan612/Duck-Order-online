@@ -10,4 +10,9 @@ export class ChatService {
     });
     return res;
   }
+
+  async getRooms(){
+    const res = await this.prisma.chatRoom.findMany();
+    return res;
+  }
 }
