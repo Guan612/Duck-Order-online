@@ -3,7 +3,7 @@ import { useUserStore } from "@/stores/userstore";
 
 import Layout from "@/views/layout/index.vue";
 import Chat from "@/views/chat/index.vue";
-import ChatDetailed from "@/views/chat/chatDetailed.vue";
+import ChatDetailed from "@/views/chat/component/chatDetailed.vue";
 import Delivery from "@/views/delivery/index.vue";
 import Home from "@/views/home/index.vue";
 import Cart from "@/views/cart/index.vue";
