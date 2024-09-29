@@ -1,7 +1,7 @@
 import { Button } from "antd";
-import useGetUserlist from "../../../hooks/userAdmin/useGetUserlist";
-import userSetAdmin from "../../../hooks/userAdmin/useSetAdmin";
-import { user } from "../../../dto/user";
+import useGetUserlist from "../../hooks/userAdmin/useGetUserlist";
+import userSetAdmin from "../../hooks/userAdmin/useSetAdmin";
+import { user } from "../../dto/user";
 
 export default function UserAdmin() {
 	const { users, getRoleName } = useGetUserlist();

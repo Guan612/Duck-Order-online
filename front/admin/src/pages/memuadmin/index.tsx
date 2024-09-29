@@ -1,8 +1,8 @@
 import { Button, Form, Input, Modal, Select, Table } from "antd";
 const { Search } = Input;
 
-import useGetMenu from "../../../hooks/menuAdmin/useMenu";
-import { menu } from "../../../dto/menu";
+import useGetMenu from "../../hooks/menuAdmin/useMenu";
+import { menu } from "../../dto/menu";
 
 export default function MenuAdmin() {
 	const {

@@ -2,12 +2,12 @@ import { message } from "antd";
 import { useRoutes, Navigate } from "react-router-dom";
 
 import Layout from "../layout/index";
-import UserAdmin from "../pages/systemadmin/useradmin";
+import UserAdmin from "../pages/useradmin";
 import Welcome from "../pages/welcome";
 import Login from "../pages/login";
 import Register from "../pages/register";
 import useAuth from "../hooks/login/useAuth";
-import MenuAdmin from "../pages/systemadmin/memuadmin";
+import MenuAdmin from "../pages/memuadmin";
 import Chat from "../pages/chat";
 import ChatDetal from "../pages/chat/compment/chatDetal";
 
