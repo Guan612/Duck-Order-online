@@ -10,20 +10,25 @@ const text = `
 
 const sysNest = [
 	{
-		key: "1",
+		key: 1,
 		label: "菜单管理",
 		link: "/menuadmin",
 	},
 	{
-		key: "2",
+		key: 2,
 		label: "角色管理",
 		link: "/cosadmin",
 	},
 	{
-		key: "3",
+		key: 3,
 		label: "用户管理",
 		link: "/useradmin",
 	},
+	{
+		key: 4,
+		label: "客服聊天",
+		link: "/chat"
+	}
 ];
 
 const items: CollapseProps["items"] = [
@@ -64,7 +69,7 @@ const sidebar = () => {
 	return (
 		<>
 			<div className="bg-white text-center p-2 font-bold text-2xl">
-                <NavLink to={'/'}>后台管理</NavLink>
+				<NavLink to={'/'}>后台管理</NavLink>
 			</div>
 			<Collapse onChange={onChange} items={items} />
 		</>

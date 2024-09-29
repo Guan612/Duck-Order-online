@@ -8,6 +8,8 @@ import Login from "../pages/login";
 import Register from "../pages/register";
 import useAuth from "../hooks/login/useAuth";
 import MenuAdmin from "../pages/systemadmin/memuadmin";
+import Chat from "../pages/chat";
+import ChatDetal from "../pages/chat/compment/chatdetal";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
@@ -35,8 +37,16 @@ const routes = [
                 element: <RequireAuth element={<UserAdmin />} />,
             },
             {
-                path: "menuadmin",
+                path: "/menuadmin",
                 element : <RequireAuth element={<MenuAdmin />} />,
+            },
+            {
+                path:"/chat",
+                element:<RequireAuth element={<Chat/>}/>,
+            },
+            {
+                path:"/chat/:id",
+                element:<RequireAuth  element={<ChatDetal/>}/>
             }
         ],
     },
