@@ -10,6 +10,8 @@ import useAuth from "../hooks/login/useAuth";
 import MenuAdmin from "../pages/memuadmin";
 import Chat from "../pages/chat";
 import ChatDetal from "../pages/chat/compment/chatDetal";
+import Order from "../pages/order";
+import OrderInfo from "../pages/order/oderInfo";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
@@ -20,7 +22,7 @@ const RequireAuth = ({ element }) => {
         return element;
     }
     //return auth ? element : <Navigate to="/auth" />;
-    
+
 };
 
 const routes = [
@@ -38,15 +40,23 @@ const routes = [
             },
             {
                 path: "/menuadmin",
-                element : <RequireAuth element={<MenuAdmin />} />,
+                element: <RequireAuth element={<MenuAdmin />} />,
             },
             {
-                path:"/chat",
-                element:<RequireAuth element={<Chat/>}/>,
+                path: "/chat",
+                element: <RequireAuth element={<Chat />} />,
             },
             {
-                path:"/chat/:id",
-                element:<RequireAuth  element={<ChatDetal/>}/>
+                path: "/chat/:id",
+                element: <RequireAuth element={<ChatDetal />} />
+            },
+            {
+                path: "/order",
+                element: <RequireAuth element={<Order />} />
+            },
+            {
+                path: "/oederInfo",
+                element: <RequireAuth element={<OrderInfo />} />
             }
         ],
     },
