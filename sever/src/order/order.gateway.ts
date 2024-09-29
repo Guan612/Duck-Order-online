@@ -7,6 +7,12 @@ export class OrderGateway {
     return 'Hello world!';
   }
 
+  @SubscribeMessage('oderInfo')
+  async handleOder(@MessageBody() data){
+    console.log(data);
+    return 'OderInfo'
+  }
+
   @SubscribeMessage('whereIsOder')
   async where(@MessageBody() data){
     console.log(data);
