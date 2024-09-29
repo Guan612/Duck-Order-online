@@ -28,13 +28,43 @@ const sysNest = [
 		key: 4,
 		label: "客服聊天",
 		link: "/chat"
+	},
+	{
+		key: 5,
+		label: "订单管理",
+		link: "/order"
 	}
 ];
 
+const infoNest = [
+	{
+		key: 1,
+		label: "订单信息",
+		link: "/oederInfo"
+	}
+]
+
 const items: CollapseProps["items"] = [
 	{
-		key: "1",
-		label: "系统管理",
+		key: 1,
+		label: "基础信息",
+		children: (
+			<>
+				{infoNest.map((item) => (
+					<div className="p-1">
+						<div className="bg-red-200 rounded-md p-3">
+							<NavLink to={item.link} key={item.key}>
+								{item.label}
+							</NavLink>
+						</div>
+					</div>
+				))}
+			</>
+		)
+	},
+	{
+		key: 2,
+		label: "管理选项",
 		children: (
 			<>
 				{sysNest.map((item) => (
@@ -48,16 +78,6 @@ const items: CollapseProps["items"] = [
 				))}
 			</>
 		),
-	},
-	{
-		key: "2",
-		label: "This is panel header 2",
-		children: <p>{text}</p>,
-	},
-	{
-		key: "3",
-		label: "This is panel header 3",
-		children: <p>{text}</p>,
 	},
 ];
 
