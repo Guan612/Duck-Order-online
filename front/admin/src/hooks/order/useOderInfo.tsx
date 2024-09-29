@@ -12,7 +12,7 @@ export default function useOderInfo() {
 
     const testOrder = () => {
         socket.emit('haveNewOder', {
-            message: "admin已连接"
+            message: "张佳宁是原批"
         })
     }
 
