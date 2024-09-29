@@ -9,7 +9,7 @@ import Register from "../pages/register";
 import useAuth from "../hooks/login/useAuth";
 import MenuAdmin from "../pages/systemadmin/memuadmin";
 import Chat from "../pages/chat";
-import ChatDetal from "../pages/chat/compment/chatdetal";
+import ChatDetal from "../pages/chat/compment/chatDetal";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
