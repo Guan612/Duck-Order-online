@@ -7,7 +7,9 @@ const socket = useScoket('order')
 socket.on("haveNewOder", () => { })
 
 const userCartList = ref([])
-const cartInfo = ref([])
+const orderInfo = ref({
+    isSelect:false
+})
 
 const getUserCartList = async () => {
     const res = await getUserCartListAIP()
@@ -16,7 +18,8 @@ const getUserCartList = async () => {
 }
 
 
-const haveNewOder = async () => {
+const haveNewOder = async (orderInfo) => {
+    console.log(orderInfo.value)
     socket.emit("haveNewOder", {
         message: "您有新的订单，请及时处理"
     })
@@ -46,21 +49,21 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col">
-        <el-form v-model="cartInfo" class="flex flex-col m-2 p-2" v-if="userCartList && userCartList.length">
-            <div v-for="(item, index) in userCartList" :key="item.id"
+        <el-form v-model="orderInfo" class="flex flex-col m-2 p-2" v-if="userCartList && userCartList.length">
+            <div v-for="(item, index) in userCartList" :key="item.id" 
                 class="flex flex-col justify-between border-b mb-2 pb-2">
                 <div class="flex flex-row justify-between items-center font-bold">
-                    <el-form-item>
-                        <el-radio :value="item.name"></el-radio>
-                    </el-form-item>
-                    <div>{{ item.name }}</div>
+                    <div>
+                        <el-radio :value="orderInfo.isSelect"></el-radio>
+                    </div>
+                    <div>商品名字：{{ item.name }}</div>
                     <div class="">单价：￥{{ item.price }}</div>
                 </div>
                 <div class="flex justify-between items-center">
                     <div class="felx flex-row">
-                        <div @click="item.quantiy++">+</div>
-                        <div>数量: {{ item.quantiy }}</div>
-                        <div @click="item.quantiy--">-</div>
+                        <span class="flex" @click="item.quantiy++">+</span>
+                        <span class="flex">数量: {{ item.quantiy }}</span>
+                        <span class="flex" @click="item.quantiy--">-</span>
                     </div>
 
                     <span>总价：{{ itemTotalPrices(item.price, item.quantiy) }}</span>
