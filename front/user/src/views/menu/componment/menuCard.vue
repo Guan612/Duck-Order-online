@@ -9,7 +9,8 @@ const props = defineProps({
     cardUrl: String,
     foodPrice: Number,
     foodType: Number,
-    foodQuantity: Number
+    foodQuantity: Number,
+    isSell:Number
 })
 
 const foodId = ref(props.foodId);
@@ -26,7 +27,7 @@ const addToCart = () => {
 
 <template>
     <div
-        class="flex flex-col bg-gradient-to-r from-transblue to-transpink max-w-sm m-2 p-2 rounded-lg shadow-md hover:shadow-lg transition duration-500 ease-in-out hover:scale-105 relative">
+        class="flex flex-col min-w-40 min-h-64 bg-gradient-to-r from-transblue to-transpink max-w-sm m-2 p-2 rounded-lg shadow-md hover:shadow-lg transition duration-500 ease-in-out hover:scale-105 relative">
         <div class="font-bold">{{ foodName }}</div>
         <el-image :src="cardUrl" class="m-1 rounded-lg"></el-image>
         <div class="flex flex-row text-base">
@@ -35,7 +36,7 @@ const addToCart = () => {
                 <p>类型: {{ getMenuType(foodType) }}</p>
             </div>
             <div class="absolute bottom-2 right-2">
-                <ElButton type="primary" icon="plus" size="smaill" circle @click="addToCart"></ElButton>
+                <ElButton type="primary" icon="plus" size="smaill" circle @click="addToCart" :disabled="!isSell"></ElButton>
             </div>
         </div>
     </div>
