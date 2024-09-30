@@ -58,7 +58,7 @@ onMounted(() => {
             <div>总价：{{userCartList.map((item)=>{
               return item.price*item.quantiy
             })}}</div>
-            <ElButton @click="haveNewOrder">下单测试按钮</ElButton>
+            <ElButton @click="haveNewOder">下单测试按钮</ElButton>
         </el-form>
         <div class="font-bold text-center items-center text-2xl p-2 m-2" v-else>购物车还没有商品哦</div>
 
