@@ -25,6 +25,7 @@ export class CartService {
         userId: true,
         cartList: {
           select: {
+            id:true,
             quantity: true,
             menu: {
               select: {
@@ -37,7 +38,11 @@ export class CartService {
       },
     });
 
-    return res;
+    return res?.cartList.map((item) => ({
+      id:item.id,
+      quantiy: item.quantity,
+      ...item.menu,
+    }));
   }
 
   update(id: number, updateCartDto) {
