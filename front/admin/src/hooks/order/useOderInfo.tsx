@@ -2,35 +2,36 @@ import { useEffect, useState } from "react";
 import useSocket from "../../api/socket";
 import { message } from "antd";
 export default function useOderInfo() {
-    const socket = useSocket("order")
-    const [orderMessage, setOrderMessage] = useState([])
+  const socket = useSocket("order");
+  const [orderMessage, setOrderMessage] = useState([]);
 
-    const speak = (text: string) => {
-        const utterance = new SpeechSynthesisUtterance(text);
-        window.speechSynthesis.speak(utterance);
+  const speak = (text: string) => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    window.speechSynthesis.speak(utterance);
+  };
+
+  const testOrder = () => {
+    socket.emit("haveNewOder", {
+      message: "张佳宁是原批",
+    });
+  };
+
+  useEffect(() => {
+    const handleNewOrder = (data) => {
+      if (data) {
+        speak(data.message);
+        message.info(data.message);
+        setOrderMessage(data.message);
+      }
     };
 
-    const testOrder = () => {
-        socket.emit('haveNewOder', {
-            message: "张佳宁是原批"
-        })
-    }
+    socket.on("haveNewOder", handleNewOrder);
 
-    useEffect(() => {
-        socket.on('haveNewOder', (data) => {
-            if (data) {
-                speak(data.message);
-                message.info(data.message);
-                setOrderMessage(data.message);
-            }
-        });
+    // 清理连接
+    return () => {
+      socket.off("haveNewOder", handleNewOrder);
+    };
+  }, [socket]);
 
-        // 清理连接
-        return () => {
-            socket.off('haveNewOder');
-            socket.disconnect();
-        };
-    }, [socket]);
-
-    return { orderMessage, testOrder }
+  return { orderMessage, testOrder };
 }
