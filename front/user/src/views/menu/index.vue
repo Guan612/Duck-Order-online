@@ -98,7 +98,7 @@ const options = [
         <div
             class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2 overflow-y-auto h-5/6 hide-scrollbar">
             <MenuCard v-for="item in menuList" key="item.id" :foodName="item.name" :cardUrl="item.pictureUrl"
-                :foodPrice="item.price" :foodType="item.type" :foodId="item.id" />
+                :foodPrice="item.price" :foodType="item.type" :foodId="item.id" :isSell="item.isSell" />
         </div>
         <div class="absolute sm:right-20 sm:bottom-100 md:right-20 md:bottom-20">
             <el-button type="primary" icon="shopping-cart" size="large" circle @click="$router.push('/cart')"
