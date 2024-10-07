@@ -27,6 +27,7 @@ export class CartService {
           select: {
             id:true,
             quantity: true,
+            isSelect: true,
             menu: {
               select: {
                 name: true,
@@ -41,6 +42,7 @@ export class CartService {
     return res?.cartList.map((item) => ({
       id:item.id,
       quantiy: item.quantity,
+      isSelect: item.isSelect,
       ...item.menu,
     }));
   }
