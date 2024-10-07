@@ -11,8 +11,11 @@ export default function UserAdmin() {
 			<h1 className="text-3xl font-bold m-4">用户管理</h1>
 			<ul>
 				{users.map((user: user) => (
-					<div className="flex justify-around-between items-center bg-white rounded-md m-2">
-						<div className="m-2 flex" key={user.id}>
+					<div
+						className="flex justify-around-between items-center bg-white rounded-md m-2"
+						key={user.id}
+					>
+						<div className="m-2 flex">
 							<div className="m-1">{user.loginId}</div>
 							<div className="m-1">{getRoleName(user.cost)}</div>
 						</div>
