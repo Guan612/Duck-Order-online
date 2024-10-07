@@ -50,6 +50,12 @@ const selectAll = () => {
     })
 }
 
+const removeAllSelected = () => {
+    userCartList.value = userCartList.value.filter((item) => {
+        return item.isSelect !== 1
+    })
+}
+
 const getIsSelected = (item) => {
     return computed({
         get() {
@@ -101,11 +107,15 @@ onMounted(() => {
 
         <!-- 固定在底部的总价和按钮 -->
         <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
-            <div class="flex flex-row justify-between items-center">
+            <div class="flex flex-row items-center">
                 <el-checkbox v-model="allSelected" @change="selectAll">全选</el-checkbox>
+                <ElButton @click="removeAllSelected" type="danger" size="mini" class="max-w-28 m-1">删除选中</ElButton>
             </div>
             <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
-            <ElButton @click="haveNewOder" class="max-w-28">下单测试按钮</ElButton>
+            <div class="flex justify-end mt-2">
+                <ElButton @click="haveNewOder" class="max-w-28">下单测试按钮</ElButton>
+                
+            </div>
         </div>
     </div>
     <div class="font-bold text-center items-center text-2xl p-2 m-2" v-else>购物车还没有商品哦</div>
