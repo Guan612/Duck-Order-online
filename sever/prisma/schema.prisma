@@ -75,6 +75,7 @@ model CartList {
   cartId   Int
   menuId   Int
   quantity Int  @default(0) //购物车份数
+  isSelect Int  @default(0) //0,未选中 1,已选中
   isDelete Int  @default(0) //0,未删除 1,已删除
   cart     Cart @relation(fields: [cartId], references: [id])
   menu     Menu @relation(fields: [menuId], references: [id])
