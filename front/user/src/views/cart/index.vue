@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { getUserCartListAIP } from '@/api/cart'
+import { createOrderAPI } from '@/api/order'
 import useScoket from '@/api/socket';
 import { computed, onMounted, ref } from 'vue';
 
@@ -20,12 +21,14 @@ const getUserCartList = async () => {
 }
 
 
-const haveNewOder = async (orderInfo) => {
-    console.log(orderInfo.value)
+const haveNewOder = async () => {
+    const selectedItems = userCartList.value.filter((item) => item.isSelect === 1);
+    await createOrderAPI()
     socket.emit("haveNewOder", {
-        message: "您有新的订单，请及时处理"
+        message: "您有新的订单，请及时处理",
+        orderInfo: selectedItems
     })
-    console.log('下单了')
+    
 }
 
 const removeItem = (id: number) => {
@@ -75,6 +78,12 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col h-screen" v-if="userCartList && userCartList.length">
+        <div class="flex flex-row m-2 items-center justify-between">
+            <el-checkbox v-model="allSelected" @change="selectAll" class="p-2">
+                <div class="text-xl font-bold">全选</div>
+            </el-checkbox>
+            <ElButton @click="removeAllSelected" type="danger" size="mini" class="max-w-28 m-1">删除选中</ElButton>
+        </div>
         <!-- 可滚动的购物车列表 -->
         <el-form v-model="orderInfo" class="flex-grow overflow-y-auto m-2 p-2">
             <div v-for="(item, index) in userCartList" :key="item.id"
@@ -98,7 +107,6 @@ onMounted(() => {
                             </template>
                         </el-input>
                     </div>
-
                     <span class="font-bold text-red-300">总价：￥{{ itemTotalPrices(item.price, item.quantiy) }}</span>
                     <ElButton @click="removeItem(item.id)" type="danger" size="mini">删除</ElButton>
                 </div>
@@ -107,14 +115,9 @@ onMounted(() => {
 
         <!-- 固定在底部的总价和按钮 -->
         <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
-            <div class="flex flex-row items-center">
-                <el-checkbox v-model="allSelected" @change="selectAll">全选</el-checkbox>
-                <ElButton @click="removeAllSelected" type="danger" size="mini" class="max-w-28 m-1">删除选中</ElButton>
-            </div>
             <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
             <div class="flex justify-end mt-2">
-                <ElButton @click="haveNewOder" class="max-w-28">下单测试按钮</ElButton>
-                
+                <ElButton @click="haveNewOder" type="primary" class="max-w-28">下单测试按钮</ElButton>
             </div>
         </div>
     </div>
