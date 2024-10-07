@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Plus, Minus } from '@element-plus/icons-vue'
 import { getUserCartListAIP } from '@/api/cart'
 import useScoket from '@/api/socket';
 import { computed, onMounted, ref } from 'vue';
@@ -6,14 +7,15 @@ import { computed, onMounted, ref } from 'vue';
 const socket = useScoket('order')
 socket.on("haveNewOder", () => { })
 
+const allSelected = ref(false)
+
 const userCartList = ref([])
 const orderInfo = ref({
-    isSelect:false
+    isSelect: false
 })
 
 const getUserCartList = async () => {
     const res = await getUserCartListAIP()
-    console.log(res)
     userCartList.value = res
 }
 
@@ -42,42 +44,69 @@ const totalPrice = (userCartList) => {
     return eval(priceArry.join('+'))
 }
 
+const selectAll = () => {
+    userCartList.value.forEach((item) => {
+        item.isSelect = allSelected.value ? 1 : 0
+    })
+}
+
+const getIsSelected = (item) => {
+    return computed({
+        get() {
+            return item.isSelect === 1;  // 将 1 转换为 true
+        },
+        set(value) {
+            item.isSelect = value ? 1 : 0;  // 将 true 转换为 1，false 转换为 0
+        }
+    });
+};
+
 onMounted(() => {
     getUserCartList()
 })
 </script>
 
+
 <template>
-    <div class="flex flex-col">
-        <el-form v-model="orderInfo" class="flex flex-col m-2 p-2" v-if="userCartList && userCartList.length">
-            <div v-for="(item, index) in userCartList" :key="item.id" 
-                class="flex flex-col justify-between border-b mb-2 pb-2">
-                <div class="flex flex-row justify-between items-center font-bold">
-                    <div>
-                        <el-radio :value="orderInfo.isSelect"></el-radio>
+    <div class="flex flex-col h-screen" v-if="userCartList && userCartList.length">
+        <!-- 可滚动的购物车列表 -->
+        <el-form v-model="orderInfo" class="flex-grow overflow-y-auto m-2 p-2">
+            <div v-for="(item, index) in userCartList" :key="item.id"
+                class="flex flex-col justify-between border-b mb-3 pb-2">
+                <div class="flex flex-row justify-between items-center">
+                    <div class="flex flex-row items-center font-bold">
+                        <el-checkbox v-model="getIsSelected(item).value"></el-checkbox>
+                        <div class="ml-1">{{ item.name }}</div>
                     </div>
-                    <div>商品名字：{{ item.name }}</div>
                     <div class="">单价：￥{{ item.price }}</div>
                 </div>
-                <div class="flex justify-between items-center">
+                <div class="flex flex-row justify-between items-center">
                     <div class="felx flex-row">
-                        <span class="flex" @click="item.quantiy++">+</span>
-                        <span class="flex">数量: {{ item.quantiy }}</span>
-                        <span class="flex" @click="item.quantiy--">-</span>
+                        <el-input v-model="item.quantiy" type="number" min="1" style="max-width: 150px"
+                            placeholder="数量">
+                            <template #prepend>
+                                <el-button :icon="Minus" @click="item.quantiy--" :disabled="item.quantiy <= 1" />
+                            </template>
+                            <template #append>
+                                <el-button :icon="Plus" @click="item.quantiy++" />
+                            </template>
+                        </el-input>
                     </div>
 
-                    <span>总价：{{ itemTotalPrices(item.price, item.quantiy) }}</span>
+                    <span class="font-bold text-red-300">总价：￥{{ itemTotalPrices(item.price, item.quantiy) }}</span>
                     <ElButton @click="removeItem(item.id)" type="danger" size="mini">删除</ElButton>
                 </div>
             </div>
-            <div class="flex flex-col">
-                <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
-                <ElButton @click="haveNewOder" class="max-w-28">下单测试按钮</ElButton>
-            </div>
-
         </el-form>
-        <div class="font-bold text-center items-center text-2xl p-2 m-2" v-else>购物车还没有商品哦</div>
 
+        <!-- 固定在底部的总价和按钮 -->
+        <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
+            <div class="flex flex-row justify-between items-center">
+                <el-checkbox v-model="allSelected" @change="selectAll">全选</el-checkbox>
+            </div>
+            <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
+            <ElButton @click="haveNewOder" class="max-w-28">下单测试按钮</ElButton>
+        </div>
     </div>
-
+    <div class="font-bold text-center items-center text-2xl p-2 m-2" v-else>购物车还没有商品哦</div>
 </template>
