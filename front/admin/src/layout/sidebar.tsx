@@ -2,12 +2,6 @@ import { NavLink } from "react-router-dom";
 import type { CollapseProps } from "antd";
 import { Collapse } from "antd";
 
-const text = `
-  A dog is a type of domesticated animal.
-  Known for its loyalty and faithfulness,
-  it can be found as a welcome guest in many households across the world.
-`;
-
 const sysNest = [
 	{
 		key: 1,
@@ -27,22 +21,22 @@ const sysNest = [
 	{
 		key: 4,
 		label: "客服聊天",
-		link: "/chat"
+		link: "/chat",
 	},
 	{
 		key: 5,
 		label: "订单管理",
-		link: "/order"
-	}
+		link: "/order",
+	},
 ];
 
 const infoNest = [
 	{
 		key: 1,
 		label: "订单信息",
-		link: "/oederInfo"
-	}
-]
+		link: "/oederInfo",
+	},
+];
 
 const items: CollapseProps["items"] = [
 	{
@@ -60,7 +54,7 @@ const items: CollapseProps["items"] = [
 					</div>
 				))}
 			</>
-		)
+		),
 	},
 	{
 		key: 2,
@@ -82,16 +76,12 @@ const items: CollapseProps["items"] = [
 ];
 
 const sidebar = () => {
-	const onChange = (key: string | string[]) => {
-		console.log(key);
-	};
-
 	return (
 		<>
 			<div className="bg-white text-center p-2 font-bold text-2xl">
-				<NavLink to={'/'}>后台管理</NavLink>
+				<NavLink to={"/"}>后台管理</NavLink>
 			</div>
-			<Collapse onChange={onChange} items={items} />
+			<Collapse items={items} />
 		</>
 	);
 };
