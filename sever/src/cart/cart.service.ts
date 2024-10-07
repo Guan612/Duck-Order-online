@@ -9,6 +9,8 @@ export class CartService {
     const res = await this.prisma.cart.create({
       data: createCartDto,
     });
+
+    return res;
   }
 
   findAll() {
