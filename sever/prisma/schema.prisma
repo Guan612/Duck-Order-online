@@ -33,7 +33,7 @@ model User {
 model Order {
   id          Int        @id @default(autoincrement())
   userId      Int
-  orderStatus Int        @default(0) //0,加入购物车 1,已下单 2,已取消 3,已完成
+  orderStatus Int        @default(0) //0,已下单 1,正在制作 2,正在配送 3,已完成 4,已取消
   orderType   Int        @default(0) //0,堂食 1,外卖
   orderTime   DateTime   @default(dbgenerated("now()")) @db.DateTime
   totalPrice  Int        @default(0)
