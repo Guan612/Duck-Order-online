@@ -2,13 +2,19 @@ import { Button, message } from "antd";
 
 import useOderInfo from "../../hooks/order/useOderInfo";
 export default function OrderInfo() {
-    const {orderMessage,testOrder} = useOderInfo()
+	const { orderMessage, orderList } = useOderInfo();
 
-    return (
-        <div>
-            <h1>订单信息</h1>
-            <Button onClick={testOrder}>测试链接</Button>
-            {orderMessage && <p>{orderMessage}</p>}
-        </div>
-    );
+	return (
+		<div className="flex flex-col m-2">
+			<h1 className="text-2xl font-bold mb-2 text-center">订单信息</h1>
+			<p className="text-red-500 mb-2">{orderMessage}</p>
+			{orderList &&
+				orderList.map((item) => (
+					<div key={item.id} className="flex flex-row items-center">
+						<p className="mx-1">{item.name}</p>
+						<p className="mx-1">{item.quantiy}份</p>
+					</div>
+				))}
+		</div>
+	);
 }
