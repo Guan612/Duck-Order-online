@@ -37,7 +37,7 @@ model Order {
   orderType   Int        @default(0) //0,堂食 1,外卖
   orderTime   DateTime   @default(dbgenerated("now()")) @db.DateTime
   totalPrice  Int        @default(0)
-  OderList    OderList[]
+  OderList    OrderList[]
   user        User?      @relation(fields: [userId], references: [id])
 }
 
@@ -49,11 +49,11 @@ model Menu {
   pictureUrl  String?
   discription String?
   isSell      Int        @default(1) //0,下架 1,上架
-  oderList    OderList[]
+  oderList    OrderList[]
   cartList    CartList[]
 }
 
-model OderList {
+model OrderList {
   id       Int   @id @default(autoincrement())
   orderId  Int
   menuId   Int
