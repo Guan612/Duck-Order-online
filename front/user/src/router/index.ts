@@ -66,10 +66,10 @@ const router = createRouter({
 					meta: { title: "聊天", requiresAuth: true },
 				},
 				{
-					path: "/order",
+					path: "/order/:id",
 					name: "order",
 					component: Orrder,
-					meta: { title: "订单", requiresAuth: true },
+					meta: { title: "订单详情", requiresAuth: true },
 				},
 				{
 					path: "/delivery",
