@@ -10,6 +10,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
+import { OderlistService } from 'src/orderlist/orderlist.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -21,7 +22,10 @@ import { Roles } from 'src/user/decorator/roles.decorator';
 @ApiTags('order')
 @Controller('order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly OderlistService: OderlistService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: '创建订单' })
@@ -43,12 +47,12 @@ export class OrderController {
       ...order,
       orderId, // 给每个订单项赋值 orderId,注意是数组
     }));
-    return this.orderService.addOrderList(createOrderListDto);
+    return this.OderlistService.addOrderList(createOrderListDto);
   }
 
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.admin, Role.user)
+  @Roles(Role.admin, Role.waiter)
   @ApiOperation({ summary: '获取所有订单' })
   findAll() {
     return this.orderService.findAll();
@@ -58,6 +62,13 @@ export class OrderController {
   @ApiOperation({ summary: '获取单个订单' })
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id);
+  }
+
+  @Get('list/:id')
+  @ApiOperation({ summary: '获取订单列表' })
+  @UseGuards(JwtAuthGuard)
+  findOrderList(@Param('id') id: string) {
+    return this.OderlistService.findOrderList(+id);
   }
 
   @Get('total/:id')

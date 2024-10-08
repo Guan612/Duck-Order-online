@@ -17,28 +17,16 @@ export class OrderService {
     return res;
   }
 
-  async addOrderList(createOrderList) {
-    const results = [];
-    
-    for (let i = 0; i < createOrderList.length; i++) {
-      const res = await this.prisma.orderList.create({
-        data: {
-          orderId: +createOrderList[i].orderId,
-          quantity: createOrderList[i].quantity,
-          menuId: createOrderList[i].menuId,
-        },
-      });
-      results.push(res); // 将每次的结果存入数组
-    }
-    return results;// 注意是数组所以需要全部返回， 最后返回所有的结果
+  async findAll() {
+    const res = await this.prisma.order.findMany();
+    return res;
   }
 
-  findAll() {
-    return `This action returns all order`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} order`;
+  async findOne(id: number) {
+    const res = await this.prisma.order.findUnique({
+      where: { id: id },
+    });
+    return res;
   }
 
   async totalPrice(id: number) {
