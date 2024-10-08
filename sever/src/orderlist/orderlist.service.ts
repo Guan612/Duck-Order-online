@@ -6,7 +6,7 @@ export class OderlistService {
   constructor(private prisma: PrismaService) {}
 
   async findByOrderId(id: number) {
-    const res = await this.prisma.oderList.findMany({
+    const res = await this.prisma.orderList.findMany({
       where: {
         orderId: id,
       },
