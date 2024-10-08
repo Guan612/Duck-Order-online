@@ -31,6 +31,21 @@ export class OrderController {
     return this.orderService.create(createOrderDto);
   }
 
+  @Post('/list/:id')
+  @ApiOperation({ summary: '添加订单列表' })
+  @UseGuards(JwtAuthGuard)
+  addList(
+    @Param('id') orderId: number,
+    @Body() createOrderListDto: any,
+    @Request() req,
+  ) {
+    createOrderListDto = createOrderListDto.map((order) => ({
+      ...order,
+      orderId, // 给每个订单项赋值 orderId,注意是数组
+    }));
+    return this.orderService.addOrderList(createOrderListDto);
+  }
+
   @Get()
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.admin, Role.user)
@@ -45,7 +60,7 @@ export class OrderController {
     return this.orderService.findOne(+id);
   }
 
-  @Get("total/:id")
+  @Get('total/:id')
   @ApiOperation({ summary: '获取订单总价' })
   getTotalPrice(@Param('id') id: string) {
     return this.orderService.totalPrice(+id);
