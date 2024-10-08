@@ -1,4 +1,8 @@
 import http from ".";
 export const createOrderAPI = () => {
-	http.post("/order");
+	return http.post("/order");
+};
+
+export const addOrderListAPI = (id: number, data: any) => {
+	return http.post(`/order/list/${id}`, data);
 };
