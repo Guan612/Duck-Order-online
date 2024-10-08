@@ -53,10 +53,10 @@ const goOder = async () => {
     const selectedItems = userCartList.value.filter((item) => item.isSelect === 1);
     const res = await createOrderAPI()
     if (res) {
-        const oderId = res.id
-        const listres = await addOrderListAPI(oderId, selectedItems)
+        const orderId = res.id
+        const listres = await addOrderListAPI(orderId, selectedItems)
         if (listres) {
-            router.push("/order")
+            router.push(`/order/${orderId}`)
         }
     }
 }
