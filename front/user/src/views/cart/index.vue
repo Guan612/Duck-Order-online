@@ -1,65 +1,44 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
 import { getUserCartListAIP } from '@/api/cart'
-import { createOrderAPI } from '@/api/order'
-import useScoket from '@/api/socket';
+import { addOrderListAPI, createOrderAPI } from '@/api/order'
+import { cartList } from '@/dto/cartDto';
 import { computed, onMounted, ref } from 'vue';
+import router from '@/router';
 
-const socket = useScoket('order')
-socket.on("haveNewOder", () => { })
-
+const userCartList = ref([]);
 const allSelected = ref(false)
-
-const userCartList = ref([])
-const orderInfo = ref({
-    isSelect: false
-})
 
 const getUserCartList = async () => {
     const res = await getUserCartListAIP()
     userCartList.value = res
 }
 
-
-const haveNewOder = async () => {
-    const selectedItems = userCartList.value.filter((item) => item.isSelect === 1);
-    await createOrderAPI()
-    socket.emit("haveNewOder", {
-        message: "您有新的订单，请及时处理",
-        orderInfo: selectedItems
-    })
-    
-}
-
-const removeItem = (id: number) => {
-    console.log('remove')
-}
-
 const itemTotalPrices = (price: number, quantiy: number) => {
     return price * quantiy
 }
 
-const totalPrice = (userCartList) => {
+const totalPrice = (userCartList: cartList[]) => {
     const priceArry = userCartList.map((item) => {
-        return item.price * item.quantiy
+        return item.price * item.quantity
     })
 
     return eval(priceArry.join('+'))
 }
 
 const selectAll = () => {
-    userCartList.value.forEach((item) => {
+    userCartList.value.forEach((item: cartList) => {
         item.isSelect = allSelected.value ? 1 : 0
     })
 }
 
 const removeAllSelected = () => {
-    userCartList.value = userCartList.value.filter((item) => {
+    userCartList.value = userCartList.value.filter((item: cartList) => {
         return item.isSelect !== 1
     })
 }
 
-const getIsSelected = (item) => {
+const getIsSelected = (item: cartList) => {
     return computed({
         get() {
             return item.isSelect === 1;  // 将 1 转换为 true
@@ -70,11 +49,22 @@ const getIsSelected = (item) => {
     });
 };
 
+const goOder = async () => {
+    const selectedItems = userCartList.value.filter((item) => item.isSelect === 1);
+    const res = await createOrderAPI()
+    if (res) {
+        const oderId = res.id
+        const listres = await addOrderListAPI(oderId, selectedItems)
+        if (listres) {
+            router.push("/order")
+        }
+    }
+}
+
 onMounted(() => {
     getUserCartList()
 })
 </script>
-
 
 <template>
     <div class="flex flex-col h-screen" v-if="userCartList && userCartList.length">
@@ -85,9 +75,9 @@ onMounted(() => {
             <ElButton @click="removeAllSelected" type="danger" size="mini" class="max-w-28 m-1">删除选中</ElButton>
         </div>
         <!-- 可滚动的购物车列表 -->
-        <el-form v-model="orderInfo" class="flex-grow overflow-y-auto m-2 p-2">
+        <div class="flex-grow overflow-y-auto m-2 p-2">
             <div v-for="(item, index) in userCartList" :key="item.id"
-                class="flex flex-col justify-between border-b mb-3 pb-2">
+                class="flex flex-col justify-between border-b mb-3 pb-2 min-h-28">
                 <div class="flex flex-row justify-between items-center">
                     <div class="flex flex-row items-center font-bold">
                         <el-checkbox v-model="getIsSelected(item).value"></el-checkbox>
@@ -97,27 +87,26 @@ onMounted(() => {
                 </div>
                 <div class="flex flex-row justify-between items-center">
                     <div class="felx flex-row">
-                        <el-input v-model="item.quantiy" type="number" min="1" style="max-width: 150px"
+                        <el-input v-model="item.quantity" type="number" min="1" style="max-width: 150px"
                             placeholder="数量">
                             <template #prepend>
-                                <el-button :icon="Minus" @click="item.quantiy--" :disabled="item.quantiy <= 1" />
+                                <el-button :icon="Minus" @click="item.quantity--" :disabled="item.quantity <= 1" />
                             </template>
                             <template #append>
-                                <el-button :icon="Plus" @click="item.quantiy++" />
+                                <el-button :icon="Plus" @click="item.quantity++" />
                             </template>
                         </el-input>
                     </div>
-                    <span class="font-bold text-red-300">总价：￥{{ itemTotalPrices(item.price, item.quantiy) }}</span>
-                    <ElButton @click="removeItem(item.id)" type="danger" size="mini">删除</ElButton>
+                    <span class="font-bold text-red-300">总价：￥{{ itemTotalPrices(item.price, item.quantity) }}</span>
                 </div>
             </div>
-        </el-form>
+        </div>
 
         <!-- 固定在底部的总价和按钮 -->
         <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
             <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
             <div class="flex justify-end mt-2">
-                <ElButton @click="haveNewOder" type="primary" class="max-w-28">下单测试按钮</ElButton>
+                <ElButton @click="goOder" type="primary" class="max-w-28">去下单</ElButton>
             </div>
         </div>
     </div>
