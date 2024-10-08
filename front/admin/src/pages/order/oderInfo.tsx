@@ -12,7 +12,7 @@ export default function OrderInfo() {
 				orderList.map((item) => (
 					<div key={item.id} className="flex flex-row items-center">
 						<p className="mx-1">{item.name}</p>
-						<p className="mx-1">{item.quantiy}份</p>
+						<p className="mx-1">{item.quantity}份</p>
 					</div>
 				))}
 		</div>

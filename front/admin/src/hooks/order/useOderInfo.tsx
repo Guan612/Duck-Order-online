@@ -45,7 +45,7 @@ export default function useOderInfo() {
 				showNotification(data.message);
 				message.info(data.message);
 				setOrderMessage(data.message);
-				setOrderList(data.orderInfo);
+				setOrderList(data.orderList);
 			}
 		};
 
