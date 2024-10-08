@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { OderlistService } from 'src/oderlist/oderlist.service';
+import { OderlistService } from 'src/orderlist/orderlist.service';
 
 @Injectable()
 export class OrderService {
@@ -15,6 +15,22 @@ export class OrderService {
       data: createOrderDto,
     });
     return res;
+  }
+
+  async addOrderList(createOrderList) {
+    const results = [];
+    
+    for (let i = 0; i < createOrderList.length; i++) {
+      const res = await this.prisma.orderList.create({
+        data: {
+          orderId: +createOrderList[i].orderId,
+          quantity: createOrderList[i].quantity,
+          menuId: createOrderList[i].menuId,
+        },
+      });
+      results.push(res); // 将每次的结果存入数组
+    }
+    return results;// 注意是数组所以需要全部返回， 最后返回所有的结果
   }
 
   findAll() {
