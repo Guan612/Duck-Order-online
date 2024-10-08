@@ -12,7 +12,7 @@ import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/cartDto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/user/guards/jwt-user.guard';
-import { OderlistService } from 'src/oderlist/oderlist.service';
+import { OderlistService } from 'src/orderlist/orderlist.service';
 import { User } from 'src/user/decorator/user.decorator';
 
 @ApiTags('cart')
