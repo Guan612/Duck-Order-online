@@ -22,9 +22,9 @@ export class ChatService {
       where: { id: roomId },
     });
 
-    return {
-      name: res.name,
-    };
+    // return {
+    //   name: res.name,
+    // };
   }
 
   async chatTest(userId) {
