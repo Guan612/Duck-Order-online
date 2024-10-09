@@ -1,7 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import { menuType } from '@/dto/menuDto';
-import { ElButton } from 'element-plus';
+import { ElButton, ElMessage } from 'element-plus';
+import { addToCartAIP } from '@/api/cart';
 
 const props = defineProps({
     foodId: Number,
@@ -10,17 +11,20 @@ const props = defineProps({
     foodPrice: Number,
     foodType: Number,
     foodQuantity: Number,
-    isSell:Number
+    isSell: Number
 })
 
 const foodId = ref(props.foodId);
 
-const getMenuType = (value) => {
+const getMenuType = (value: number) => {
     return menuType[value] || "未知食物";
 }
 
-const addToCart = (foodId) => {
-    
+const addToCart = async (menuId: number) => {
+    const res = await addToCartAIP({ menuId: menuId })
+    if (res) {
+        ElMessage.success("添加到购物车成功")
+    }
 }
 
 </script>
@@ -36,7 +40,8 @@ const addToCart = (foodId) => {
                 <p>类型: {{ getMenuType(foodType) }}</p>
             </div>
             <div class="absolute bottom-2 right-2">
-                <ElButton type="primary" icon="plus" size="smaill" circle @click="addToCart" :disabled="!isSell"></ElButton>
+                <ElButton type="primary" icon="plus" size="smaill" circle @click="addToCart(foodId)" :disabled="!isSell">
+                </ElButton>
             </div>
         </div>
     </div>
