@@ -19,7 +19,7 @@ const getMenuType = (value) => {
     return menuType[value] || "未知食物";
 }
 
-const addToCart = () => {
+const addToCart = (foodId) => {
     
 }
 
