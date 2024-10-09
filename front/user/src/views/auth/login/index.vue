@@ -36,7 +36,10 @@ const login = (loginInfo: LoginInfo) => {
             </el-form>
             <div class="flex justify-center items-center">
                 <el-button type="primary" @click="login(loginInfo)">登录</el-button>
-
+            </div>
+            <div class="flex justify-center items-center mt-4">
+                <span>没有账号？</span>
+                <router-link to="/auth/register" class="ml-2 text-transpink hover:underline">立即注册</router-link>
             </div>
         </div>
     </div>
