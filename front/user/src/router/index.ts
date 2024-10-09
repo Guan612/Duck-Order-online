@@ -12,7 +12,7 @@ import Auth from "@/views/auth/index.vue";
 import Login from "@/views/auth/login/index.vue";
 import Register from "@/views/auth/register/index.vue";
 import Menu from "@/views/menu/index.vue";
-import MenuDetailed from "@/views/menu/nemuDetailed.vue";
+import MenuDetailed from "@/views/menu/menuDetailed.vue";
 import Orrder from "@/views/order/index.vue";
 import { ElMessage } from "element-plus";
 
