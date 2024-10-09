@@ -19,12 +19,15 @@ const itemTotalPrices = (price: number, quantiy: number) => {
 }
 
 const totalPrice = (userCartList: cartList[]) => {
-    const priceArry = userCartList.map((item) => {
-        return item.price * item.quantity
-    })
-
-    return eval(priceArry.join('+'))
-}
+    // 先过滤出选中的商品
+    const selectedItems = userCartList.filter((item) => getIsSelected(item).value);
+    // 计算选中商品的总价
+    const priceArry = selectedItems.map((item) => {
+        return item.price * item.quantity;
+    });
+    // 返回总价，避免使用 eval，可以直接使用 reduce 进行累加
+    return priceArry.reduce((acc, curr) => acc + curr, 0);
+};
 
 const selectAll = () => {
     userCartList.value.forEach((item: cartList) => {
@@ -68,14 +71,14 @@ onMounted(() => {
 
 <template>
     <div class="flex flex-col h-screen" v-if="userCartList && userCartList.length">
-        <div class="flex flex-row m-2 items-center justify-between">
+        <div class="flex flex-row m-2 items-center h-1/8 justify-between">
             <el-checkbox v-model="allSelected" @change="selectAll" class="p-2">
                 <div class="text-xl font-bold">全选</div>
             </el-checkbox>
             <ElButton @click="removeAllSelected" type="danger" size="mini" class="max-w-28 m-1">删除选中</ElButton>
         </div>
         <!-- 可滚动的购物车列表 -->
-        <div class="flex-grow overflow-y-auto m-2 p-2">
+        <div class="flex-1 overflow-y-auto m-2 p-2">
             <div v-for="(item, index) in userCartList" :key="item.id"
                 class="flex flex-col justify-between border-b mb-3 pb-2 min-h-28">
                 <div class="flex flex-row justify-between items-center">
@@ -97,13 +100,13 @@ onMounted(() => {
                             </template>
                         </el-input>
                     </div>
-                    <span class="font-bold text-red-300">总价：￥{{ itemTotalPrices(item.price, item.quantity) }}</span>
+                    <span class="font-bold text-red-300">小计总价：￥{{ itemTotalPrices(item.price, item.quantity) }}</span>
                 </div>
             </div>
         </div>
 
         <!-- 固定在底部的总价和按钮 -->
-        <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
+        <div class="m-2 p-2 flex flex-col h-1/5">
             <div class="font-bold text-2xl text-red-300 flex justify-end">总价：￥{{ totalPrice(userCartList) }}</div>
             <div class="flex justify-end mt-2">
                 <ElButton @click="goOder" type="primary" class="max-w-28">去下单</ElButton>
