@@ -8,6 +8,6 @@ export const addOrderListAPI = (id: number, data: any) => {
 	return http.post(`/order/list/${id}`, data);
 };
 
-export const getOrderListAPI = (id: string) => {
+export const getOrderDetaiLListAPI = (id: string) => {
 	return http.get(`/order/list/${id}`);
 };
