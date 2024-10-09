@@ -18,15 +18,61 @@ export class OrderService {
   }
 
   async findAll() {
-    const res = await this.prisma.order.findMany();
-    return res;
+    const res = await this.prisma.order.findMany({
+      include: {
+        user: {
+          select: {
+            loginId: true,
+          },
+        },
+      },
+    });
+    return res.map((item) => {
+      return {
+        ...item,
+        loginId: item.user.loginId,
+        user: undefined,
+      };
+    });
+  }
+
+  async findByOrderStatus(orderStatus: number[]) {
+    const res = await this.prisma.order.findMany({
+      where: { orderStatus:{in: orderStatus} },
+      include: {
+        user: {
+          select: {
+            loginId: true,
+          },
+        },
+      },
+    });
+
+    return res.map((item) => {
+      return {
+        ...item,
+        loginId: item.user.loginId,
+        user: undefined,
+      };
+    });
   }
 
   async findOne(id: number) {
     const res = await this.prisma.order.findUnique({
       where: { id: id },
+      include: {
+        user: {
+          select: {
+            loginId: true,
+          },
+        },
+      },
     });
-    return res;
+    return {
+      ...res,
+      loginId: res.user.loginId,
+      user: undefined,
+    };
   }
 
   async totalPrice(id: number) {
