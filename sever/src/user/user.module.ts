@@ -3,6 +3,7 @@ import { UserService } from './service/user.service';
 import { UserController } from './user.controller';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthService } from './service/auth.service';
+import { CartService } from 'src/cart/cart.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -16,6 +17,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, PrismaService,AuthService, JwtStrategy], //注意需要把prismaService也注入进来
+  providers: [
+    UserService,
+    PrismaService,
+    AuthService,
+    JwtStrategy,
+    CartService,
+  ], //注意需要把prismaService也注入进来
 })
 export class UserModule {}

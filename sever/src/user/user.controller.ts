@@ -20,6 +20,7 @@ import { RolesGuard } from './guards/roles.guard';
 import { Roles } from './decorator/roles.decorator';
 import { Role } from './dto/role';
 import { CheckUserLoginRolePipe } from './pipe/check-user-login-role.pipe';
+import { CartService } from 'src/cart/cart.service';
 
 @ApiTags('user')
 @Controller('user')
@@ -27,6 +28,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
+    private readonly cartService: CartService,
   ) {}
 
   @Post('register')
@@ -34,7 +36,9 @@ export class UserController {
   async create(
     @Body(CheckUserExistsPipe, HashPasswordPipe) createUserDto: CreateUserDto,
   ) {
-    const { loginId } = await this.userService.create(createUserDto);
+    const { loginId,id } = await this.userService.create(createUserDto);
+    //同时创建购物车
+    const cart = await this.cartService.create(id);
     return { loginId };
   }
 
