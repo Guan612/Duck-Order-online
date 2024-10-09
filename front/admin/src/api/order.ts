@@ -7,3 +7,11 @@ export function getOrderListAPI() {
 export function getOrderDetailAPI(id: number) {
 	return http.get(`/order/${id}`);
 }
+
+export const getOrderDetaiListAPI = (id: string) => {
+	return http.get(`/order/list/${id}`);
+};
+
+export const selectOrderStatusAPI = (orderStatus: number[]) => {
+	return http.get("/order/status/", { params: { orderStatus: orderStatus } });
+};
