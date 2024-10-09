@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { createOrderAPI, getOrderListAPI } from '@/api/order'
+import { createOrderAPI, getOrderDetaiLListAPI } from '@/api/order'
 import useScoket from '@/api/socket';
 
 const orderList = ref([]);
@@ -18,7 +18,7 @@ const haveNewOder = async () => {
 }
 
 const getOrderList = async (orderId) => {
-    const res = await getOrderListAPI(orderId)
+    const res = await getOrderDetaiLListAPI(orderId)
     orderList.value = res
 }
 
