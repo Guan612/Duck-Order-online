@@ -4,13 +4,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class CartlistService {
   constructor(private prisma: PrismaService) {}
-  addCartList(addCartListDto) {
+  addCartList(addCartListDto, cartId: number) {
     const {
-      cartId,
       menuId,
       quantity,
     }: {
-      cartId: number;
       menuId: number;
       quantity?: number;
     } = addCartListDto;

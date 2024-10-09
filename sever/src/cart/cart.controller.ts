@@ -34,14 +34,15 @@ export class CartController {
   @ApiOperation({ summary: '根据用户id查询购物车' }) //id通过token获取
   @UseGuards(JwtAuthGuard)
   findOne(@User('userId') userId: string) {
-    return this.cartService.findOne(+userId);
+    return this.cartService.findByUserId(+userId);
   }
 
   @Post()
   @ApiOperation({ summary: '添加菜品' })
   @UseGuards(JwtAuthGuard)
-  create(@User('userId') userId: string, @Body() createCartDto: CreateCartDto) {
-    return this.cartListService.addCartList(createCartDto);
+  async create(@User('userId') userId: string, @Body() addCarListtDto) {
+    const cartId = await this.cartService.findUserCart(+userId);
+    return this.cartListService.addCartList(addCarListtDto, cartId);
   }
 
   // @Get(':orderId')

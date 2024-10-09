@@ -19,7 +19,20 @@ export class CartService {
     return `This action returns all cart`;
   }
 
-  async findOne(id: number) {
+  async findUserCart(userId: number) {
+    const res = await this.prisma.cart.findFirst({
+      where: {
+        userId: userId,
+      },
+      select:{
+        id: true,
+      }
+    });
+
+    return res.id;
+  }
+
+  async findByUserId(id: number) {
     const res = await this.prisma.cart.findFirst({
       where: {
         userId: id,
