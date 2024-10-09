@@ -5,9 +5,11 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class CartService {
   constructor(private prisma: PrismaService) {}
-  async create(createCartDto) {
+  async create(userId) {
     const res = await this.prisma.cart.create({
-      data: createCartDto,
+      data: {
+        userId: userId,
+      },
     });
 
     return res;
@@ -27,7 +29,7 @@ export class CartService {
         userId: true,
         cartList: {
           select: {
-            id:true,
+            id: true,
             quantity: true,
             isSelect: true,
             menu: {
@@ -43,7 +45,7 @@ export class CartService {
     });
 
     return res?.cartList.map((item) => ({
-      id:item.id,
+      id: item.id,
       quantity: item.quantity,
       isSelect: item.isSelect,
       name: item.menu.name,
