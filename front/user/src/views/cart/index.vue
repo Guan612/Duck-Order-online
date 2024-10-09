@@ -65,18 +65,6 @@ const goOder = async () => {
     }
 }
 
-const dialogVisible = ref(false)
-
-const handleClose = (done: () => void) => {
-    ElMessageBox.confirm('Are you sure to close this dialog?')
-        .then(() => {
-            done()
-        })
-        .catch(() => {
-            // catch error
-        })
-}
-
 onMounted(() => {
     getUserCartList()
 })
@@ -125,17 +113,6 @@ onMounted(() => {
                 <ElButton @click="goOder" type="primary" class="max-w-28">去下单</ElButton>
             </div>
         </div>
-        <el-dialog v-model="dialogVisible" title="Tips" width="500" :before-close="handleClose">
-            <span>This is a message</span>
-            <template #footer>
-                <div class="dialog-footer">
-                    <el-button @click="dialogVisible = false">Cancel</el-button>
-                    <el-button type="primary" @click="dialogVisible = false">
-                        Confirm
-                    </el-button>
-                </div>
-            </template>
-        </el-dialog>
     </div>
     <div class="font-bold text-center items-center text-2xl p-2 m-2" v-else>购物车还没有商品哦</div>
 </template>
