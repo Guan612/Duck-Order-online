@@ -8,6 +8,7 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OderlistService } from 'src/orderlist/orderlist.service';
@@ -56,6 +57,15 @@ export class OrderController {
   @ApiOperation({ summary: '获取所有订单' })
   findAll() {
     return this.orderService.findAll();
+  }
+
+  //注意路由匹配问题
+  @Get('status')
+  @ApiOperation({ summary: '获取订单状态' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.waiter)
+  findStatus(@Query('orderStatus') orderStatus: number[]) {
+    return this.orderService.findByOrderStatus(orderStatus.map(Number));
   }
 
   @Get(':id')
