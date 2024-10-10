@@ -1,20 +1,15 @@
 import { Button, message } from "antd";
-
 import useOderInfo from "../../hooks/order/useOderInfo";
 export default function OrderInfo() {
-	const { orderMessage, orderList } = useOderInfo();
+	const { chartRef, orders } = useOderInfo();
 
 	return (
-		<div className="flex flex-col m-2">
-			<h1 className="text-2xl font-bold mb-2 text-center">订单信息</h1>
-			<p className="text-red-500 mb-2">{orderMessage}</p>
-			{orderList &&
-				orderList.map((item) => (
-					<div key={item.id} className="flex flex-row items-center">
-						<p className="mx-1">{item.name}</p>
-						<p className="mx-1">{item.quantity}份</p>
-					</div>
-				))}
+		<div className="flex flex-col items-center justify-center">
+			<h1 className="text-2xl font-bold text-center text-gray-800 m-2">
+				信息总览
+			</h1>
+			<div ref={chartRef} className="flex w-full max-w-2xl h-96" />
+			{/* 你也可以在此展示订单数据 */}
 		</div>
 	);
 }
