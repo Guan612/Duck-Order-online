@@ -1,7 +1,9 @@
 import Bottombar from "./bottombar";
 import Sidebar from "./sidebar";
+import useAllInfo from "../hooks/layout/useLayout";
 import { Outlet } from "react-router-dom";
 export default function layout() {
+	useAllInfo();
 	return (
 		<div className="flex flex-col">
 			<div className="flex flex-row h-screen overflow-hidden">
