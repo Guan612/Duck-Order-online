@@ -10,8 +10,8 @@ const sysNest = [
 	},
 	{
 		key: 2,
-		label: "角色管理",
-		link: "/cosadmin",
+		label: "订单管理",
+		link: "/order",
 	},
 	{
 		key: 3,
@@ -23,17 +23,12 @@ const sysNest = [
 		label: "客服聊天",
 		link: "/chat",
 	},
-	{
-		key: 5,
-		label: "订单管理",
-		link: "/order",
-	},
 ];
 
 const infoNest = [
 	{
 		key: 1,
-		label: "订单信息",
+		label: "订单统计",
 		link: "/oederInfo",
 	},
 ];
