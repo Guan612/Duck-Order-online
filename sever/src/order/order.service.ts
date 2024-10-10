@@ -8,7 +8,7 @@ import { OderlistService } from 'src/orderlist/orderlist.service';
 export class OrderService {
   constructor(
     private prisma: PrismaService,
-    private OderlistService: OderlistService,
+    private oderlistService: OderlistService,
   ) {}
   async create(createOrderDto: CreateOrderDto) {
     const res = await this.prisma.order.create({
@@ -76,10 +76,11 @@ export class OrderService {
   }
 
   async totalPrice(id: number) {
-    const catResult = await this.OderlistService.findByOrderId(id);
+    const catResult = await this.oderlistService.findByOrderId(id);
     const totalPrice = catResult.reduce((acc: number, cur) => {
       return acc + cur.menu.price * cur.quantity;
     }, 0);
+    //调用这个api时自动更新价格
     await this.prisma.order.update({
       where: { id: id },
       data: {

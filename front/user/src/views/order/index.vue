@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI } from '@/api/order'
+import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI, getOrderTotalPriceAPI } from '@/api/order'
 import useScoket from '@/api/socket';
 
 const orderList = ref([]);
 const socket = useScoket('order');
 const route = useRoute();
 const orderDialogVisible = ref(false);
+const orderTotalPrice = ref(0);
 
 socket.on("haveNewOder", () => { })
 socket.on("payOrder", () => { })
@@ -19,7 +20,7 @@ const haveNewOder = async () => {
         message: "您有新的订单，请及时处理",
         orderList: orderList.value
     })
-    await updateOrderAPI(route.params.id, { orderStatus: 2 })
+    await updateOrderAPI(route.params.id, { orderStatus: 2, })
     orderDialogVisible.value = false
 }
 
@@ -28,6 +29,8 @@ const payOrder = async () => {
         message: "用户正在支付",
         //orderId: route.params.id
     })
+    const res = await getOrderTotalPriceAPI(route.params.id)
+    orderTotalPrice.value = res
     orderDialogVisible.value = true
 }
 
@@ -71,7 +74,9 @@ onMounted(() => {
             </div>
         </div>
         <el-dialog v-model="orderDialogVisible" title="支付" width="500">
-            <span>请您确认金额</span>
+            <div>
+                <div class="font-bold text-red-300">请您确认付款金额￥{{orderTotalPrice}}</div>
+            </div>
             <template #footer>
                 <div class="dialog-footer">
                     <el-button @click="exitPayment">取消支付</el-button>

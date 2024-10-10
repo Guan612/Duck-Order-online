@@ -15,3 +15,7 @@ export const addOrderListAPI = (id: number, data: any) => {
 export const getOrderDetaiLListAPI = (id: string) => {
 	return http.get(`/order/list/${id}`);
 };
+
+export const getOrderTotalPriceAPI = (id: string) => {
+	return http.get(`/order/total/${id}`);
+}
