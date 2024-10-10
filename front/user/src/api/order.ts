@@ -4,6 +4,10 @@ export const createOrderAPI = () => {
 	return http.post("/order");
 };
 
+export const updateOrderAPI = (id: string, data: any) => {
+	return http.patch(`/order/${id}`, data);
+};
+
 export const addOrderListAPI = (id: number, data: any) => {
 	return http.post(`/order/list/${id}`, data);
 };

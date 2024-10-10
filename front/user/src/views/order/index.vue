@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { createOrderAPI, getOrderDetaiLListAPI } from '@/api/order'
+import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI } from '@/api/order'
 import useScoket from '@/api/socket';
 
 const orderList = ref([]);
@@ -10,19 +10,34 @@ const route = useRoute();
 const orderDialogVisible = ref(false);
 
 socket.on("haveNewOder", () => { })
+socket.on("payOrder", () => { })
+socket.on("exitPayment", () => { })
+
+
 const haveNewOder = async () => {
     socket.emit("haveNewOder", {
         message: "您有新的订单，请及时处理",
         orderList: orderList.value
     })
+    await updateOrderAPI(route.params.id, { orderStatus: 2 })
     orderDialogVisible.value = false
+}
+
+const payOrder = async () => {
+    socket.emit("payOrder", {
+        message: "用户正在支付",
+        //orderId: route.params.id
+    })
+    orderDialogVisible.value = true
 }
 
 const exitPayment = async () => {
     socket.emit("exitPayment", {
         message: "用户取消支付",
-        orderId: route.params.id
+        //orderId: route.params.id
     })
+    await updateOrderAPI(route.params.id, { orderStatus: 1 })
+    orderDialogVisible.value = false
 }
 
 const getOrderList = async (orderId) => {
@@ -52,14 +67,14 @@ onMounted(() => {
         <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
             <div class="flex justify-end">
                 <el-button type="danger" @click="$router.back()">取消</el-button>
-                <el-button type="primary" @click="orderDialogVisible = true">确认</el-button>
+                <el-button type="primary" @click="payOrder">确认</el-button>
             </div>
         </div>
         <el-dialog v-model="orderDialogVisible" title="支付" width="500">
             <span>请您确认金额</span>
             <template #footer>
                 <div class="dialog-footer">
-                    <el-button @click="orderDialogVisible = false">取消支付</el-button>
+                    <el-button @click="exitPayment">取消支付</el-button>
                     <el-button type="primary" @click="haveNewOder">
                         支付完成
                     </el-button>
