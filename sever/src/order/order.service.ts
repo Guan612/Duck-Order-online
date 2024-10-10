@@ -38,7 +38,7 @@ export class OrderService {
 
   async findByOrderStatus(orderStatus: number[]) {
     const res = await this.prisma.order.findMany({
-      where: { orderStatus:{in: orderStatus} },
+      where: { orderStatus: { in: orderStatus } },
       include: {
         user: {
           select: {
@@ -89,7 +89,13 @@ export class OrderService {
     return totalPrice;
   }
 
-  async update(id: number) {}
+  async update(id: number, updateOrderDto) {
+    const res = await this.prisma.order.update({
+      where: { id: id },
+      data: updateOrderDto,
+    });
+    return res;
+  }
 
   remove(id: number) {
     return `This action removes a #${id} order`;

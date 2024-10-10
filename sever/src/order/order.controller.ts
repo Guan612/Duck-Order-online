@@ -90,7 +90,7 @@ export class OrderController {
   @Patch(':id')
   @ApiOperation({ summary: '更新订单' })
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id);
+    return this.orderService.update(+id, updateOrderDto);
   }
 
   @Delete(':id')
