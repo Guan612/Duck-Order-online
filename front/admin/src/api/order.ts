@@ -15,3 +15,7 @@ export const getOrderDetaiListAPI = (id: string) => {
 export const selectOrderStatusAPI = (orderStatus: number[]) => {
 	return http.get("/order/status/", { params: { orderStatus: orderStatus } });
 };
+
+export const getAllInfoAPI = () => {
+	return http.get("/order/allInfo");
+};

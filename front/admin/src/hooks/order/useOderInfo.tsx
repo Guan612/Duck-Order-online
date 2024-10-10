@@ -1,96 +1,146 @@
-import { useEffect, useState, useRef } from "react";
-import { getOrderListAPI } from "../../api/order";
+import { useState, useEffect, useRef } from "react";
+import { getAllInfoAPI } from "../../api/order";
 import { message } from "antd";
-import * as echarts from "echarts";
 import { orderStatus } from "../../dto/order";
+import useChart from "../tool/useChart"; // 引入 useChart hook
 
-export default function useOrderInfo() {
-	const chartRef = useRef(null); // 图表的引用
+export default function OrderInfo() {
+	const orderChartRef = useRef(null); // 订单状态图表的引用
+	const menuChartRef = useRef(null); // 菜品销售图表的引用
 	const [orders, setOrders] = useState([]); // 存储订单数据
-	const [chartInstance, setChartInstance] = useState(null); // ECharts 实例
+	const [menuData, setMenuData] = useState([]); // 存储菜品数据
+	const [totalPrice, setTotalPrice] = useState(0); // 存储总金额
 
-	// 获取订单列表的 API 调用
-	const gethOrders = async () => {
+	// 获取订单数据
+	const fetchOrders = async () => {
 		try {
-			const res = await getOrderListAPI(); // 假设返回订单数组
-			setOrders(res); // 设置订单数据
+			const res = await getAllInfoAPI();
+			setOrders(res);
 		} catch (error) {
 			message.error("获取订单数据失败");
 		}
 	};
 
-	// 处理订单数据
-	const processOrderData = (orders: { orderStatus: number }[]) => {
-		// 统计订单状态数量
+	// 处理订单状态数据
+	const processOrderData = (orders) => {
 		const orderStatusCounts = orders.reduce((acc, order) => {
-			const status = order.orderStatus;
-			if (!acc[status]) {
-				acc[status] = 0;
-			}
-			acc[status]++;
+			acc[order.orderStatus] = (acc[order.orderStatus] || 0) + 1;
 			return acc;
-		}, {} as Record<number, number>);
-	
-		// 返回状态与数量映射
-		return Object.keys(orderStatusCounts).map((key) => ({
-			name: orderStatus[key as unknown as keyof typeof orderStatus], // 利用枚举映射到状态名称
-			value: orderStatusCounts[Number(key)], // 对应的订单数量
+		}, {});
+
+		return Object.entries(orderStatusCounts).map(([key, value]) => ({
+			name: orderStatus[key], // 映射状态名
+			value,
 		}));
 	};
 
-	// 初始化 ECharts 实例
+	// 处理菜品销售数据
+	const processMenuData = (orders) => {
+		const menuCounts = orders.reduce((acc, order) => {
+			order.orderList.forEach((item) => {
+				const menuName = item.menu.name;
+				acc[menuName] = (acc[menuName] || 0) + item.quantity;
+			});
+			return acc;
+		}, {});
+
+		return Object.entries(menuCounts).map(([name, quantity]) => ({
+			name,
+			quantity,
+		}));
+	};
+
+	//计算总金额
+	const calculateTotalPrice = (orders: any[]) => {
+		const totalPrice = orders.reduce((acc, order) => {
+			return acc + order.totalPrice;
+		}, 0);
+		setTotalPrice(totalPrice);
+	};
+
+	// 初始化数据
 	useEffect(() => {
-		if (chartRef.current) {
-			const chart = echarts.init(chartRef.current);
-			setChartInstance(chart);
-		}
-	}, [chartRef]);
-
-	// 当订单数据或 ECharts 实例发生变化时，更新图表
-	useEffect(() => {
-		if (chartInstance && orders.length) {
-			const chartData = processOrderData(orders);
-
-			const option = {
-				title: {
-					text: "订单状态统计",
-					left: "center",
-				},
-				tooltip: {
-					trigger: "item",
-				},
-				legend: {
-					top: "bottom",
-				},
-				series: [
-					{
-						name: "订单状态",
-						type: "pie",
-						//roseType: 'area',
-						radius: "50%",
-						data: chartData,
-						emphasis: {
-							itemStyle: {
-								shadowBlur: 10,
-								shadowOffsetX: 0,
-								shadowColor: "rgba(0, 0, 0, 0.5)",
-							},
-						},
-					},
-				],
-			};
-
-			chartInstance.setOption(option);
-		}
-	}, [chartInstance, orders]);
-
-	// 组件加载时获取订单数据
-	useEffect(() => {
-		gethOrders();
+		fetchOrders();
 	}, []);
 
+	//实时计算总金额
+	useEffect(() => {
+		calculateTotalPrice(orders);
+	}, [orders]);
+
+	useEffect(() => {
+		if (orders.length) {
+			const menuSalesData = processMenuData(orders);
+			setMenuData(menuSalesData);
+		}
+	}, [orders]);
+
+	// 使用 useChart 来渲染订单状态图表
+	useChart(orderChartRef, orders, (data) => ({
+		title: { text: "订单状态统计", left: "center" },
+		legend: {
+			orient: "vertical",
+			left: "left",
+			data: processOrderData(data).map((item) => item.name), // 通过映射数据生成图例名称
+		},
+		tooltip: { trigger: "item" },
+		series: [
+			{
+				name: "订单状态",
+				type: "pie",
+				radius: "50%",
+				data: processOrderData(data),
+				emphasis: {
+					itemStyle: {
+						shadowBlur: 10,
+						shadowOffsetX: 0,
+						shadowColor: "rgba(0, 0, 0, 0.5)",
+					},
+				},
+			},
+		],
+	}));
+
+	// 使用 useChart 来渲染菜单销售图表
+	useChart(menuChartRef, menuData, (data) => ({
+		title: { text: "菜品销售统计", left: "center" },
+		xAxis: {
+			type: "category",
+			data: data.map((item) => item.name),
+			axisLabel: { rotate: 30 },
+		},
+		yAxis: { type: "value" },
+		series: [
+			{
+				name: "销量",
+				type: "bar",
+				data: data.map((item) => item.quantity),
+			},
+		],
+	}));
+
+	const menuOptions = {
+		title: { text: "菜品销售统计", left: "center" },
+		xAxis: {
+			type: "category",
+			data: menuData.map((item) => item.name),
+			axisLabel: { rotate: 30 },
+		},
+		yAxis: { type: "value" },
+		series: [
+			{
+				name: "销量",
+				type: "bar",
+				data: menuData.map((item) => item.quantity),
+			},
+		],
+	};
+
 	return {
-		chartRef, // 图表引用，用于 ECharts 初始化
+		menuChartRef,
+		orderChartRef, // 图表引用，用于 ECharts 初始化
 		orders, // 返回订单数据，可以在其他地方使用
+		totalPrice,
+		menuOptions,
 	};
 }
