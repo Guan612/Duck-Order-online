@@ -100,4 +100,30 @@ export class OrderService {
   remove(id: number) {
     return `This action removes a #${id} order`;
   }
+
+  async allInfo() {
+    const res = await this.prisma.order.findMany({
+      include: {
+        user: {
+          select: {
+            id: true,
+            loginId: true,
+          },
+        },
+        orderList: {
+          include: {
+            menu: {
+              select: {
+                id: true,
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res;
+  }
 }

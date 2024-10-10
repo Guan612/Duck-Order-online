@@ -68,6 +68,14 @@ export class OrderController {
     return this.orderService.findByOrderStatus(orderStatus.map(Number));
   }
 
+  @Get('/allInfo')
+  @ApiOperation({ summary: '获取所有订单信息' })
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.waiter)
+  findAllInfo() {
+    return this.orderService.allInfo();
+  }
+
   @Get(':id')
   @ApiOperation({ summary: '获取单个订单' })
   findOne(@Param('id') id: string) {

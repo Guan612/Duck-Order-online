@@ -14,42 +14,42 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  loginId   String   @unique
-  nickname  String?
-  phone     String?  @unique
-  email     String?
-  password  String
-  cost      Int      @default(0) //0,用户 1,员工 2,管理员
-  createdAt DateTime @default(dbgenerated("now()")) @db.DateTime
-  updatedAt DateTime @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
-  order     Order[]
-  cart      Cart[]
-  messages    Message[] @relation("Sender")
-  receivedMessages Message[] @relation("Receiver")
-  chatRooms ChatRoom[] @relation("ChatParticipants")
+  id               Int        @id @default(autoincrement())
+  loginId          String     @unique
+  nickname         String?
+  phone            String?    @unique
+  email            String?
+  password         String
+  cost             Int        @default(0) //0,用户 1,员工 2,管理员
+  createdAt        DateTime   @default(dbgenerated("now()")) @db.DateTime
+  updatedAt        DateTime   @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
+  order            Order[]
+  cart             Cart[]
+  messages         Message[]  @relation("Sender")
+  receivedMessages Message[]  @relation("Receiver")
+  chatRooms        ChatRoom[] @relation("ChatParticipants")
 }
 
 model Order {
-  id          Int        @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   userId      Int
-  orderStatus Int        @default(0) //0,已创建 1,待支付 2,已支付 3,正在制作 4,已完成 5,已取消 6,正在配送 7,已送达 8,已退款 9,已评价
-  orderType   Int        @default(0) //0,堂食 1,外卖
-  orderTime   DateTime   @default(dbgenerated("now()")) @db.DateTime
-  totalPrice  Int        @default(0)
-  OderList    OrderList[]
-  user        User?      @relation(fields: [userId], references: [id])
+  orderStatus Int         @default(0) //0,已创建 1,待支付 2,已支付 3,正在制作 4,已完成 5,已取消 6,正在配送 7,已送达 8,已退款 9,已评价
+  orderType   Int         @default(0) //0,堂食 1,外卖
+  orderTime   DateTime    @default(dbgenerated("now()")) @db.DateTime
+  totalPrice  Int         @default(0)
+  orderList   OrderList[]
+  user        User?       @relation(fields: [userId], references: [id])
 }
 
 model Menu {
-  id          Int        @id @default(autoincrement())
+  id          Int         @id @default(autoincrement())
   name        String
   price       Int
-  type        Int        @default(0) //0,热菜 1,凉菜 2,主食 3,汤 4,饮品
+  type        Int         @default(0) //0,热菜 1,凉菜 2,主食 3,汤 4,饮品
   pictureUrl  String?
   discription String?
-  isSell      Int        @default(1) //0,下架 1,上架
-  oderList    OrderList[]
+  isSell      Int         @default(1) //0,下架 1,上架
+  orderList    OrderList[]
   cartList    CartList[]
 }
 
@@ -82,17 +82,17 @@ model CartList {
 }
 
 model Message {
-  id        Int      @id @default(autoincrement())
-  content   String
-  time      DateTime @default(dbgenerated("now()")) @db.DateTime
-  receiverId  Int
-  senderId    Int
-  sender      User     @relation("Sender", fields: [senderId], references: [id])
-  receiver    User     @relation("Receiver", fields: [receiverId], references: [id])
+  id         Int      @id @default(autoincrement())
+  content    String
+  time       DateTime @default(dbgenerated("now()")) @db.DateTime
+  receiverId Int
+  senderId   Int
+  sender     User     @relation("Sender", fields: [senderId], references: [id])
+  receiver   User     @relation("Receiver", fields: [receiverId], references: [id])
 }
 
 model ChatRoom {
-  id          Int      @id @default(autoincrement())
-  name        String
-  participants User[]  @relation("ChatParticipants")
+  id           Int    @id @default(autoincrement())
+  name         String
+  participants User[] @relation("ChatParticipants")
 }
