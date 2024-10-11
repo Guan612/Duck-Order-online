@@ -83,13 +83,13 @@ export default function MenuAdmin() {
 						<div>{menu.name}</div>
 						<div>{menu.price}元</div>
 						<div className="hidden md:block">
-							{menu.discription}
+							{menu.discription||"无描述" }
 						</div>
 						<div className="hidden md:block">
 							{getNemuTypeName(menu.type)}
 						</div>
 						<img
-							className="hidden md:block"
+							className="hidden md:block w-24 h-24"
 							src={menu.pictureUrl}
 							alt={menu.name}
 						/>
