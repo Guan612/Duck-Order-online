@@ -4,6 +4,10 @@ export const getMenuListAPI = () => {
 	return http.get("/menu");
 };
 
+export const deleteMenuAPI = (id: number) => {
+	return http.delete(`/menu/${id}`);
+}
+
 export const ChangeIsShellAPI = (id: number, isSell: number) => {
 	return http.patch(`/menu/${id}`, { isSell: isSell });
 };
