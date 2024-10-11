@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { getUserCartListAIP } from '@/api/cart'
+import { getUserCartListAIP,deleteCartListAIP } from '@/api/cart'
 import { addOrderListAPI, createOrderAPI } from '@/api/order'
 import { cartList } from '@/dto/cartDto';
 import { computed, onMounted, ref } from 'vue';
 import router from '@/router';
-import { ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus';
 
 const userCartList = ref([]);
 const allSelected = ref(false)
@@ -36,10 +36,13 @@ const selectAll = () => {
     })
 }
 
-const removeAllSelected = () => {
-    userCartList.value = userCartList.value.filter((item: cartList) => {
-        return item.isSelect !== 1
-    })
+const removeAllSelected = async () => {
+    const selectId = userCartList.value.filter((item: cartList) => item.isSelect === 1).map((item: cartList) => item.id)
+    const res = await deleteCartListAIP(selectId)
+    if (res) {
+        ElMessage.success('删除成功')
+        getUserCartList()
+    }
 }
 
 const getIsSelected = (item: cartList) => {
