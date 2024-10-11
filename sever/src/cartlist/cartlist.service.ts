@@ -37,4 +37,15 @@ export class CartlistService {
     });
     return res;
   }
+
+  async removeCartList(deletList: number[]) {
+    for (let i = 0; i < deletList.length; i++) {
+      await this.prisma.cartList.delete({
+        where: {
+          id: +deletList[i],
+        },
+      });
+    }
+    return '删除成功';
+  }
 }
