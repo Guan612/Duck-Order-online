@@ -19,6 +19,7 @@ import { JwtAuthGuard } from 'src/user/guards/jwt-user.guard';
 import { RolesGuard } from 'src/user/guards/roles.guard';
 import { Role } from 'src/user/dto/role';
 import { Roles } from 'src/user/decorator/roles.decorator';
+import { User } from 'src/user/decorator/user.decorator';
 
 @ApiTags('order')
 @Controller('order')
@@ -74,6 +75,13 @@ export class OrderController {
   @Roles(Role.admin, Role.waiter)
   findAllInfo() {
     return this.orderService.allInfo();
+  }
+
+  @Get('byUserId')
+  @ApiOperation({ summary: '获取用户订单' })
+  @UseGuards(JwtAuthGuard)
+  findByUserId(@User('userId') userId:string){
+    return this.orderService.findByUserId(+userId);
   }
 
   @Get(':id')

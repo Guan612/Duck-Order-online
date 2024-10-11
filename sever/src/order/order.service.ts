@@ -124,7 +124,24 @@ export class OrderService {
         },
       },
     });
+    return res;
+  }
 
+  async findByUserId(id: number) {
+    const res = await this.prisma.order.findMany({
+      where:{userId:id},
+      include:{
+        orderList:{
+          include:{
+            menu:{
+              select:{
+                name:true,
+              }
+            }
+          }
+        }
+      }
+    })
     return res;
   }
 }
