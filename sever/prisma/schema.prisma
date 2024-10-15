@@ -25,6 +25,7 @@ model User {
   updatedAt        DateTime   @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
   order            Order[]
   cart             Cart[]
+  userbalance      UserBalance[]
   messages         Message[]  @relation("Sender")
   receivedMessages Message[]  @relation("Receiver")
   chatRooms        ChatRoom[] @relation("ChatParticipants")
@@ -95,4 +96,11 @@ model ChatRoom {
   id           Int    @id @default(autoincrement())
   name         String
   participants User[] @relation("ChatParticipants")
+}
+
+model UserBalance{
+  id         Int    @id @default(autoincrement())
+  userId     Int
+  balance      Int    @default(0)
+  user       User   @relation(fields: [userId], references: [id])
 }
