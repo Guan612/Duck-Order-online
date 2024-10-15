@@ -12,6 +12,7 @@ import Chat from "../pages/chat";
 import ChatDetal from "../pages/chat/compment/chatDetal";
 import Order from "../pages/order";
 import OrderInfo from "../pages/order/oderInfo";
+import BalanceAdmin from "../pages/balanceadmin";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
@@ -57,6 +58,10 @@ const routes = [
             {
                 path: "/oederInfo",
                 element: <RequireAuth element={<OrderInfo />} />
+            },
+            {
+                path:"/balanceadmin",
+                element:<RequireAuth element={<BalanceAdmin/>} />
             }
         ],
     },

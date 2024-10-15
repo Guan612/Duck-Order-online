@@ -23,6 +23,11 @@ const sysNest = [
 		label: "客服聊天",
 		link: "/chat",
 	},
+	{
+		key: 5,
+		label: "用户余额管理",
+		link: "/balanceadmin",
+	}
 ];
 
 const infoNest = [
