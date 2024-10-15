@@ -23,3 +23,7 @@ export const getOrderDetaiLListAPI = (id: string) => {
 export const getOrderTotalPriceAPI = (id: string) => {
 	return http.get(`/order/total/${id}`);
 }
+
+export const payByBalanceAPI = (id: string) => {
+	return http.post(`/order/payByBalance/${id}`);
+}

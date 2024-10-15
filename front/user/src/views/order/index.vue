@@ -1,14 +1,17 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI, getOrderTotalPriceAPI } from '@/api/order'
+import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI, getOrderTotalPriceAPI, payByBalanceAPI } from '@/api/order'
 import useScoket from '@/api/socket';
+import { ElMessage } from 'element-plus';
+import { getUserBalanceAPI } from '@/api/userbalance';
 
 const orderList = ref([]);
 const socket = useScoket('order');
 const route = useRoute();
 const orderDialogVisible = ref(false);
 const orderTotalPrice = ref(0);
+const balance = ref(0);
 
 socket.on("haveNewOder", () => { })
 socket.on("payOrder", () => { })
@@ -30,6 +33,8 @@ const payOrder = async () => {
         //orderId: route.params.id
     })
     const res = await getOrderTotalPriceAPI(route.params.id)
+    const balanceRes = await getUserBalanceAPI()
+    balance.value = balanceRes.balance
     orderTotalPrice.value = res
     orderDialogVisible.value = true
 }
@@ -46,6 +51,28 @@ const exitPayment = async () => {
 const getOrderList = async (orderId) => {
     const res = await getOrderDetaiLListAPI(orderId)
     orderList.value = res
+}
+
+const payByBalance = async () => {
+    const res = await payByBalanceAPI(route.params.id)
+    if (res){
+        orderDialogVisible.value = false
+        socket.emit("payOrder", {
+            message: "用户支付成功",
+            //orderId: route.params.id
+        })
+        ElMessage.success('支付成功，还有'+res.balance+'元')
+    } else {
+        ElMessage.error('余额不足，支付失败')
+    }
+    
+}
+
+const getBalance = async () => {
+    const res = await getUserBalanceAPI();
+    if (res) {
+        balance.value = res.balance
+    }
 }
 
 onMounted(() => {
@@ -82,6 +109,9 @@ onMounted(() => {
                     <el-button @click="exitPayment">取消支付</el-button>
                     <el-button type="primary" @click="haveNewOder">
                         支付完成
+                    </el-button>
+                    <el-button type="primary" @click="payByBalance">
+                        使用余额支付，还有{{balance}}积分
                     </el-button>
                 </div>
             </template>
