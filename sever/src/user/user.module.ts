@@ -7,6 +7,7 @@ import { CartService } from 'src/cart/cart.service';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UserBalanceService } from 'src/userbalance/userbalance.service';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     AuthService,
     JwtStrategy,
     CartService,
+    UserBalanceService
   ], //注意需要把prismaService也注入进来
 })
 export class UserModule {}

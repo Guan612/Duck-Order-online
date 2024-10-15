@@ -22,6 +22,8 @@ import { Role } from './dto/role';
 import { CheckUserLoginRolePipe } from './pipe/check-user-login-role.pipe';
 import { CartService } from 'src/cart/cart.service';
 
+import { UserBalanceService } from 'src/userbalance/userbalance.service';
+
 @ApiTags('user')
 @Controller('user')
 export class UserController {
@@ -29,6 +31,7 @@ export class UserController {
     private readonly userService: UserService,
     private readonly authService: AuthService,
     private readonly cartService: CartService,
+    private readonly userBalanceService: UserBalanceService,
   ) {}
 
   @Post('register')
@@ -39,6 +42,7 @@ export class UserController {
     const { loginId,id } = await this.userService.create(createUserDto);
     //同时创建购物车
     const cart = await this.cartService.create(id);
+    const res = await this.userBalanceService.create(id);
     return { loginId };
   }
 
