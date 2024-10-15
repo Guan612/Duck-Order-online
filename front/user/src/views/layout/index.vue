@@ -5,7 +5,7 @@ import bottomBar from './component/bottomBar.vue';
 </script>
 <template>
     <div class="flex flex-col h-screen">
-        <headerBar></headerBar>
+        <headerBar class="hidden md:block"></headerBar>
         <div class="flex flex-row overflow-hidden">
             <sideBar class="basis-1/6 hidden md:block"></sideBar>
             <div class="md:w-5/6  w-screen">
