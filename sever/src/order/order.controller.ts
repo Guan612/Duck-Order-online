@@ -85,6 +85,7 @@ export class OrderController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: '获取单个订单' })
   findOne(@Param('id') id: string) {
     return this.orderService.findOne(+id);
@@ -99,18 +100,28 @@ export class OrderController {
 
   @Get('total/:id')
   @ApiOperation({ summary: '获取订单总价' })
+  @UseGuards(JwtAuthGuard)
   getTotalPrice(@Param('id') id: string) {
     return this.orderService.totalPrice(+id);
   }
 
+  @Post('payByBalance/:id')
+  @ApiOperation({ summary: '余额支付' })
+  @UseGuards(JwtAuthGuard)
+  payByBalance(@Param('id') id: string, @User('userId') userId:number) {
+    return this.orderService.payByBalance(+id, userId);
+  }
+
   @Patch(':id')
   @ApiOperation({ summary: '更新订单' })
+  @UseGuards(JwtAuthGuard)
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
     return this.orderService.update(+id, updateOrderDto);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: '删除订单' })
+  @UseGuards(JwtAuthGuard)
   remove(@Param('id') id: string) {
     return this.orderService.remove(+id);
   }
