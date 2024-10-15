@@ -9,11 +9,11 @@
             <ForkSpoon />
             <span>点餐</span>
         </div>
-        <div class="button-bar">
+        <div class="button-bar" @click="$router.push(`/cart/`)">
             <ShoppingCart />
             <span>订单</span>
         </div>
-        <div class="button-bar">
+        <div class="button-bar" @click="$router.push(`/me/`)">
             <User />
             <span>我的</span>
         </div>
