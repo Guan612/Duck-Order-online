@@ -1,8 +1,13 @@
+import { menu } from "../dto/menu";
 import http from "./index";
 
 export const getMenuListAPI = () => {
 	return http.get("/menu");
 };
+
+export const addMenuAPI = (menu: menu) => {
+	return http.post("/menu", menu);
+}
 
 export const deleteMenuAPI = (id: number) => {
 	return http.delete(`/menu/${id}`);

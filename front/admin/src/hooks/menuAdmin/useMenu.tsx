@@ -6,6 +6,7 @@ import {
 	searchMenuByTypeAPI,
 	ChangeIsShellAPI,
 	updateMenuAPI,
+	addMenuAPI,
 } from "../../api/menu";
 import { menuType, menu } from "../../dto/menu";
 export default function useGetMenu() {
@@ -14,6 +15,7 @@ export default function useGetMenu() {
 	const [menu, setMenu] = useState({});
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState<menu | null>(null);
+	const [addMenu,setAddMenu] = useState({});
 	const [isaddMenuModalOpen, setIsaddMenuModalOpen] = useState(false);
 
 	const getMenuList = async () => {
@@ -96,6 +98,24 @@ export default function useGetMenu() {
 		setIsaddMenuModalOpen(true);
 	}
 
+	const okAddModal = () =>{
+		updateform.submit();
+	}
+
+	const cancelAddModal = () => {
+		setIsaddMenuModalOpen(false);
+	};
+
+	const onFinishAddModal = async (value:any)=>{
+		value.price = +value.price;
+		const res = await addMenuAPI(value);
+		if (res) {
+			message.success("添加成功");
+			getMenuList();
+			setIsaddMenuModalOpen(false);
+		}
+	}
+
 	const colums = [
 		{
 			title: "菜品名称",
@@ -164,6 +184,10 @@ export default function useGetMenu() {
 		onFinishMenuModal,
 		onFinishFailedMenuModal,
 		openAddMenuModal,
+		onFinishAddModal,
+		okAddModal,
+		cancelAddModal,
+		addMenu,
 		currentMenu,
 		isModalOpen,
 		menuOptions,

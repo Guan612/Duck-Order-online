@@ -17,11 +17,15 @@ export default function MenuAdmin() {
 		onFinishFailedMenuModal,
 		okMenuModal,
 		openAddMenuModal,
+		onFinishAddModal,
+		okAddModal,
+		cancelAddModal,
 		menuList,
 		menuOptions,
 		colums,
 		isModalOpen,
 		currentMenu,
+		addMenu,
 		updateform,
 		isaddMenuModalOpen,
 	} = useGetMenu();
@@ -62,13 +66,20 @@ export default function MenuAdmin() {
 					<div className="hidden md:block">类型</div>
 					<div className="hidden md:block">菜品图片</div>
 				</div>
-				<Modal title="创建菜品" open={isaddMenuModalOpen}>
-					<Form>
-						<Form.Item label="菜品名字">
-							<Input />
+				<Modal title="创建菜品" 
+					open={isaddMenuModalOpen}
+					onOk={okAddModal}
+					onCancel={cancelAddModal}
+				>
+					<Form
+						form={updateform}
+						onFinish={onFinishAddModal}
+					>
+						<Form.Item label="菜品名字" name='name'>
+							<Input placeholder={addMenu.name} />
 						</Form.Item>
-						<Form.Item label="菜品价格">
-							<Input />
+						<Form.Item label="菜品价格" name='price'>
+							<Input placeholder={addMenu.price} />
 						</Form.Item>
 					</Form>
 				</Modal>
