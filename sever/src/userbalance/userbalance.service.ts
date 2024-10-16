@@ -24,27 +24,30 @@ export class UserBalanceService {
 
     async update(id: number, balance: number) {
         const res = await this.prisma.userBalance.update({
-            where: {
-                id: id,
-            },
-            data:{
-                balance: balance,
-            }
-        })
+          where: {
+            id: id,  // 使用传入的 id 变量
+          },
+          data: {
+            balance: balance,  // 直接更新 balance 值
+          },
+        });
         return res;
-    }
+      }
 
     async findAll() {
         const res = await this.prisma.userBalance.findMany({
             include:{
                 user:{
                     select:{
-                        id: true,
                         loginId: true,
                     }
                 }
             }
         })
-        return res
+
+        return res.map(({ user, ...balanceData }) => ({
+            ...balanceData,
+            loginId: user.loginId,
+        }));
     }
 }
