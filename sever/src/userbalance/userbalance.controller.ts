@@ -31,7 +31,7 @@ export class UserBalanceController {
   @ApiOperation({ summary: '修改用户余额' })
   @UseGuards(JwtAuthGuard,RolesGuard)
   @Roles(Role.admin,Role.waiter)
-  update(@Param('id') id: string, @Body() updateUserbalanceDto) {
-    return this.userbalanceService.update(+id, updateUserbalanceDto);
+  update(@Param('id') id: string, @Body() balanceValue) {
+    return this.userbalanceService.update(+id, balanceValue.balance);
   }
 }
