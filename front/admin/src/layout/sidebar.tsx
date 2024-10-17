@@ -27,6 +27,11 @@ const sysNest = [
 		key: 5,
 		label: "用户余额管理",
 		link: "/balanceadmin",
+	},
+	{
+		key: 6,
+		label:"活动管理",
+		link:'/activityadmin'
 	}
 ];
 
