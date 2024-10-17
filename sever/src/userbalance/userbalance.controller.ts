@@ -34,4 +34,11 @@ export class UserBalanceController {
   update(@Param('id') id: string, @Body() balanceValue) {
     return this.userbalanceService.update(+id, balanceValue.balance);
   }
+
+  @Post('activity/:id')
+  @ApiOperation({ summary: '活动修改用户余额' })
+  @UseGuards(JwtAuthGuard)
+  activityUpdate(@Param('id') id:string, @Body() balanceValue) {
+    return this.userbalanceService.addActive(+id, balanceValue.balance+100);
+  }
 }

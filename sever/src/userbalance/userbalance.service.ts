@@ -50,4 +50,17 @@ export class UserBalanceService {
             loginId: user.loginId,
         }));
     }
+
+    async addActive(id: number,balance: number) {
+        const res = await this.prisma.userBalance.update({
+            where:{
+                id:id,
+            },
+            data:{
+                balance:balance
+            }
+        })
+
+        return res;
+    }
 }
