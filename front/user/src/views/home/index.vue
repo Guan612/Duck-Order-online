@@ -1,6 +1,86 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, provide, watchEffect, nextTick } from 'vue';
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { BarChart } from 'echarts/charts';
+import {
+    TitleComponent,
+    TooltipComponent,
+    LegendComponent,
+    GridComponent,
+} from 'echarts/components';
+import VChart, { THEME_KEY } from 'vue-echarts';
 import foodcard from './component/foodcard.vue';
+import { upbalanceAPI } from '@/api/userbalance';
+
+const upbalanceData = ref([])
+
+//注意初始化位置
+const balanceOption = ref({
+    title: {
+        text: '用户积分统计',
+        left: 'center',
+    },
+    tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'shadow',
+        },
+    },
+    xAxis: {
+        type: 'category',
+        data: [], // 之后用 loginIds 更新
+    },
+    yAxis: {
+        type: 'value',
+        name: '积分',
+    },
+    series: [
+        {
+            name: '用户积分',
+            type: 'bar',
+            data: [], // 之后用 balances 更新
+            itemStyle: {
+                color: '#5BCEFA',
+            },
+            emphasis: {
+                itemStyle: {
+                    color: '#F5A9B8',
+                },
+            },
+        },
+    ],
+});
+
+const getUpBalance = async () => {
+    const res = await upbalanceAPI();
+    upbalanceData.value = res;
+}
+
+onMounted(() => {
+    getUpBalance();
+})
+
+watchEffect(() => {
+    if (!balanceOption.value) return;
+    const loginIds = upbalanceData.value.map((user) => user.loginId);
+    const balances = upbalanceData.value.map((user) => user.balance);
+
+    // 更新图表的 x 轴和 series 数据
+    balanceOption.value.xAxis.data = loginIds;
+    balanceOption.value.series[0].data = balances;
+
+    use([
+        CanvasRenderer,
+        BarChart,
+        TitleComponent,
+        TooltipComponent,
+        LegendComponent,
+        GridComponent,
+    ]);
+
+    provide(THEME_KEY, 'light');
+});
 
 const bannerItems = ref([
     {
@@ -47,6 +127,9 @@ const bannerItems = ref([
                     <h3 justify="center" class="text-xl font-bold">{{ item.title }}</h3>
                 </el-carousel-item>
             </el-carousel>
+        </div>
+        <div class="flex-grow w-full max-w-4xl m-2 p-2">
+            <v-chart class="h-96" :option="balanceOption" />
         </div>
         <div
             class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-5">
