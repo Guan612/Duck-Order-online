@@ -19,6 +19,13 @@ export class UserBalanceController {
     return this.userbalanceService.findUserBalance(userId);
   }
 
+  @Get('upbalance')
+  @ApiOperation({ summary: '获取用户余额' })
+  @UseGuards(JwtAuthGuard)
+  upbalance(){
+    return this.userbalanceService.upBalance();
+  }
+
   @Get('all')
   @ApiOperation({ summary: '获取所有用户余额' })
   @UseGuards(JwtAuthGuard,RolesGuard)

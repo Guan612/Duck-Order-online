@@ -63,4 +63,15 @@ export class UserBalanceService {
 
         return res;
     }
+
+    async upBalance(){
+        const res = await this.prisma.userBalance.findMany({
+            orderBy:{
+                balance:'desc'
+            },
+            take:10,
+        });
+
+        return res;
+    }
 }
