@@ -128,8 +128,11 @@ const bannerItems = ref([
                 </el-carousel-item>
             </el-carousel>
         </div>
-        <div class="flex-grow w-full max-w-4xl m-2 p-2">
-            <v-chart class="h-96" :option="balanceOption" />
+        <!-- 中间的v-chart部分 -->
+        <div class="flex flex-col justify-center items-center flex-grow">
+            <div class="w-full max-w-4xl p-2">
+                <v-chart class="h-96 w-full" :option="balanceOption" />
+            </div>
         </div>
         <div
             class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-5">
@@ -163,6 +166,7 @@ const bannerItems = ref([
         </div>
     </div>
 </template>
+
 <style scoped>
 .gongnen-item {
     @apply flex flex-col items-center justify-center p-4 hover:scale-110 transition-transform duration-300;
