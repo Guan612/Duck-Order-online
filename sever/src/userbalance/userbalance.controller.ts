@@ -20,7 +20,7 @@ export class UserBalanceController {
   }
 
   @Get('upbalance')
-  @ApiOperation({ summary: '获取用户余额' })
+  @ApiOperation({ summary: '获取前10名用户余额' })
   @UseGuards(JwtAuthGuard)
   upbalance(){
     return this.userbalanceService.upBalance();
@@ -46,6 +46,6 @@ export class UserBalanceController {
   @ApiOperation({ summary: '活动修改用户余额' })
   @UseGuards(JwtAuthGuard)
   activityUpdate(@Param('id') id:string, @Body() balanceValue) {
-    return this.userbalanceService.addActive(+id, balanceValue.balance+100);
+    return this.userbalanceService.addActive(+id, balanceValue.balance);
   }
 }
