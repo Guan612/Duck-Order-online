@@ -36,6 +36,12 @@ const updateActiveRoute = (route) => {
 				</el-icon>
 				<span>购物车</span>
 			</div>
+			<div class="sidebar-section" @click="$router.push(`/article`)">
+				<el-icon class="m-1">
+					<Document />
+				</el-icon>
+				<span>文章</span>
+			</div>
 			<div class="sidebar-section" @click="$router.push('/me')">
 				<el-icon class="m-1">
 					<User />
