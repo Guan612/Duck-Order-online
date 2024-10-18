@@ -76,7 +76,7 @@ const bannerItems = ref([
             </div>
         </div>
         <div class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2">
-            <foodcard v-for="card in 10" />
+            <foodcard v-for="card in 6" />
         </div>
     </div>
 </template>
