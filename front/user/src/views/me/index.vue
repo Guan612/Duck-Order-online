@@ -20,7 +20,7 @@ const activityChange = async (balanceInfo)=>{
         ElMessage.error('未签到')
         activityState.value = '未签到'
     } else { 
-        const res =  await activityActiveAPI(balanceInfo.id,balanceInfo.balance)
+        const res =  await activityActiveAPI(balanceInfo.id,balanceInfo.balance+100)
         if(res){
             ElMessage.success('签到成功')
             activityState.value = '已签到'
