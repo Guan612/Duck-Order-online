@@ -29,6 +29,7 @@ model User {
   messages         Message[]  @relation("Sender")
   receivedMessages Message[]  @relation("Receiver")
   chatRooms        ChatRoom[] @relation("ChatParticipants")
+  article          Article[] @relation("Author")
 }
 
 model Order {
@@ -103,4 +104,13 @@ model UserBalance{
   userId     Int
   balance      Int    @default(0)
   user       User   @relation(fields: [userId], references: [id])
+}
+
+model Article {
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String
+  time       DateTime @default(dbgenerated("now()")) @db.DateTime
+  authorId   Int
+  author     User     @relation("Author", fields: [authorId], references: [id])
 }

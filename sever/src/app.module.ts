@@ -7,6 +7,7 @@ import { CartModule } from './cart/cart.module';
 import { ChatModule } from './chat/chat.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { UserBalanceModule } from './userbalance/userbalance.module';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserBalanceModule } from './userbalance/userbalance.module';
     ChatModule,
     DeliveryModule,
     UserBalanceModule,
+    ArticleModule,
   ],
   controllers: [],
   providers: [],
