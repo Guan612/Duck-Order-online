@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import { ElMessage } from "element-plus";
 import { useUserStore } from "@/stores/userstore";
 
 import Layout from "@/views/layout/index.vue";
@@ -14,9 +15,9 @@ import Register from "@/views/auth/register/index.vue";
 import Menu from "@/views/menu/index.vue";
 import MenuDetailed from "@/views/menu/menuDetailed.vue";
 import Orrder from "@/views/order/index.vue";
-import Article from "@/views/article/index.vue"
-import { ElMessage } from "element-plus";
+import Article from "@/views/article/index.vue";
 import ArticleDetail from "@/views/article/component/articleDetail.vue";
+import Myorder from "@/views/me/component/myorder.vue";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -56,6 +57,12 @@ const router = createRouter({
 					meta: { title: "我的", requiresAuth: true },
 				},
 				{
+					path: "/me/myorder",
+					name: "myorder",
+					component: Myorder,
+					meta: { title: "我的订单", requiresAuth: true },
+				},
+				{
 					path: "/chat",
 					name: "chat",
 					component: Chat,
@@ -74,16 +81,16 @@ const router = createRouter({
 					meta: { title: "订单详情", requiresAuth: true },
 				},
 				{
-					path:'/article',
-					name:'article',
-					component:Article,
-					meta:{title:'文章',requiresAuth:true}
+					path: "/article",
+					name: "article",
+					component: Article,
+					meta: { title: "文章", requiresAuth: true },
 				},
 				{
-					path:'/article/:id',
-					name:'articleDetail',
-					component:ArticleDetail,
-					meta:{title:'文章详情',requiresAuth:true}
+					path: "/article/:id",
+					name: "articleDetail",
+					component: ArticleDetail,
+					meta: { title: "文章详情", requiresAuth: true },
 				},
 				{
 					path: "/delivery",
