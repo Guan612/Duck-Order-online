@@ -14,7 +14,7 @@ export class UserBalanceService {
   }
 
   async findUserBalance(userId: number) {
-    const res = await this.prisma.userBalance.findFirst({
+    const res = await this.prisma.userBalance.findUnique({
       where: {
         userId: userId,
       },

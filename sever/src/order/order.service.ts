@@ -92,8 +92,8 @@ export class OrderService {
     return totalPrice;
   }
 
-  async payByBalance(id: number, userId:number) {
-    const price =  await this.totalPrice(id);
+  async payByBalance(id: number, userId: number) {
+    const price = await this.totalPrice(id);
     const balanceRes = await this.userBalanceService.findUserBalance(userId);
     if (balanceRes.balance >= price) {
       await this.prisma.order.update({
@@ -102,7 +102,10 @@ export class OrderService {
           orderStatus: 2,
         },
       });
-      const res =  await this.userBalanceService.update(balanceRes.id, balanceRes.balance-price);
+      const res = await this.userBalanceService.update(
+        balanceRes.id,
+        balanceRes.balance - price,
+      );
       return res;
     } else {
       return false;
@@ -146,21 +149,45 @@ export class OrderService {
     return res;
   }
 
-  async findByUserId(id: number) {
+  async findByUserId(userId: number) {
     const res = await this.prisma.order.findMany({
-      where:{userId:id},
-      include:{
-        orderList:{
-          include:{
-            menu:{
-              select:{
-                name:true,
-              }
-            }
-          }
-        }
-      }
-    })
-    return res;
+      where: {
+        userId: userId,
+      },
+      select: {
+        id: true,
+        orderStatus: true,
+        totalPrice: true,
+        orderTime: true,
+        orderList: {
+          select: {
+            quantity: true,
+            menu: {
+              // 这里可以包含菜单信息，使用 select 获取具体字段
+              select: {
+                id: true,
+                name: true,
+                price: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const formattedRes = res.map((order) => {
+      const orderListWithMenu = order.orderList.map((orderItem) => ({
+        ...orderItem.menu,
+        quantity: orderItem.quantity,
+      }));
+
+      return {
+        ...order,
+        menuList: orderListWithMenu, // 将 menu 移动到新的数组 `menuList`
+        orderList: undefined, // 移除嵌套的 `orderList`
+      };
+    });
+
+    return formattedRes;
   }
 }

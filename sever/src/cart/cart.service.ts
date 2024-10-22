@@ -20,7 +20,7 @@ export class CartService {
   }
 
   async findUserCart(userId: number) {
-    const res = await this.prisma.cart.findFirst({
+    const res = await this.prisma.cart.findUnique({
       where: {
         userId: userId,
       },
@@ -33,7 +33,7 @@ export class CartService {
   }
 
   async findByUserId(id: number) {
-    const res = await this.prisma.cart.findFirst({
+    const res = await this.prisma.cart.findUnique({
       where: {
         userId: id,
       },
