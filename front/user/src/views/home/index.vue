@@ -135,7 +135,7 @@ const bannerItems = ref([
             </div>
         </div>
         <div
-            class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-5">
+            class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-3">
             <div class="gongnen-item">
                 <Film />
                 <span>电影</span>
