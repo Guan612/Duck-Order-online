@@ -14,22 +14,22 @@ datasource db {
 }
 
 model User {
-  id               Int        @id @default(autoincrement())
-  loginId          String     @unique
+  id               Int           @id @default(autoincrement())
+  loginId          String        @unique
   nickname         String?
-  phone            String?    @unique
+  phone            String?       @unique
   email            String?
   password         String
-  cost             Int        @default(0) //0,用户 1,员工 2,管理员
-  createdAt        DateTime   @default(dbgenerated("now()")) @db.DateTime
-  updatedAt        DateTime   @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
+  cost             Int           @default(0) //0,用户 1,员工 2,管理员
+  createdAt        DateTime      @default(dbgenerated("now()")) @db.DateTime
+  updatedAt        DateTime      @default(dbgenerated("NOW() ON UPDATE NOW()")) @db.Timestamp(0) //解决prisma时区问题
   order            Order[]
   cart             Cart[]
   userbalance      UserBalance[]
-  messages         Message[]  @relation("Sender")
-  receivedMessages Message[]  @relation("Receiver")
-  chatRooms        ChatRoom[] @relation("ChatParticipants")
-  article          Article[] @relation("Author")
+  messages         Message[]     @relation("Sender")
+  receivedMessages Message[]     @relation("Receiver")
+  chatRooms        ChatRoom[]    @relation("ChatParticipants")
+  article          Article[]     @relation("Author")
 }
 
 model Order {
@@ -51,7 +51,7 @@ model Menu {
   pictureUrl  String?
   discription String?
   isSell      Int         @default(1) //0,下架 1,上架
-  orderList    OrderList[]
+  orderList   OrderList[]
   cartList    CartList[]
 }
 
@@ -66,7 +66,7 @@ model OrderList {
 
 model Cart {
   id       Int        @id @default(autoincrement())
-  userId   Int
+  userId   Int        @unique
   isDelete Int        @default(0) //0,未删除 1,已删除
   user     User       @relation(fields: [userId], references: [id])
   cartList CartList[]
@@ -99,18 +99,18 @@ model ChatRoom {
   participants User[] @relation("ChatParticipants")
 }
 
-model UserBalance{
-  id         Int    @id @default(autoincrement())
-  userId     Int
-  balance      Int    @default(0)
-  user       User   @relation(fields: [userId], references: [id])
+model UserBalance {
+  id      Int  @id @default(autoincrement())
+  userId  Int  @unique
+  balance Int  @default(0)
+  user    User @relation(fields: [userId], references: [id])
 }
 
 model Article {
-  id         Int      @id @default(autoincrement())
-  title      String
-  content    String
-  time       DateTime @default(dbgenerated("now()")) @db.DateTime
-  authorId   Int
-  author     User     @relation("Author", fields: [authorId], references: [id])
+  id       Int      @id @default(autoincrement())
+  title    String
+  content  String
+  time     DateTime @default(dbgenerated("now()")) @db.DateTime
+  authorId Int
+  author   User     @relation("Author", fields: [authorId], references: [id])
 }
