@@ -37,11 +37,18 @@ onMounted(()=>{
     <div class="flex flex-col h-screen">
         <h1 class="text-2xl font-bold text-center m-2 p-2">个人中心</h1>
         <div>
-            <div class="">我的订单</div>
-            <div class="">我的余额{{balanceInfo.balance}}</div>
-            <div>
-                <el-button type="primary" @click="activityChange(balanceInfo)">{{activityState}}</el-button>
+            <div class="flex bg-transpink rounded-2xl p-2 m-2 items-center font-bold justify-between items-center">
+                <div>我的积分：{{balanceInfo.balance}}</div>
+                <el-button type="primary" round @click="activityChange(balanceInfo)">{{activityState}}</el-button>
+                
             </div>
+            <div class="me-seletion" @click="$router.push('/me/myorder')">我的订单</div>
         </div>
     </div>
 </template>
+
+<style scoped>
+.me-seletion {
+	@apply flex bg-transpink rounded-2xl p-2 m-2 items-center font-bold hover:bg-transblue
+}
+</style>
