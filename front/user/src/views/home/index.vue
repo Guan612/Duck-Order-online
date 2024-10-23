@@ -11,9 +11,10 @@ import {
 } from 'echarts/components';
 import VChart, { THEME_KEY } from 'vue-echarts';
 import foodcard from './component/foodcard.vue';
-import { upbalanceAPI } from '@/api/userbalance';
+import { upbalanceAPI, getMyRankAPI } from '@/api/userbalance';
 
 const upbalanceData = ref([])
+const myRank = ref(0)
 
 //注意初始化位置
 const balanceOption = ref({
@@ -57,8 +58,14 @@ const getUpBalance = async () => {
     upbalanceData.value = res;
 }
 
+const getMyRank = async () => {
+    const res = await getMyRankAPI();
+    myRank.value = res;
+}
+
 onMounted(() => {
     getUpBalance();
+    getMyRank();
 })
 
 watchEffect(() => {
@@ -112,7 +119,7 @@ const bannerItems = ref([
 </script>
 
 <template>
-    <div class="flex flex-col overflow-y-auto h-screen">
+    <div class="flex flex-col overflow-y-auto h-full">
         <div class="flex-grow">
             <div class="flex flex-col items-center justify-center p-4">
                 <h1 class="text-4xl font-bold text-center">欢迎来到Duck Order</h1>
@@ -130,39 +137,12 @@ const bannerItems = ref([
         </div>
         <!-- 中间的v-chart部分 -->
         <div class="flex flex-col justify-center items-center flex-grow">
+            <div class="flex flex-col items-center justify-center p-4">
+                <h1 class="text-2xl font-bold text-center">我的排名：{{ myRank }}</h1>
+            </div>
             <div class="w-full max-w-4xl p-2">
                 <v-chart class="h-96 w-full" :option="balanceOption" />
             </div>
-        </div>
-        <div
-            class="items-center justify-center grid grid-cols-6 md:grid-cols-10 xl:grid-cols-12 max-w-7xl mx-auto bg-transpink rounded-lg shadow-lg m-3">
-            <div class="gongnen-item">
-                <Film />
-                <span>电影</span>
-            </div>
-            <div class="gongnen-item">
-                <Ticket />
-                <span>票务</span>
-            </div>
-            <div class="gongnen-item">
-                <Promotion />
-                <span>出行</span>
-            </div>
-            <div class="gongnen-item">
-                <Guide />
-                <span>景点</span>
-            </div>
-            <div class="gongnen-item">
-                <Coffee />
-                <span>咖啡</span>
-            </div>
-            <div class="gongnen-item">
-                <ForkSpoon />
-                <span>餐饮</span>
-            </div>
-        </div>
-        <div class="items-center justify-center grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 max-w-7xl mx-auto m-2">
-            <foodcard v-for="card in 6" />
         </div>
     </div>
 </template>

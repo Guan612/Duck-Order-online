@@ -84,4 +84,15 @@ export class UserBalanceService {
       loginId: user.loginId,
     }));
   }
+
+  async myRank(userId: number) {
+    const users = await this.prisma.userBalance.findMany({
+      orderBy: {
+        balance: 'desc', // 按 balance 从大到小排序
+      },
+    });
+
+    const userIndex = users.findIndex((user) => user.id === userId);
+    return userIndex + 1; // 返回用户的排名（从1开始计数）
+  }
 }

@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { UserBalanceService } from './userbalance.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/user/guards/jwt-user.guard';
@@ -22,22 +31,29 @@ export class UserBalanceController {
   @Get('upbalance')
   @ApiOperation({ summary: '获取前10名用户余额' })
   @UseGuards(JwtAuthGuard)
-  upbalance(){
+  upbalance() {
     return this.userbalanceService.upBalance();
+  }
+
+  @Get('myRank')
+  @ApiOperation({ summary: '获取用户余额排名' })
+  @UseGuards(JwtAuthGuard)
+  rankUserBalance(@User('userId') userId: number) {
+    return this.userbalanceService.myRank(userId);
   }
 
   @Get('all')
   @ApiOperation({ summary: '获取所有用户余额' })
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles(Role.admin,Role.waiter)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.waiter)
   findAll() {
     return this.userbalanceService.findAll();
   }
 
   @Patch(':id')
   @ApiOperation({ summary: '修改用户余额' })
-  @UseGuards(JwtAuthGuard,RolesGuard)
-  @Roles(Role.admin,Role.waiter)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.admin, Role.waiter)
   update(@Param('id') id: string, @Body() balanceValue) {
     return this.userbalanceService.update(+id, balanceValue.balance);
   }
@@ -45,7 +61,7 @@ export class UserBalanceController {
   @Post('activity/:id')
   @ApiOperation({ summary: '活动修改用户余额' })
   @UseGuards(JwtAuthGuard)
-  activityUpdate(@Param('id') id:string, @Body() balanceValue) {
+  activityUpdate(@Param('id') id: string, @Body() balanceValue) {
     return this.userbalanceService.addActive(+id, balanceValue.balance);
   }
 }
