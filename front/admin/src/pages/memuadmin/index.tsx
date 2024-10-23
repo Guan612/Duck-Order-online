@@ -92,7 +92,7 @@ export default function MenuAdmin() {
 						key={menu.id}
 					>
 						<div>{menu.name}</div>
-						<div>{menu.price}元</div>
+						<div>{menu.price}积分</div>
 						<div className="hidden md:block">
 							{menu.discription||"无描述" }
 						</div>
