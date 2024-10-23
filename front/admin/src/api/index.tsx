@@ -1,7 +1,6 @@
 import axios from "axios";
 import userStore from "../store/userstore";
-import { message } from "antd"
-// const { errorMsg, successMsg } = useMessageHandler();
+import { message } from "antd";
 
 const http = axios.create({
 	baseURL: "http://127.0.0.1:3000",
@@ -32,6 +31,15 @@ http.interceptors.response.use(
 	},
 	(error) => {
 		console.log(error);
+		const errorCode = error.response?.data?.statusCode;
+		// 检查 code 是否为 401
+		if (errorCode === 401) {
+			// 跳转到登录页面
+			localStorage.clear(); // 或者你可以只清除特定的键
+			window.location.href = "/auth";
+			message.error("登录已过期，请重新登录");
+			return;
+		}
 		message.error(error.response?.data?.message || "未知错误");
 		return Promise.reject(error);
 	}
