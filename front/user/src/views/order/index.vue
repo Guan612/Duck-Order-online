@@ -5,6 +5,7 @@ import { createOrderAPI, getOrderDetaiLListAPI, updateOrderAPI, getOrderTotalPri
 import useScoket from '@/api/socket';
 import { ElMessage } from 'element-plus';
 import { getUserBalanceAPI } from '@/api/userbalance';
+import router from '@/router';
 
 const orderList = ref([]);
 const socket = useScoket('order');
@@ -24,6 +25,7 @@ const haveNewOder = async () => {
         orderList: orderList.value
     })
     await updateOrderAPI(route.params.id, { orderStatus: 2, })
+    router.push('/me/myorder')
     orderDialogVisible.value = false
 }
 
@@ -55,17 +57,18 @@ const getOrderList = async (orderId) => {
 
 const payByBalance = async () => {
     const res = await payByBalanceAPI(route.params.id)
-    if (res){
+    if (res) {
         orderDialogVisible.value = false
         socket.emit("payOrder", {
             message: "用户支付成功",
             //orderId: route.params.id
         })
-        ElMessage.success('支付成功，还有'+res.balance+'元')
+        router.push('/me/myorder')
+        ElMessage.success('支付成功，还有' + res.balance + '积分')
     } else {
-        ElMessage.error('余额不足，支付失败')
+        ElMessage.error('积分不足，支付失败')
     }
-    
+
 }
 
 const getBalance = async () => {
@@ -81,7 +84,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col m-2 h-screen">
+    <div class="flex flex-col m-2 h-full">
         <div class="flex justify-center items-center text-2xl font-bold mb-4">订单确认</div>
         <div class="flex-grow overflow-y-auto m-1 p-2">
             <div v-for="item in orderList" :key="item.id"
@@ -91,7 +94,7 @@ onMounted(() => {
                     <div class="mx-1">{{ item.quantity }}份</div>
                 </div>
 
-                <div class="font-bold mx-1 text-red-300">{{ item.price * item.quantity }}元</div>
+                <div class="font-bold mx-1 text-red-300">{{ item.price * item.quantity }}积分</div>
             </div>
         </div>
         <div class="sticky bottom-0 bg-white p-4 border-t flex flex-col">
@@ -102,7 +105,7 @@ onMounted(() => {
         </div>
         <el-dialog v-model="orderDialogVisible" title="支付" width="500">
             <div>
-                <div class="font-bold text-red-300">请您确认付款金额￥{{orderTotalPrice}}</div>
+                <div class="font-bold text-red-300">请您确认{{ orderTotalPrice }}积分</div>
             </div>
             <template #footer>
                 <div class="dialog-footer">
@@ -111,7 +114,7 @@ onMounted(() => {
                         支付完成
                     </el-button>
                     <el-button type="primary" @click="payByBalance">
-                        使用余额支付，还有{{balance}}积分
+                        使用余额支付，还有{{ balance }}积分
                     </el-button>
                 </div>
             </template>
