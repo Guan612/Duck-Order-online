@@ -1,17 +1,18 @@
 enum menuType {
-	"热菜" = 0,
-	"凉菜" = 1,
-	"主食" = 2,
-	"汤" = 3,
-	"饮品" = 4,
-}
+	"清洁用品" = 0,
+	"洗化用品" = 1,
+	"餐具类" = 2,
+	"水壶类" = 3,
+	"保洁用具" = 4,
+	"文具类" = 5,
+};
 
 interface menu {
 	id: number;
 	name: string;
 	type: menuType;
 	price: number;
-	isSell:number;
+	isSell: number;
 	discription?: string;
 	pictureUrl?: string;
 }
