@@ -36,7 +36,7 @@ const addToCart = async (menuId: number) => {
         <el-image :src="cardUrl" class="m-1 rounded-lg"></el-image>
         <div class="flex flex-row text-base">
             <div class="flex flex-col m-2">
-                <p class="text-md text-blod">￥{{ foodPrice }}</p>
+                <p class="text-md text-blod">{{ foodPrice }}积分</p>
                 <p>类型: {{ getMenuType(foodType) }}</p>
             </div>
             <div class="absolute bottom-2 right-2">

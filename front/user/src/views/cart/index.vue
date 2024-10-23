@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Plus, Minus } from '@element-plus/icons-vue'
-import { getUserCartListAIP,deleteCartListAIP } from '@/api/cart'
+import { getUserCartListAIP, deleteCartListAIP } from '@/api/cart'
 import { addOrderListAPI, createOrderAPI } from '@/api/order'
 import { cartList } from '@/dto/cartDto';
 import { computed, onMounted, ref } from 'vue';
@@ -58,6 +58,10 @@ const getIsSelected = (item: cartList) => {
 
 const goOder = async () => {
     const selectedItems = userCartList.value.filter((item) => item.isSelect === 1);
+    if (selectedItems.length === 0) {
+        ElMessage.error('请选择商品')
+        return
+    }
     const res = await createOrderAPI()
     if (res) {
         const orderId = res.id

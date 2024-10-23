@@ -47,27 +47,27 @@ onMounted(() => {
 const options = [
     {
         value: 0,
-        label: '热菜',
+        label: '清洁用品',
     },
     {
         value: 1,
-        label: '凉菜',
+        label: '洗化用品',
     },
     {
         value: 2,
-        label: '主食',
+        label: '餐具类',
     },
     {
         value: 3,
-        label: '汤',
+        label: '水壶类',
     },
     {
         value: 4,
-        label: '饮品',
+        label: '保洁用品',
     },
     {
         value: 5,
-        label: '小吃',
+        label: '文具',
     }
 
 ]
@@ -77,7 +77,7 @@ const options = [
     <div class="flex flex-col m-2  h-screen">
         <div class="flex flex-row items-center justify-between mb-2 h-1/8">
             <div class="flex w-1/3 mx-3">
-                <el-select v-model="selectMenuType" @change="searchMenuType(selectMenuType)" placeholder="选择菜品类型"
+                <el-select v-model="selectMenuType" @change="searchMenuType(selectMenuType)" placeholder="兑换分类选择"
                     size="large" multiple>
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value" />
                 </el-select>

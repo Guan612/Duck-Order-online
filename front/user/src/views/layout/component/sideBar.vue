@@ -22,7 +22,7 @@ const updateActiveRoute = (route) => {
 				<el-icon class="m-1">
 					<ForkSpoon />
 				</el-icon>
-				<span>点餐</span>
+				<span>兑换</span>
 			</div>
 			<div class="sidebar-section" @click="$router.push(`/chat`)">
 				<el-icon class="m-1">
@@ -40,7 +40,7 @@ const updateActiveRoute = (route) => {
 				<el-icon class="m-1">
 					<Document />
 				</el-icon>
-				<span>文章</span>
+				<span>学习</span>
 			</div>
 			<div class="sidebar-section" @click="$router.push('/me')">
 				<el-icon class="m-1">

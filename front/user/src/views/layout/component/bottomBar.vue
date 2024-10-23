@@ -7,11 +7,15 @@
         </div>
         <div class="button-bar" @click="$router.push(`/menu/`)">
             <ForkSpoon />
-            <span>点餐</span>
+            <span>兑换</span>
         </div>
         <div class="button-bar" @click="$router.push(`/cart/`)">
             <ShoppingCart />
             <span>订单</span>
+        </div>
+        <div class="button-bar" @click="$router.push(`/article`)">
+            <Document />
+            <span>学习</span>
         </div>
         <div class="button-bar" @click="$router.push(`/me/`)">
             <User />
