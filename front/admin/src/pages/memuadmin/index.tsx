@@ -1,8 +1,9 @@
-import { Button, Form, Input, Modal, Select, Table } from "antd";
+import { Button, Form, Input, Modal, Select, Table, Upload } from "antd";
 const { Search } = Input;
 
 import useGetMenu from "../../hooks/menuAdmin/useMenu";
 import { menu } from "../../dto/menu";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 export default function MenuAdmin() {
 	const {
@@ -20,6 +21,8 @@ export default function MenuAdmin() {
 		onFinishAddModal,
 		okAddModal,
 		cancelAddModal,
+		handleChange,
+		beforeUpload,
 		menuList,
 		menuOptions,
 		colums,
@@ -28,6 +31,8 @@ export default function MenuAdmin() {
 		addMenu,
 		updateform,
 		isaddMenuModalOpen,
+		imageUrl,
+		loading,
 	} = useGetMenu();
 	return (
 		<div className="flex flex-col h-full">
@@ -66,19 +71,17 @@ export default function MenuAdmin() {
 					<div className="hidden md:block">类型</div>
 					<div className="hidden md:block">菜品图片</div>
 				</div>
-				<Modal title="创建菜品" 
+				<Modal
+					title="创建菜品"
 					open={isaddMenuModalOpen}
 					onOk={okAddModal}
 					onCancel={cancelAddModal}
 				>
-					<Form
-						form={updateform}
-						onFinish={onFinishAddModal}
-					>
-						<Form.Item label="菜品名字" name='name'>
+					<Form form={updateform} onFinish={onFinishAddModal}>
+						<Form.Item label="菜品名字" name="name">
 							<Input placeholder={addMenu.name} />
 						</Form.Item>
-						<Form.Item label="菜品价格" name='price'>
+						<Form.Item label="菜品价格" name="price">
 							<Input placeholder={addMenu.price} />
 						</Form.Item>
 					</Form>
@@ -94,7 +97,7 @@ export default function MenuAdmin() {
 						<div>{menu.name}</div>
 						<div>{menu.price}积分</div>
 						<div className="hidden md:block">
-							{menu.discription||"无描述" }
+							{menu.discription || "无描述"}
 						</div>
 						<div className="hidden md:block">
 							{getNemuTypeName(menu.type)}
@@ -148,10 +151,40 @@ export default function MenuAdmin() {
 						<Form.Item label="菜品描述" name="discription">
 							<Input placeholder={currentMenu.discription} />
 						</Form.Item>
-						<Form.Item
-							label="菜品图片"
-							name="pictureUrl"
-						></Form.Item>
+						<Form.Item label="菜品图片" name="pictureUrl">
+							<Upload
+								name="pictureUrl"
+								listType="picture-card"
+								className="avatar-uploader"
+								showUploadList={false}
+								action="http://localhost:3000/upload/file"
+								beforeUpload={beforeUpload}
+								onChange={handleChange}
+							>
+								{imageUrl ? (
+									<img
+										src={imageUrl}
+										alt="avatar"
+										style={{ width: "100%" }}
+									/>
+								) : (
+									<button
+										style={{
+											border: 0,
+											background: "none",
+										}}
+										type="button"
+									>
+										{loading ? (
+											<LoadingOutlined />
+										) : (
+											<PlusOutlined />
+										)}
+										<div className="m-1">Upload</div>
+									</button>
+								)}
+							</Upload>
+						</Form.Item>
 					</Form>
 				)}
 			</Modal>

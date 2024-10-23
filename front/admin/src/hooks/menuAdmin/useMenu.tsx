@@ -15,8 +15,10 @@ export default function useGetMenu() {
 	const [menu, setMenu] = useState({});
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [currentMenu, setCurrentMenu] = useState<menu | null>(null);
-	const [addMenu,setAddMenu] = useState({});
+	const [addMenu, setAddMenu] = useState({});
 	const [isaddMenuModalOpen, setIsaddMenuModalOpen] = useState(false);
+	const [imageUrl, setImgUrl] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const getMenuList = async () => {
 		const res = await getMenuListAPI();
@@ -96,17 +98,17 @@ export default function useGetMenu() {
 
 	const openAddMenuModal = () => {
 		setIsaddMenuModalOpen(true);
-	}
+	};
 
-	const okAddModal = () =>{
+	const okAddModal = () => {
 		updateform.submit();
-	}
+	};
 
 	const cancelAddModal = () => {
 		setIsaddMenuModalOpen(false);
 	};
 
-	const onFinishAddModal = async (value:any)=>{
+	const onFinishAddModal = async (value: any) => {
 		value.price = +value.price;
 		const res = await addMenuAPI(value);
 		if (res) {
@@ -114,7 +116,39 @@ export default function useGetMenu() {
 			getMenuList();
 			setIsaddMenuModalOpen(false);
 		}
-	}
+	};
+
+	const getBase64 = (img, callback) => {
+		const reader = new FileReader();
+		reader.addEventListener("load", () => callback(reader.result));
+		reader.readAsDataURL(img);
+	};
+	const beforeUpload = (file) => {
+		const isJpgOrPng =
+			file.type === "image/jpeg" || file.type === "image/png";
+		if (!isJpgOrPng) {
+			message.error("You can only upload JPG/PNG file!");
+		}
+		// const isLt2M = file.size / 1024 / 1024 < 2;
+		// if (!isLt2M) {
+		// 	message.error("Image must smaller than 2MB!");
+		// }
+		return isJpgOrPng && isLt2M;
+	};
+
+	const handleChange = (info) => {
+		if (info.file.status === "uploading") {
+			setLoading(true);
+			return;
+		}
+		if (info.file.status === "done") {
+			// Get this url from response in real world.
+			getBase64(info.file.originFileObj, (url) => {
+				setLoading(false);
+				setImgUrl(url);
+			});
+		}
+	};
 
 	const colums = [
 		{
@@ -167,7 +201,7 @@ export default function useGetMenu() {
 			value: 4,
 		},
 		{
-			label:"文具",
+			label: "文具",
 			value: 5,
 		},
 	];
@@ -191,6 +225,8 @@ export default function useGetMenu() {
 		onFinishAddModal,
 		okAddModal,
 		cancelAddModal,
+		handleChange,
+		beforeUpload,
 		addMenu,
 		currentMenu,
 		isModalOpen,
@@ -200,5 +236,7 @@ export default function useGetMenu() {
 		menu,
 		updateform,
 		isaddMenuModalOpen,
+		imageUrl,
+		loading,
 	};
 }
