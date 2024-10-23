@@ -147,24 +147,28 @@ export default function useGetMenu() {
 
 	const menuOptions = [
 		{
-			label: "热菜",
+			label: "清洁用品",
 			value: 0,
 		},
 		{
-			label: "凉菜",
+			label: "洗化用品",
 			value: 1,
 		},
 		{
-			label: "主食",
+			label: "餐具类",
 			value: 2,
 		},
 		{
-			label: "汤",
+			label: "水壶类",
 			value: 3,
 		},
 		{
-			label: "饮品",
+			label: "保洁用品",
 			value: 4,
+		},
+		{
+			label:"文具",
+			value: 5,
 		},
 	];
 
