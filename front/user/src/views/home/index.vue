@@ -31,6 +31,9 @@ const balanceOption = ref({
     xAxis: {
         type: 'category',
         data: [], // 之后用 loginIds 更新
+        axisLabel: {
+            rotate: 25,   // 旋转标签，防止重叠
+        },
     },
     yAxis: {
         type: 'value',
