@@ -1,7 +1,8 @@
 <script setup>
-import {useUserStore} from '@/stores/userstore'
+import { useUserStore } from '@/stores/userstore'
+import { ElButton } from 'element-plus';
 import { ref } from 'vue';
-const {userInfo} = useUserStore()
+const { userInfo, logout } = useUserStore()
 const userName = ref('')
 if (userInfo.loginId) {
 	userName.value = userInfo.loginId
@@ -10,7 +11,10 @@ if (userInfo.loginId) {
 }
 </script>
 <template>
-	<div class="bg-gradient-to-r from-transblue to-transpink h-16 flex">
-		<div class="flex-1 flex justify-end items-center text-2xl font-bold m-2">{{userName}}</div>
+	<div class="bg-gradient-to-r from-transblue to-transpink h-16 flex flex-row">
+		<div class="flex justify-end items-center  m-2">
+			<div class="text-2xl font-bold">{{ userName }}</div>
+			<ElButton @click="logout" type="primary" class="ml-2">退出登录</ElButton>
+		</div>
 	</div>
 </template>

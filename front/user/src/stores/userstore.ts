@@ -19,6 +19,8 @@ export const useUserStore = defineStore(
 
         const logout = () => {
             userInfo.value = {};
+            ElMessage.success('退出登录成功')
+            router.push("/auth/login");
         }
 
         return {userInfo, getUserInfo, logout};
