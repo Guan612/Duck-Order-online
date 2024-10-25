@@ -30,6 +30,7 @@ model User {
   receivedMessages Message[]     @relation("Receiver")
   chatRooms        ChatRoom[]    @relation("ChatParticipants")
   article          Article[]     @relation("Author")
+  readArticle      ReadArticle[] @relation("ReadUser")
 }
 
 model Order {
@@ -107,10 +108,21 @@ model UserBalance {
 }
 
 model Article {
-  id       Int      @id @default(autoincrement())
-  title    String
-  content  String
-  time     DateTime @default(dbgenerated("now()")) @db.DateTime
-  authorId Int
-  author   User     @relation("Author", fields: [authorId], references: [id])
+  id           Int           @id @default(autoincrement())
+  title        String
+  content      String
+  ArticledType Int           @default(0) //0,文章 1,视频
+  time         DateTime      @default(dbgenerated("now()")) @db.DateTime
+  authorId     Int
+  author       User          @relation("Author", fields: [authorId], references: [id])
+  ReadArticle  ReadArticle[] @relation("ReadArticle")
+}
+
+model ReadArticle {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  articleId Int
+  readTime  Int     @default(0)
+  user      User    @relation("ReadUser", fields: [userId], references: [id])
+  article   Article @relation("ReadArticle", fields: [articleId], references: [id])
 }
