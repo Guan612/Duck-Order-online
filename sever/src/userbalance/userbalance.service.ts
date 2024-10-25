@@ -86,13 +86,27 @@ export class UserBalanceService {
   }
 
   async myRank(userId: number) {
-    const users = await this.prisma.userBalance.findMany({
+    // 获取用户的 balance
+    const user = await this.prisma.userBalance.findUnique({
+      where: { id: userId },
+      select: { balance: true },
+    });
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // 查询比用户 balance 高的用户数量，这样可以计算出排名
+    const rank = await this.prisma.userBalance.count({
+      where: {
+        balance: { gt: user.balance },
+      },
       orderBy: {
-        balance: 'desc', // 按 balance 从大到小排序
+        balance: 'desc', // 确保排序方式正确
       },
     });
 
-    const userIndex = users.findIndex((user) => user.id === userId);
-    return userIndex + 1; // 返回用户的排名（从1开始计数）
+    // 排名是比用户 balance 高的用户数 + 1
+    return rank + 1;
   }
 }
