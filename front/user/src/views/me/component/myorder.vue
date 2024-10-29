@@ -61,7 +61,7 @@ onMounted(() => {
                 class="flex flex-row items-center bg-slate-200 rounded-lg justify-between m-2 p-2">
                 <div class="flex flex-col m-1">
                     <div>{{ menuItem.name }}</div>
-                    <div class="text-transpink">单价：{{ menuItem.price }}元</div>
+                    <div class="text-transpink">单价：{{ menuItem.price }}积分</div>
 
                 </div>
                 <div class="">{{ menuItem.quantity }}份</div>
