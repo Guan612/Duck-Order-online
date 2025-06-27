@@ -111,7 +111,8 @@ model Article {
   id           Int           @id @default(autoincrement())
   title        String
   content      String
-  ArticledType Int           @default(0) //0,文章 1,视频
+  articledType Int           @default(0) //0,文章 1,视频
+  articledUrl  String?
   time         DateTime      @default(dbgenerated("now()")) @db.DateTime
   authorId     Int
   author       User          @relation("Author", fields: [authorId], references: [id])
