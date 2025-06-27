@@ -9,9 +9,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class IsFirstReadingPipe implements PipeTransform {
   transform(value: any) {
-    
-
-
     return value;
   }
 }
