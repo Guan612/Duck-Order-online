@@ -32,6 +32,11 @@ const sysNest = [
 		key: 6,
 		label:"活动管理",
 		link:'/activityadmin'
+	},
+	{
+		key: 7,
+		label:"文章管理",
+		link:'/articleadmin'
 	}
 ];
 

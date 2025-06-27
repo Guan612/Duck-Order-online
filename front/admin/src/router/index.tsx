@@ -14,6 +14,7 @@ import Order from "../pages/order";
 import OrderInfo from "../pages/order/oderInfo";
 import BalanceAdmin from "../pages/balanceadmin";
 import ActivityAdmin from "../pages/activityadmin";
+import ArticleAdmin from "../pages/articleadmin";
 
 const RequireAuth = ({ element }) => {
     const auth = useAuth();
@@ -67,6 +68,10 @@ const routes = [
             {
                 path:'/activityadmin',
                 element:<RequireAuth element={<ActivityAdmin/>}/>
+            },
+            {
+                path:'/articleadmin',
+                element:<RequireAuth element={<ArticleAdmin/>}/>
             }
         ],
     },
