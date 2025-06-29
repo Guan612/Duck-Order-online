@@ -46,11 +46,13 @@ onMounted(() => {
     <div class="flex flex-col">
         <div class="flex flex-row justify-between items-center m-2 p-2">
             <ElButton :icon="ArrowLeft" type="primary" class="" @click="router.back">返回</ElButton>
-            <h1 class="text-2xl font-bold mx-4">记念刘和珍君</h1>
+            <h1 class="text-2xl font-bold mx-4">{{ articleDetail.title }}</h1>
             <div class="font-bold">剩余时间：{{ time }}秒</div>
         </div>
         <div>
-
+            <div class="flex flex-row justify-between items-center m-2 p-2">
+                简介：{{articleDetail.content}}
+            </div>
         </div>
         <div v-if='!articleDetail.ArticledType'>
             <h1 class="text-2xl font-bold mb-4 text-gray-500">文章详情</h1>
