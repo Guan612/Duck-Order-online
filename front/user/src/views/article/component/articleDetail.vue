@@ -2,7 +2,7 @@
 import PDF from "pdf-vue3";
 import { VideoPlayer } from '@videojs-player/vue'
 import 'video.js/dist/video-js.css'
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from 'vue-router';
 import { ElButton, ElMessage } from "element-plus";
 import { ArrowLeft } from "@element-plus/icons-vue";
@@ -11,7 +11,7 @@ import router from "@/router";
 import { getUserBalanceAPI, activityActiveAPI } from '@/api/userbalance'
 
 const route = useRoute();
-const time = ref(3);
+const time = ref(5);
 const balanceInfo = ref({})
 const articleDetail = ref({})
 
@@ -27,19 +27,27 @@ const getArticleDetail = async () => {
     articleDetail.value = res
 }
 
+const timeEnd = ref(); // 存储定时器引用
+
 onMounted(() => {
     getUserBalance()
     getArticleDetail()
-    const timeEnd = setInterval(async () => {
+    timeEnd.value = setInterval(async () => {
         time.value--;
         if (time.value == 0) {
             ElMessage.success("时间到，获得积分！")
             const newBalance = balanceInfo.value.balance + 10
-            activityActiveAPI(balanceInfo.value.id, newBalance)
-            clearInterval(timeEnd)
+            await activityActiveAPI(balanceInfo.value.id, newBalance)
+            if (timeEnd.value) clearInterval(timeEnd.value);
         }
     }, 1000)
 })
+
+onUnmounted(() => {
+    if (timeEnd.value) {
+        clearInterval(timeEnd.value);
+    }
+});
 </script>
 
 <template>
