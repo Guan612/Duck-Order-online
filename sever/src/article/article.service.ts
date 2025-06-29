@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -30,11 +28,23 @@ export class ArticleService {
     return res;
   }
 
-  update(id: number, updateArticleDto: UpdateArticleDto) {
-    return `This action updates a #${id} article`;
+  update(id: number, updateArticleDto) {
+    const res = this.prisma.article.update({
+      where: {
+        id: id,
+      },
+      data: updateArticleDto,
+    });
+
+    return res;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} article`;
+    const res = this.prisma.article.delete({
+      where: {
+        id: id,
+      },
+    });
+    return res;
   }
 }
