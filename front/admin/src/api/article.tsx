@@ -11,3 +11,11 @@ export function getArticleAPI(id:number){
 export function addArticleAPI(data:any){
     return http.post("/article",data)
 }
+
+export function editArticleAPI(id:number, data:any){
+    return http.patch(`/article/${id}`,data)
+}
+
+export function deleteArticleAPI(id:number){
+    return http.delete(`/article/${id}`)
+}

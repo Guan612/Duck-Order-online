@@ -7,10 +7,14 @@ export default function ArticleAdmin() {
     articleList,
     addArticleFlag,
     editArticleFlag,
-    ChageEditArticleFlag,
-    ChageAddArticleFlag,
+    addForm,
+    editForm,
+    chageEditArticleFlag,
+    chageAddArticleFlag,
     getArticle,
-    AddArticle,
+    addArticle,
+    editArticle,
+    deleteArticle,
   } = useArticle();
   return (
     <div className="flex flex-col">
@@ -18,15 +22,23 @@ export default function ArticleAdmin() {
         title="新增文章"
         closable={{ "aria-label": "Custom Close Button" }}
         open={addArticleFlag}
-        onCancel={ChageAddArticleFlag}
-        onOk={AddArticle}
+        onCancel={chageAddArticleFlag}
+        onOk={addArticle}
       >
         <div className="flex flex-col">
-          <Form>
-            <Form.Item label="标题" name="title">
+          <Form form={addForm} layout="vertical">
+            <Form.Item
+              label="标题"
+              name="title"
+              rules={[{ required: true, message: "请输入标题!" }]}
+            >
               <Input type="text" />
             </Form.Item>
-            <Form.Item label="概述" name="content">
+            <Form.Item
+              label="概述"
+              name="content"
+              rules={[{ required: true, message: "请输入概述!" }]}
+            >
               <Input type="text" />
             </Form.Item>
             <Form.Item label="内容" name="articledUrl">
@@ -41,11 +53,11 @@ export default function ArticleAdmin() {
         title="修改文章"
         closable={{ "aria-label": "Custom Close Button" }}
         open={editArticleFlag}
-        onCancel={ChageEditArticleFlag}
-        onOk={ChageEditArticleFlag}
+        onCancel={chageEditArticleFlag}
+        onOk={editArticle}
       >
         <div className="flex flex-col">
-          <Form>
+          <Form form={editForm} layout="vertical">
             <Form.Item label="标题" name="title">
               <Input type="text" placeholder={article.title} />
             </Form.Item>
@@ -62,7 +74,7 @@ export default function ArticleAdmin() {
       </Modal>
       <h1 className="text-2xl font-bold mb-4 text-center">文章管理</h1>
       <div className="flex flex-row justify-between p-2">
-        <Button type="primary" onClick={ChageAddArticleFlag}>
+        <Button type="primary" onClick={chageAddArticleFlag}>
           新增文章
         </Button>
       </div>
@@ -81,15 +93,27 @@ export default function ArticleAdmin() {
               >
                 <div>{item.title}</div>
                 <div>{item.content}</div>
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    ChageEditArticleFlag();
-                    getArticle(item.id);
-                  }}
-                >
-                  修改文章
-                </Button>
+                <div>
+                  <Button
+                    type="primary"
+                    className="mx-1"
+                    onClick={() => {
+                      chageEditArticleFlag();
+                      getArticle(item.id);
+                    }}
+                  >
+                    修改文章
+                  </Button>
+                  <Button
+                    type="primary"
+                    danger
+                    onClick={() => {
+                      deleteArticle(item.id);
+                    }}
+                  >
+                    删除文章
+                  </Button>
+                </div>
               </div>
             );
           })
