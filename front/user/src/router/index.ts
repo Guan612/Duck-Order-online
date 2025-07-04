@@ -20,7 +20,7 @@ import ArticleDetail from "@/views/article/component/articleDetail.vue";
 import Myorder from "@/views/me/component/myorder.vue";
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: createWebHistory("/user"),
 	routes: [
 		{
 			path: "/",
