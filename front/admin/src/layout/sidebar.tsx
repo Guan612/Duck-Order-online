@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import type { CollapseProps } from "antd";
 import { Collapse } from "antd";
 
@@ -57,9 +57,9 @@ const items: CollapseProps["items"] = [
 				{infoNest.map((item) => (
 					<div className="p-1">
 						<div className="bg-red-200 rounded-md p-3">
-							<NavLink to={item.link} key={item.key}>
+							<Link to={item.link} key={item.key}>
 								{item.label}
-							</NavLink>
+							</Link>
 						</div>
 					</div>
 				))}

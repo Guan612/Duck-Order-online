@@ -3,7 +3,7 @@ import userStore from "../store/userstore";
 import { message } from "antd";
 
 const http = axios.create({
-	baseURL: "http://127.0.0.1:3000",
+	baseURL: "http://127.0.0.1:3000/apis",
 	//baseURL: "http://192.168.2.51:3000",
 	timeout: 2000,
 });
