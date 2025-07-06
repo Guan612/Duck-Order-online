@@ -1,15 +1,11 @@
 import { Module } from '@nestjs/common';
 import { UploadController } from './upload.controller';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
+import { UploadService } from './upload.service';
 @Module({
-  imports: [
-    ConfigModule,
-    MulterModule.register({
-      dest: process.env.UPLOAD_PATH || 'public', // 默认文件上传目录
-    }),
-  ],
+  imports: [],
   controllers: [UploadController],
-  providers: [],
+  providers: [ConfigService, UploadService],
 })
 export class UploadModule {}

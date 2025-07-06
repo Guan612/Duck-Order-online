@@ -23,9 +23,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   //静态文件路径
-  app.useStaticAssets(configService.get('UPLOAD_PATH'), {
-    prefix: `/${configService.get('UPLOAD_PATH')}`,
-  });
+  app.useStaticAssets('upload', { prefix: '/upload' });
 
   app.useGlobalPipes(new ValidationPipe()); // 全局验证
 
