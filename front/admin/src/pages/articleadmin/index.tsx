@@ -9,13 +9,17 @@ export default function ArticleAdmin() {
     editArticleFlag,
     addForm,
     editForm,
+    fileTypeOptions,
     chageEditArticleFlag,
     chageAddArticleFlag,
     getArticle,
     addArticle,
     editArticle,
     deleteArticle,
+    beforeUpload,
+    handleUpload,
   } = useArticle();
+  
   return (
     <div className="flex flex-col">
       <Modal
@@ -41,8 +45,16 @@ export default function ArticleAdmin() {
             >
               <Input type="text" />
             </Form.Item>
+            <Form.Item label="类型" name="articledType">
+              <Select placeholder="请选择类型" options={fileTypeOptions} />
+            </Form.Item>
             <Form.Item label="内容" name="articledUrl">
-              <Upload>
+              <Upload
+                beforeUpload={beforeUpload}
+                customRequest={(options) => handleUpload(options, addForm)}
+                showUploadList={true}
+                maxCount={1}
+              >
                 <Button>上传pdf/mp4视频</Button>
               </Upload>
             </Form.Item>
@@ -64,8 +76,16 @@ export default function ArticleAdmin() {
             <Form.Item label="概述" name="content">
               <Input type="text" placeholder={article.content} />
             </Form.Item>
+            <Form.Item label="类型" name="articledType">
+              <Select placeholder="请选择类型" options={fileTypeOptions} />
+            </Form.Item>
             <Form.Item label="内容" name="articledUrl">
-              <Upload>
+              <Upload
+                beforeUpload={beforeUpload}
+                customRequest={(options) => handleUpload(options, editForm)}
+                showUploadList={true}
+                maxCount={1}
+              >
                 <Button>上传pdf/mp4视频</Button>
               </Upload>
             </Form.Item>
@@ -81,7 +101,7 @@ export default function ArticleAdmin() {
       <div className="flex flex-col p-2">
         <div className="flex flex-row justify-around p-2 m-2 font-bold text-xl">
           <div>标题</div>
-          <div>内容</div>
+          <div>概述</div>
           <div>操作</div>
         </div>
         {articleList.length > 0 ? (
