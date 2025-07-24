@@ -3,8 +3,7 @@ import userStore from "../store/userstore";
 import { message } from "antd";
 
 const http = axios.create({
-	baseURL: "http://127.0.0.1:3000/apis",
-	//baseURL: "http://192.168.2.51:3000",
+	baseURL: import.meta.env.VITE_API_BASE_URL,
 	timeout: 2000,
 });
 
