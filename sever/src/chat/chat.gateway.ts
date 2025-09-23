@@ -30,7 +30,6 @@ export class ChatGateway {
   @SubscribeMessage('onChat')
   //@UseGuards(JwtAuthGuard)
   async handleEvent(@MessageBody() connectData:connectData, client: Socket) {
-    //console.log('chat', payload.message.message);
     const context = await this.chatService.addChatContext(connectData);
     this.server.emit('chat', { message: connectData.content }); // 只回复发送消息的客户端
   }
