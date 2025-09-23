@@ -19,7 +19,7 @@ export default function ArticleAdmin() {
     beforeUpload,
     handleUpload,
   } = useArticle();
-  
+
   return (
     <div className="flex flex-col">
       <Modal
@@ -81,10 +81,10 @@ export default function ArticleAdmin() {
             </Form.Item>
             <Form.Item label="内容" name="articledUrl">
               <Upload
-                beforeUpload={beforeUpload}
-                customRequest={(options) => handleUpload(options, editForm)}
-                showUploadList={true}
-                maxCount={1}
+                beforeUpload={beforeUpload} // 上传前的处理函数
+                customRequest={handleUpload} // 自定义上传逻辑
+                showUploadList={false} // 不显示上传列表
+                maxCount={1} // 限制最多上传一个文件
               >
                 <Button>上传pdf/mp4视频</Button>
               </Upload>

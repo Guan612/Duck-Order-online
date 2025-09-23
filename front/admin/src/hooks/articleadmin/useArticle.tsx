@@ -27,6 +27,7 @@ export default function useArticle() {
   });
   const [addArticleFlag, setAddArticleFlag] = useState(false);
   const [editArticleFlag, setEditArticleFlag] = useState(false);
+  const [fileUrl, setFileUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   const getArticleList = async () => {
@@ -113,52 +114,71 @@ export default function useArticle() {
       message.error("文件大小不能超过 20MB!");
       return false;
     }
-    return false; // 阻止默认上传行为，使用自定义上传
+    return true; // 阻止默认上传行为，使用自定义上传
   };
 
   // 3. 修改上传处理函数
-  const handleUpload = async (file) => {
+  const handleUpload = async ({
+    file,
+    onSuccess,
+    onError,
+  }: {
+    file: any;
+    onSuccess?: Function;
+    onError?: Function;
+  }) => {
     try {
-      // 根据文件类型选择 API
-       const actualFile = file.originFileObj || file.file || file;
-      let uploadAPI: ({ file }: { file: any }) => Promise<{ url: string }>;
-      
-      console.log('文件类型:', actualFile.type, '文件名:', actualFile.name);
-      
-      if (actualFile.type?.includes('pdf') || actualFile.name?.toLowerCase().endsWith('.pdf')) {
-        uploadAPI = uploadDocAPI;
-      } else if (actualFile.type?.includes('mp4') || actualFile.name?.toLowerCase().endsWith('.mp4')) {
-        uploadAPI = uploadVideoAPI;
+      const actualFile = file.originFileObj || file.file || file; // 获取文件对象
+      console.log("文件类型:", actualFile.type, "文件名:", actualFile.name); // 输出文件类型和文件名
+
+      let res: any;
+
+      // 判断文件类型并选择正确的上传 API
+      if (
+        actualFile.type?.includes("pdf") ||
+        actualFile.name?.toLowerCase().endsWith(".pdf")
+      ) {
+        res = await uploadDocAPI(actualFile); // 上传 PDF 文件
+      } else if (
+        actualFile.type?.includes("mp4") ||
+        actualFile.name?.toLowerCase().endsWith(".mp4")
+      ) {
+        res = await uploadVideoAPI(actualFile); // 上传 MP4 文件
       } else {
-        const err = new Error(`不支持的文件类型: ${actualFile.type || actualFile.name}`);
-        console.error('文件类型错误:', err);
-        onError(err);
+        const err = new Error(
+          `不支持的文件类型: ${actualFile.type || actualFile.name}`
+        );
+        console.error("文件类型错误:", err);
+        onError?.(err); // 调用 onError 处理错误
         return;
       }
 
-      if (file.status == "done") {
-        setLoading(true);
-        const res = await uploadAPI(file.originFileObj);
+      // 如果文件上传成功
+      if (res && res.url) {
+        const fullUrl = res.url;
+        console.log("上传成功，文件 URL:", fullUrl);
 
-        if (res.url) {
-          const fullUrl = res.url;
-          // 设置表单字段为文件URL
-          form.setFieldsValue({
-            articledUrl: fullUrl,
-          });
-          updateform.setFieldsValue({
-            pictureUrl: fullUrl,
-          });
-          message.success(`${file.name} 文件上传成功`);
-        } else {
-          throw new Error("上传失败，无法获取文件URL。");
-        }
+        // 将文件的 URL 设置到表单字段，确保是 URL 而非文件对象
+        form.setFieldsValue({
+          articledUrl: fullUrl, // 使用文件 URL
+        });
+
+        // 也更新其他表单字段
+        updateform.setFieldsValue({
+          articledUrl: fullUrl, // 使用文件 URL
+        });
+
+        message.success(`${file.name} 文件上传成功`);
+        onSuccess?.("ok"); // 调用 onSuccess，表示上传成功
+      } else {
+        throw new Error("上传失败，无法获取文件URL。");
       }
     } catch (error) {
       console.error("上传出错:", error);
-      message.error({ content: "上传失败!", key: "uploading" });
+      message.error("上传失败!");
+      onError?.(error); // 调用 onError 处理上传失败
     } finally {
-      setLoading(false);
+      setLoading(false); // 上传完成后，关闭 loading 状态
     }
   };
 
