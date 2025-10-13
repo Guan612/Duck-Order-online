@@ -11,6 +11,8 @@ import { ArticleModule } from './article/article.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
+import { AssetsModule } from './assets/assets.module';
+import { BorrowlogModule } from './borrowlog/borrowlog.module';
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { AppController } from './app.controller';
         exclude: ['/api/(.*)'],
       },
     ),
+    AssetsModule,
+    BorrowlogModule,
   ],
   controllers: [AppController],
   providers: [],
