@@ -18,6 +18,7 @@ import Orrder from "@/views/order/index.vue";
 import Article from "@/views/article/index.vue";
 import ArticleDetail from "@/views/article/component/articleDetail.vue";
 import Myorder from "@/views/me/component/myorder.vue";
+import Assets from '@/views/assets/index.vue'
 
 const router = createRouter({
 	history: createWebHistory("/user"),
@@ -43,6 +44,12 @@ const router = createRouter({
 					path: "/menu/:id",
 					name: "menuDetail",
 					component: MenuDetailed,
+				},
+				{
+					path:"/assets",
+					name:"assets",
+					component:Assets,
+					meta:{title:"资产管理"}
 				},
 				{
 					path: "/cart",
