@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/user/guards/jwt-user.guard';
 import { RolesGuard } from 'src/user/guards/roles.guard';
 import { Roles } from 'src/user/decorator/roles.decorator';
 import { Role } from 'src/user/dto/role';
+import { User } from 'src/user/decorator/user.decorator';
 
 @Controller('borrowlog')
 @ApiTags('borrowlog')
@@ -24,8 +25,14 @@ export class BorrowlogController {
   @Post()
   @ApiOperation({ summary: '新增借阅需求' })
   @UseGuards(JwtAuthGuard)
-  create(@Body() createBorrowlogDto: CreateBorrowlogDto) {
-    return this.borrowlogService.create(createBorrowlogDto);
+  create(
+    @User('userId') userId: string,
+    @Body() createBorrowlogDto: CreateBorrowlogDto,
+  ) {
+    return this.borrowlogService.create({
+      userId: +userId,
+      ...createBorrowlogDto,
+    });
   }
 
   @Get()

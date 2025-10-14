@@ -5,16 +5,24 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class BorrowlogService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createBorrowlogDto: CreateBorrowlogDto) {
-    return 'This action adds a new borrowlog';
+  async create(createBorrowlogDto) {
+    const res = await this.prisma.borrowLog.create({
+      data: createBorrowlogDto,
+    });
+
+    return res;
   }
 
-  findAll() {
-    return `This action returns all borrowlog`;
+  async findAll() {
+    const res = await this.prisma.borrowLog.findMany();
+    return res;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} borrowlog`;
+  async findOne(id: number) {
+    const res = await this.prisma.borrowLog.findUnique({
+      where: { id: id },
+    });
+    return res;
   }
 
   update(id: number, updateBorrowlogDto: UpdateBorrowlogDto) {
