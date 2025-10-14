@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreateBorrowlogDto } from './dto/borrowlog.dto';
+import { CreateBorrowlogDto, UpdateBorrowlogDto } from './dto/borrowlog.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class BorrowlogService {
-  create(createBorrowlogDto: CreateBorrowlogDto) {
+  constructor(private readonly prisma: PrismaService) {}
+  async create(createBorrowlogDto: CreateBorrowlogDto) {
     return 'This action adds a new borrowlog';
   }
 
@@ -15,7 +17,7 @@ export class BorrowlogService {
     return `This action returns a #${id} borrowlog`;
   }
 
-  update(id: number, updateBorrowlogDto) {
+  update(id: number, updateBorrowlogDto: UpdateBorrowlogDto) {
     return `This action updates a #${id} borrowlog`;
   }
 

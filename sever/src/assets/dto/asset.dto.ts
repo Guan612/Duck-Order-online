@@ -6,7 +6,7 @@ export class CreateAssetDto {
   name: string;
 }
 
-export class updateAssetDto {
+export class UpdateAssetDto {
   @IsNotEmpty()
   @IsString()
   name: string;

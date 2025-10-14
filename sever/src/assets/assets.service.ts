@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateAssetDto } from './dto/asset.dto';
+import { CreateAssetDto, UpdateAssetDto } from './dto/asset.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
@@ -19,14 +19,33 @@ export class AssetsService {
   }
 
   async findOne(id: number) {
-    
+    const res = await this.prisma.assets.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    return res;
   }
 
-  update(id: number, updateAssetDto) {
-    return `This action updates a #${id} asset`;
+  async update(id: number, updateAssetDto: UpdateAssetDto) {
+    const res = await this.prisma.assets.update({
+      where: {
+        id: id,
+      },
+      data: updateAssetDto,
+    });
+
+    return res;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} asset`;
+  async remove(id: number) {
+    const res = await this.prisma.assets.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    return res;
   }
 }
