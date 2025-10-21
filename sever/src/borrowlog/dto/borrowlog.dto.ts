@@ -1,5 +1,4 @@
 import { IsDate, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { isDataView } from 'util/types';
 
 export class CreateBorrowlogDto {
   @IsNotEmpty()

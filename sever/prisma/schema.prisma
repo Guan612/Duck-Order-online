@@ -136,12 +136,12 @@ model Assets {
 }
 
 model BorrowLog {
-  id           Int      @id @default(autoincrement())
+  id           Int       @id @default(autoincrement())
   userId       Int
   assetsId     Int
-  borrowStatus Int // 0 在库中 1 借出审批 2 同意借出 3 出库 4 归还登记
-  borrowArt    DateTime @default(dbgenerated("now()")) @db.DateTime
-  backArt      DateTime
-  assets       Assets   @relation("assets", fields: [assetsId], references: [id])
-  user         User     @relation("BorrowUser", fields: [userId], references: [id])
+  borrowStatus Int?      @default(0) // 0 在库中 1 借出审批 2 同意借出 3 出库 4 归还登记
+  borrowArt    DateTime? @default(dbgenerated("now()")) @db.DateTime
+  backArt      DateTime?
+  assets       Assets    @relation("assets", fields: [assetsId], references: [id])
+  user         User      @relation("BorrowUser", fields: [userId], references: [id])
 }

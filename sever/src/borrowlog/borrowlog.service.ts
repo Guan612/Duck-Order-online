@@ -5,7 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class BorrowlogService {
   constructor(private readonly prisma: PrismaService) {}
-  async create(createBorrowlogDto) {
+  async create(createBorrowlogDto: CreateBorrowlogDto) {
     const res = await this.prisma.borrowLog.create({
       data: createBorrowlogDto,
     });
@@ -25,11 +25,17 @@ export class BorrowlogService {
     return res;
   }
 
-  update(id: number, updateBorrowlogDto: UpdateBorrowlogDto) {
-    return `This action updates a #${id} borrowlog`;
+  async update(id: number, updateBorrowlogDto: UpdateBorrowlogDto) {
+    const res = await this.prisma.borrowLog.update({
+      where: { id: id },
+      data: updateBorrowlogDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} borrowlog`;
+  async remove(id: number) {
+    const res = await this.prisma.borrowLog.delete({
+      where: { id: id },
+    });
+    return res;
   }
 }
