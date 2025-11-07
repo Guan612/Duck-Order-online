@@ -13,6 +13,8 @@ import { join } from 'path';
 import { AppController } from './app.controller';
 import { AssetsModule } from './assets/assets.module';
 import { BorrowlogModule } from './borrowlog/borrowlog.module';
+import { MailModule } from './mail/mail.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -46,6 +48,8 @@ import { BorrowlogModule } from './borrowlog/borrowlog.module';
     ),
     AssetsModule,
     BorrowlogModule,
+    MailModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [],

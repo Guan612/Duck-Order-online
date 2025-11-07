@@ -149,11 +149,12 @@ model BorrowLog {
 }
 
 model mail {
-  id          Int    @id @default(autoincrement())
-  content     String
-  status      Int    @default(0) //0,未读 1,已读 2,待处理 3,已处理 4,已整改
+  id          Int     @id @default(autoincrement())
+  title       String
+  content     String?
+  status      Int     @default(0) //0,未读 1,已读 2,待处理 3,已处理 4,已整改
   applicantId Int //申请人
   processorId Int? //处理人
-  user        User   @relation("applicantUser", fields: [applicantId], references: [id])
-  processor   User?  @relation("processorUser", fields: [processorId], references: [id])
+  user        User    @relation("applicantUser", fields: [applicantId], references: [id])
+  processor   User?   @relation("processorUser", fields: [processorId], references: [id])
 }
