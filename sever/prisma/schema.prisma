@@ -32,6 +32,8 @@ model User {
   article          Article[]     @relation("Author")
   readArticle      ReadArticle[] @relation("ReadUser")
   borrowLog        BorrowLog[]   @relation("BorrowUser")
+  appliedMails     mail[]        @relation("applicantUser")
+  processedMails   mail[]        @relation("processorUser")
 }
 
 model Order {
@@ -144,4 +146,14 @@ model BorrowLog {
   backArt      DateTime?
   assets       Assets    @relation("assets", fields: [assetsId], references: [id])
   user         User      @relation("BorrowUser", fields: [userId], references: [id])
+}
+
+model mail {
+  id          Int    @id @default(autoincrement())
+  content     String
+  status      Int    @default(0) //0,未读 1,已读 2,待处理 3,已处理 4,已整改
+  applicantId Int //申请人
+  processorId Int? //处理人
+  user        User   @relation("applicantUser", fields: [applicantId], references: [id])
+  processor   User?  @relation("processorUser", fields: [processorId], references: [id])
 }
