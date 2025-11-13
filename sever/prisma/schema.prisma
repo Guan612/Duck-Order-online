@@ -1,0 +1,105 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  loginId   String     @unique
+  password  String
+  nickname  String?
+  avaterUrl String?
+  balance   Decimal
+  role      Int        @default(0) //0 用户 1 员工 2超级管理员
+  createdAt DateTime   @default(now())
+  updateAt  DateTime   @updatedAt
+  cartLists CartList[]
+  oders     Order[]
+  articles  Article[]
+}
+
+model Product {
+  id         Int        @id @default(autoincrement())
+  name       String
+  price      Decimal
+  productUrl String?
+  status     Int        @default(0) //0下架 1上架 2补货中 3已售空
+  number     Int        @default(0)
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @updatedAt
+  cartLists  CartList[]
+  oderLists  OderList[]
+
+  @@index([status])
+}
+
+model CartList {
+  id        Int      @id @default(autoincrement())
+  uid       Int
+  productId Int
+  number    Int
+  users     User     @relation(fields: [uid], references: [id])
+  products  Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@unique([uid, productId])
+}
+
+model Order {
+  id         Int        @id @default(autoincrement())
+  uid        Int
+  totalPrice Decimal    @default(0)
+  status     Int        @default(0) // 0待付款 1已付款 2待发货 3已发货 4已完成 5已取消
+  createdAt  DateTime   @default(now())
+  updateAt   DateTime   @updatedAt
+  users      User       @relation(fields: [uid], references: [id], onDelete: Cascade)
+  oderLists  OderList[]
+}
+
+model OderList {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  productId  Int
+  number     Int
+  unitPrice  Decimal
+  totalPrice Decimal
+  createdAt  DateTime @default(now())
+  updateAt   DateTime @updatedAt
+  products   Product  @relation(fields: [productId], references: [id])
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([productId]) // 确保 productId 有索引
+  @@index([orderId]) // 确保 orderId 有索引
+}
+
+model Article {
+  id          Int  @id @default(autoincrement())
+  publisherId Int
+  status      Int  @default(0) // 0已创建 1已审核 2已发布 3已下架
+  readNum     Int? @default(0)
+  point       Int? @default(0)
+  users       User @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+
+  @@index([publisherId])
+}
+
+model Feedback {
+  id         Int    @id @default(autoincrement())
+  proposerId Int
+  title      String
+  context    String
+
+  @@index([context])
+}
