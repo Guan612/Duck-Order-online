@@ -85,21 +85,43 @@ model OderList {
 }
 
 model Article {
-  id          Int  @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
+  title       String
+  context     String?
+  type        Int?     @default(0) //0通用
   publisherId Int
-  status      Int  @default(0) // 0已创建 1已审核 2已发布 3已下架
-  readNum     Int? @default(0)
-  point       Int? @default(0)
-  users       User @relation(fields: [publisherId], references: [id], onDelete: Cascade)
+  status      Int      @default(0) // 0已创建 1已审核 2已发布 3已下架
+  readNum     Int?     @default(0)
+  point       Int?     @default(0)
+  articleUrl  String?
+  createdAt   DateTime @default(now())
+  updateAt    DateTime @updatedAt
+  users       User     @relation(fields: [publisherId], references: [id], onDelete: Cascade)
 
   @@index([publisherId])
+  @@index([context])
 }
 
 model Feedback {
-  id         Int    @id @default(autoincrement())
-  proposerId Int
-  title      String
-  context    String
+  id            Int      @id @default(autoincrement())
+  proposerId    Int
+  responsibleId Int?     @default(0) //无人受理 其余是受理人id
+  title         String
+  context       String
+  status        Int      @default(0) //0已创建 1已受理 2正在跟进 3办理完成 4发起人评价
+  createdAt     DateTime @default(now())
+  updateAt      DateTime @updatedAt
 
   @@index([context])
+  @@index([status])
+}
+
+model FeedBackLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  context   String
+  createdAt DateTime @default(now())
+  updateAt  DateTime @updatedAt
+
+  @@index([userId])
 }
